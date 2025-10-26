@@ -28,7 +28,7 @@ const modulosWorkshop: ModuloData[] = [
     id: "modulo-3",
     title: "Venda - Onde encontrar clientes",
     day: 1,
-    description: "As 3 estratégias práticas que me geraram os primeiros 16 pedidos numa cidade onde não conhecia ninguém. Você vai aprender exatamente onde estar, o que falar e como atrair clientes qualificados - sem depender de seguidores ou networking.",
+    description: "As 3 estratégias práticas que me geraram os primeiros 16 pedidos numa cidade onde não conhecia ninguém. Você vai aprender exatamente onde estar, o que falar e como atrair clientes qualificados - sem depender de seguidores.",
   },
   {
     id: "modulo-4",

@@ -27,7 +27,7 @@ export function HowToSection() {
     {
       title: "Onde encontrar seus clientes",
       description:
-        "Estratégias práticas para conseguir pedidos mesmo sem seguidores, sem networking e em cidade pequena.",
+        "Estratégias práticas para conseguir pedidos mesmo sem seguidores e em cidade pequena.",
       icon: <IconTarget />,
     },
     {
