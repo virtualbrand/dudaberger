@@ -47,7 +47,7 @@ const PainSection = () => {
           Você está presa em alguma dessas situações?
         </h2>
         <p className="fade-in text-lg text-center text-white mb-8 max-w-3xl mx-auto">
-          Se você marcou pelo menos 3 dessas situações, o que falta é estratégia clara. Comecei do zero no meio da pandemia, numa cidade pequena onde não conhecia ninguém, e cheguei a R$ 10 mil/mês no primeiro ano porque fui direto ao que funciona. E é o meu método validado que você vai aprender neste workshop.
+          Se você marcar pelo menos 3 dessas situações, o que falta é estratégia clara. Comecei do zero no meio da pandemia, numa cidade pequena onde não conhecia ninguém, e cheguei a R$ 10 mil/mês no primeiro ano porque fui direto ao que funciona. E é o meu método validado que você vai aprender neste workshop.
         </p>
         
         <div className="fade-in max-w-2xl mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl text-left">
