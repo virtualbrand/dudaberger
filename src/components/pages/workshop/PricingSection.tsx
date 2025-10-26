@@ -1,80 +1,30 @@
-
-import { motion } from "framer-motion";
 import { Check } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { InteractiveHoverButton } from "../../ui/interactive-hover-button";
 import { Progress } from "@/components/ui/progress";
-import { getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot, getInstallmentPrice } from "@/data/workshop-config";
+import { getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot, getInstallmentPrice, getPaymentLink } from "@/data/workshop-config";
 import PresetAccessModal from "./PresetAccessModal";
-
-// Declarações de tipo para Vanta.js
-declare global {
-  interface Window {
-    THREE: any;
-    VANTA: {
-      FOG: (options: any) => any;
-    };
-  }
-}
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useVantaEffect } from "@/hooks/useVantaEffect";
 
 const PricingSection = () => {
+  useScrollAnimation();
   const [showModal, setShowModal] = useState(false)
-  const vantaRef = useRef<HTMLDivElement>(null);
-  const vantaEffect = useRef<any>(null);
+  const vantaRef = useVantaEffect({
+    highlightColor: 0x800F2F,
+    midtoneColor: 0xFFB3C1,
+    lowlightColor: 0xA4133C,
+    baseColor: 0x23060E,
+  });
 
-  const handleOpenModal = () => setShowModal(true)
+  // Função que redireciona direto para o checkout
+  const handleCheckout = () => {
+    const paymentUrl = getPaymentLink();
+    window.location.href = paymentUrl;
+  }
+
+  // const handleOpenModal = () => setShowModal(true)
   const handleCloseModal = () => setShowModal(false)
-
-  useEffect(() => {
-    if (!vantaEffect.current && vantaRef.current) {
-      // Carrega os scripts do Vanta.js dinamicamente
-      const loadVanta = async () => {
-        // Carrega Three.js primeiro
-        if (!window.THREE) {
-          const threeScript = document.createElement('script');
-          threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-          document.head.appendChild(threeScript);
-          await new Promise(resolve => threeScript.onload = resolve);
-        }
-
-        // Carrega Vanta FOG
-        if (!window.VANTA?.FOG) {
-          const vantaScript = document.createElement('script');
-          vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js';
-          document.head.appendChild(vantaScript);
-          await new Promise(resolve => vantaScript.onload = resolve);
-        }
-
-        // Inicializa o efeito Vanta FOG
-        if (window.VANTA?.FOG && vantaRef.current) {
-          vantaEffect.current = window.VANTA.FOG({
-            el: vantaRef.current,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            highlightColor: 0x800F2F,
-            midtoneColor: 0xFFB3C1,
-            lowlightColor: 0xA4133C,
-            baseColor: 0x23060E,
-            blurFactor: 0.61,
-            speed: 1.5,
-            zoom: 1
-          });
-        }
-      };
-
-      loadVanta();
-    }
-
-    return () => {
-      if (vantaEffect.current) {
-        vantaEffect.current.destroy();
-        vantaEffect.current = null;
-      }
-    };
-  }, []);
 
   return (
     <section 
@@ -84,15 +34,9 @@ const PricingSection = () => {
       <div className="relative z-10">
         <div id="investimento" className="mx-auto max-w-5xl px-6 scroll-mt-24">
           <div className="mx-auto max-w-2xl text-center mb-10">
-            <motion.h2 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-4xl font-bold text-center !text-white font-kumbh"
-            >
+            <h2 className="text-3xl md:text-4xl font-bold text-center !text-white font-kumbh fade-in">
               Quanto você vai investir para adquirir todo esse conhecimento?
-            </motion.h2>
+            </h2>
           </div>
           <div className="bg-white/80 rounded-3xl shadow-2xl shadow-zinc-950/5">
             <div className="grid items-center gap-12 divide-y p-8 md:grid-cols-2 md:divide-x md:divide-y-0">
@@ -110,7 +54,7 @@ const PricingSection = () => {
                     text={getPrimaryButtonText()}
                     hoverText={getHoverButtonText()}
                     className="w-full"
-                    onClick={handleOpenModal}
+                    onClick={handleCheckout}
                   />
                   <div className="flex flex-col gap-2">
                     <Progress
@@ -149,6 +93,7 @@ const PricingSection = () => {
             </div>
           </div>
         </div>
+        {/* Modal mantido no projeto mas não utilizado por enquanto */}
         <PresetAccessModal open={showModal} onClose={handleCloseModal} />
       </div>
     </section>

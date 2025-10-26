@@ -1,72 +1,15 @@
 import { Progress } from "@/components/ui/progress";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
-import { useEffect, useRef } from "react";
 import { workshopConfig, getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot } from "@/data/workshop-config";
-
-// Declarações de tipo para Vanta.js
-declare global {
-  interface Window {
-    THREE: any;
-    VANTA: {
-      FOG: (options: any) => any;
-    };
-  }
-}
+import { useVantaEffect } from "@/hooks/useVantaEffect";
 
 export const HeroSection = () => {
-  const vantaRef = useRef<HTMLDivElement>(null);
-  const vantaEffect = useRef<any>(null);
-
-  useEffect(() => {
-    if (!vantaEffect.current && vantaRef.current) {
-      // Carrega os scripts do Vanta.js dinamicamente
-      const loadVanta = async () => {
-        // Carrega Three.js primeiro
-        if (!window.THREE) {
-          const threeScript = document.createElement('script');
-          threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-          document.head.appendChild(threeScript);
-          await new Promise(resolve => threeScript.onload = resolve);
-        }
-
-        // Carrega Vanta FOG
-        if (!window.VANTA?.FOG) {
-          const vantaScript = document.createElement('script');
-          vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js';
-          document.head.appendChild(vantaScript);
-          await new Promise(resolve => vantaScript.onload = resolve);
-        }
-
-        // Inicializa o efeito Vanta FOG
-        if (window.VANTA?.FOG && vantaRef.current) {
-          vantaEffect.current = window.VANTA.FOG({
-            el: vantaRef.current,
-            mouseControls: true,
-            touchControls: true,
-            gyroControls: false,
-            minHeight: 200.00,
-            minWidth: 200.00,
-            highlightColor: 0x800F2F,
-            midtoneColor: 0xFFB3C1,
-            lowlightColor: 0xA4133C,
-            baseColor: 0x23060E,
-            blurFactor: 0.61,
-            speed: 1.5,
-            zoom: 1
-          });
-        }
-      };
-
-      loadVanta();
-    }
-
-    return () => {
-      if (vantaEffect.current) {
-        vantaEffect.current.destroy();
-        vantaEffect.current = null;
-      }
-    };
-  }, []);
+  const vantaRef = useVantaEffect({
+    highlightColor: 0x800F2F,
+    midtoneColor: 0xFFB3C1,
+    lowlightColor: 0xA4133C,
+    baseColor: 0x23060E,
+  });
 
   return (
     <section 
