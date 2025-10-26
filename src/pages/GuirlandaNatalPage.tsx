@@ -3,8 +3,12 @@ import { Helmet } from 'react-helmet-async';
 
 const GuirlandaNatalPage = () => {
   useEffect(() => {
-    // Redirecionamento imediato
-    window.location.href = 'https://pay.hotmart.com/Q102551881P?checkoutMode=10&bid=1761516386914';
+    // Delay de 0.5s para dar tempo do Pixel da Meta ser acionado
+    const timer = setTimeout(() => {
+      window.location.href = 'https://pay.hotmart.com/Q102551881P?checkoutMode=10&bid=1761516386914';
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   return (
