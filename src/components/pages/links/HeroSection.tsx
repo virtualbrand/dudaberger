@@ -2,13 +2,13 @@ const HeroSection = () => {
   const links = [
     {
       title: "Guirlanda de Natal",
-      description: "Aprenda a fazer Guirlandas",
+      description: "Receita completa + técnica de montagem do produto que me faz faturar até 6 mil a mais todo Natal",
       url: "/guirlanda-natal",
       image: "/images/links/guirlanda-cover.webp"
     },
     {
       title: "Workshop de Confeitaria",
-      description: "Aprenda comigo",
+      description: "Do ZERO aos R$ 5.000 /mês trabalhando de casa com Confeitaria",
       url: "/workshop",
       image: "/images/links/workshop-cover.webp"
     },
@@ -19,7 +19,7 @@ const HeroSection = () => {
     // },
        {
       title: "WhatsApp",
-      description: "Encomendas",
+      description: "Faça sua encomenda personalizada ou tire suas dúvidas",
       url: "https://wa.link/91yirq",
       image: "/images/links/whatsapp.webp"
     }
@@ -91,7 +91,7 @@ const HeroSection = () => {
                       <img 
                         src={link.image} 
                         alt={link.title}
-                        className="w-22 h-22 rounded-lg object-cover"
+                        className="w-16 h-16 rounded-lg object-cover"
                       />
                     )}
                   </div>
