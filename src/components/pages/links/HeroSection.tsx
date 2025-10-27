@@ -91,7 +91,7 @@ const HeroSection = () => {
                       <img 
                         src={link.image} 
                         alt={link.title}
-                        className="w-24 h-24 rounded-lg object-cover"
+                        className="w-22 h-22 rounded-lg object-cover"
                       />
                     )}
                   </div>
