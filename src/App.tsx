@@ -10,6 +10,7 @@ import WorkshopPage from './pages/WorkshopPage'
 import CalculadoraPage from './pages/CalculadoraPage'
 import GuirlandaNatalPage from './pages/GuirlandaNatalPage'
 import LinksPage from './pages/LinksPage'
+import CasamentoPage from './pages/CasamentoPage'
 import { HelmetProvider } from 'react-helmet-async';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -47,6 +48,7 @@ function App() {
           <Route path="/workshop" element={<WorkshopPage />} />
           <Route path="/calculadora" element={<CalculadoraPage />} />
           <Route path="/guirlanda-natal" element={<GuirlandaNatalPage />} />
+          <Route path="/casamento" element={<CasamentoPage />} />
         </Routes>
       </Router>
     </HelmetProvider>
