@@ -12,11 +12,11 @@ const HeroSection = () => {
       url: "/workshop",
       image: "/images/links/workshop-cover.webp"
     },
-    {
-      title: "Efeito Água na Boca",
-      description: "Presets para fotografia",
-      url: "/efeito-agua-na-boca",
-    },
+    // {
+    //   title: "Efeito Água na Boca",
+    //   description: "Presets para fotografia",
+    //   url: "/efeito-agua-na-boca",
+    // },
        {
       title: "WhatsApp",
       description: "Encomendas",
