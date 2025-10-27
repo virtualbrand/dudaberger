@@ -96,10 +96,10 @@ const HeroSection = () => {
                     )}
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold !text-white text-lg drop-shadow-lg">
+                    <h3 className="font-semibold !text-white text-xl drop-shadow-lg">
                       {link.title}
                     </h3>
-                    <p className="text-white/90 text-sm drop-shadow-md">
+                    <p className="text-white/90 text-base drop-shadow-md">
                       {link.description}
                     </p>
                   </div>
