@@ -9,6 +9,7 @@ import EfeitoAguaNaBocaPage from './pages/EfeitoAguaNaBocaPage'
 import WorkshopPage from './pages/WorkshopPage'
 import CalculadoraPage from './pages/CalculadoraPage'
 import GuirlandaNatalPage from './pages/GuirlandaNatalPage'
+import LinksPage from './pages/LinksPage'
 import { HelmetProvider } from 'react-helmet-async';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -40,7 +41,8 @@ function App() {
     <HelmetProvider>
       <Router>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<LinksPage />} />
           <Route path="/efeito-agua-na-boca" element={<EfeitoAguaNaBocaPage />} />
           <Route path="/workshop" element={<WorkshopPage />} />
           <Route path="/calculadora" element={<CalculadoraPage />} />
