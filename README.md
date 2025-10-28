@@ -1,17 +1,44 @@
-# A Confeiteira Próspera - Landing Pages
+# Duda Berger - Website Oficial
 
-Este projeto consiste em landing pages para divulgar os infoprodutos de Duda Berger, Mentora/Professora de confeiteiras.
+Website oficial de Duda Berger, mentora e confeiteira especializada em ensinar confeiteiras a transformarem seu talento em um negócio lucrativo e organizado.
 
-## Tecnologias Utilizadas
+## 🍰 Sobre o Projeto
 
-- [React](https://reactjs.org/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Vite](https://vitejs.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Radix UI](https://www.radix-ui.com/)
-- [Framer Motion](https://www.framer.com/motion/)
+Este é o website oficial que abriga todas as páginas e landing pages dos produtos e serviços oferecidos por Duda Berger, incluindo:
 
-## Instalação
+- **Workshop "Do ZERO aos R$ 5.000/mês com Confeitaria"** - Treinamento intensivo para confeiteiras iniciantes
+- **Presets "Efeito Água na Boca"** - Filtros fotográficos especializados para confeitaria
+- **Calculadora de Precificação** - Ferramenta gratuita para precificar produtos de confeitaria
+- **Página de Links** - Hub centralizado com todos os links importantes
+- **Produtos Sazonais** - Como a Guirlanda de Natal e outros produtos específicos
+
+## 🚀 Tecnologias Utilizadas
+
+- **React 19** - Biblioteca principal para construção da interface
+- **TypeScript** - Tipagem estática para maior robustez
+- **Vite** - Build tool moderna e rápida
+- **Tailwind CSS 4** - Framework de CSS utilitário
+- **Radix UI** - Componentes acessíveis e customizáveis
+- **Framer Motion** - Animações fluidas e interativas
+- **GSAP** - Animações avançadas e efeitos visuais
+- **React Router DOM** - Roteamento de páginas
+- **React Helmet Async** - Gerenciamento de SEO e meta tags
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── components/           # Componentes reutilizáveis
+│   ├── ui/              # Componentes base (botões, cards, etc.)
+│   ├── blocks/          # Blocos de componentes específicos
+│   └── pages/           # Componentes específicos por página
+├── pages/               # Páginas principais do website
+├── data/                # Configurações e dados estáticos
+├── hooks/               # Custom hooks (animações, efeitos)
+└── lib/                 # Utilitários e helpers
+```
+
+## 🛠 Instalação e Desenvolvimento
 
 ```bash
 # Instalar dependências
@@ -25,53 +52,41 @@ npm run build
 
 # Visualizar build de produção
 npm run preview
+
+# Analisar bundle
+npm run analyze
 ```
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 📱 Páginas Disponíveis
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **/** - Página inicial
+- **/workshop-confeitaria-casa** - Landing page do workshop
+- **/efeito-agua-na-boca** - Landing page dos presets fotográficos
+- **/calculadora** - Calculadora de precificação gratuita
+- **/links** - Página de links centralizados
+- **/casamento** - Formulário para orçamentos de casamento
+- **/guirlanda-natal** - Produto sazonal de Natal
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🎨 Design System
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+O projeto utiliza um design system consistente baseado em:
+- **Paleta de cores** personalizada focada em tons de amaranto e rosa
+- **Tipografia** otimizada para conversão
+- **Componentes** reutilizáveis e acessíveis
+- **Animações** sutis que melhoram a experiência do usuário
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📊 SEO e Performance
+
+- Meta tags otimizadas para cada página
+- Schema markup para melhor indexação
+- Sitemap automatizado
+- Imagens otimizadas e lazy loading
+- Core Web Vitals otimizados
+
+## 🌐 Deploy
+
+O projeto está configurado para deploy automático na Vercel com as seguintes funcionalidades:
+- Build automático do TypeScript
+- Otimização de imagens
+- Geração automática de sitemap
+- Suporte a múltiplas páginas (SPA)
