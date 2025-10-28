@@ -25,15 +25,15 @@ export function HowToSection() {
       icon: <IconCalculator />,
     },
     {
-      title: "Onde encontrar seus clientes",
+      title: "Como encontrar clientes",
       description:
-        "Estratégias práticas para conseguir pedidos mesmo sem seguidores e em cidade pequena.",
+        "Estratégias práticas para conseguir pedidos e fazer os clientes virem até você.",
       icon: <IconTarget />,
     },
     {
-      title: "Organização que funciona",
+      title: "Seu espaço único",
       description:
-        "O método de produção caseira que me permitiu entregar 16 bolos no primeiro mês sem equipe.",
+        "Como definir o seu diferencial único e ser valorizada como confeiteira em sua cidade",
       icon: <IconChecklist />,
     },
     {
@@ -45,7 +45,7 @@ export function HowToSection() {
     {
       title: "Comece com o que você tem",
       description:
-        "Lista exata do que é essencial para começar - sem gastar fortunas em equipamentos que você não precisa agora.",
+        "Plano de ação de como divulgar seu produto de forma prática, eficiente e consistente.",
       icon: <IconTools />,
     },
   ];
@@ -55,10 +55,10 @@ export function HowToSection() {
       <div className="container mx-auto px-6 md:px-8">
         <div className="text-center mt-16 mb-2">
           <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold !text-[var(--color-amaranth-500)] mb-4">
-            Como você vai sair do ZERO e chegar aos R$ 5.000/mês
+            O que você vai aprender no Workshop
           </h2>
           <p className="fade-in text-lg text-[var(--color-primary-500)] max-w-3xl mx-auto">
-            O método exato que me levou de caixinha de leite condensado como espátula a um negócio de 6 dígitos /ano - testado e validado numa cidade de 30 mil habitantes
+            Tudo que você precisa saber sobre produto, precificação e vendas para faturar da sua cozinha
           </p>
         </div>
         <HowToFeatures features={features} />

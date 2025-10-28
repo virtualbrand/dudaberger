@@ -7,8 +7,8 @@ import {
   FAQSection, 
   AboutSection,
   CronogramaSection,
-  DisclaimerSection,
-  ConteudoSection,
+  DisclaimerSection, 
+  SecondSection
   // FinalCTASection,
 } from '../components/pages/workshop'
 
@@ -47,9 +47,9 @@ const WorkshopPage = () => {
         }}
       />
       <HeroSection />
-      <HowToSection />
+      <SecondSection />
       <PainSection />
-      <ConteudoSection />
+      <HowToSection />
       <CronogramaSection />
       <PricingSection />
       <FAQSection />

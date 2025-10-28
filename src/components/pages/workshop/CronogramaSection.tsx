@@ -24,18 +24,8 @@ export const CronogramaSection = () => {
           <div className="lg:col-span-5">
             <div className="space-y-6 md:space-y-8">
               <div className="flex justify-between items-end border-b border-[var(--color-primary-200)] pb-3 md:pb-4">
-                <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">09h30</div>
-                <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">Início</div>
-              </div>
-
-              <div className="flex justify-between items-end border-b border-[var(--color-primary-200)] pb-3 md:pb-4">
-                <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">12h00</div>
-                <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">Almoço</div>
-              </div>
-
-              <div className="flex justify-between items-end border-b border-[var(--color-primary-200)] pb-3 md:pb-4">
                 <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">13h30</div>
-                <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">Retorno</div>
+                <div className="text-2xl md:text-3xl font-bold text-[var(--color-amaranth-500)]">Início</div>
               </div>
 
               <div className="flex justify-between items-end border-b border-[var(--color-primary-200)] pb-3 md:pb-4">
@@ -46,7 +36,7 @@ export const CronogramaSection = () => {
 
             {/* Nota de rodapé */}
             <p className="text-[var(--color-primary-500)] text-sm mt-6 md:mt-8 max-w-xl text-left lg:text-right lg:ml-auto">
-              *Considere encerrar mais tarde, caso os participantes peçam para nos aprofundarmos em algum ponto. Porém, o conteúdo combinado será entregue dentro do horário programado.
+              *Considere encerrar mais tarde, caso as participantes peçam para nos aprofundarmos em algum ponto. Porém, o conteúdo combinado será entregue dentro do horário programado.
             </p>
           </div>
         </div>
