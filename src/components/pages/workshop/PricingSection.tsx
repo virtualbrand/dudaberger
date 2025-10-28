@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import { useState } from "react";
 import { InteractiveHoverButton } from "../../ui/interactive-hover-button";
 import { Progress } from "@/components/ui/progress";
@@ -38,18 +37,16 @@ const PricingSection = () => {
               Quanto você vai investir para adquirir todo esse conhecimento?
             </h2>
           </div>
-          <div className="bg-white/80 rounded-3xl shadow-2xl shadow-zinc-950/5">
-            <div className="grid items-center gap-12 divide-y p-8 md:grid-cols-2 md:divide-x md:divide-y-0">
+          <div className="bg-white/80 rounded-3xl shadow-2xl shadow-zinc-950/5 max-w-md mx-auto">
+            <div className="p-8">
               {/* Box de preço */}
-              <div className="pb-12 text-center md:pb-0 md:pr-12">
-                {/* <h3 className="text-2xl md:text-2xl font-bold !text-[var(--color-amaranth-500)] font-kumbh">Efeito Água na Boca</h3> */}
-                {/* <p className="text-lg text-foreground font-kumbh font-normal">O efeito que faz seus doces parecerem irresistíveis</p> */}
+              <div className="text-center">
                 <span className="mb-6 mt-6 inline-block text-5xl font-bold">
                   <span className="block text-sm md:text-base text-gray-700 line-through font-kumbh" style={{ opacity: 0.7 }}>R$ {getCurrentLot().originalPrice}</span>
                   <span className="block text-4xl md:text-5xl font-bold !text-[var(--color-amaranth-500)] font-kumbh">R$ {getCurrentLot().currentPrice}</span>
                   <span className="block text-lg md:text-xl font-bold !text-[var(--color-amaranth-500)] font-kumbh">ou {getInstallmentPrice()}</span>
                 </span>
-                <div className="flex flex-col gap-4 max-w-[360px]">
+                <div className="flex flex-col gap-4 max-w-[360px] mx-auto">
                   <InteractiveHoverButton
                     text={getPrimaryButtonText()}
                     hoverText={getHoverButtonText()}
@@ -72,23 +69,6 @@ const PricingSection = () => {
                       className="h-7 md:h-8 rounded-md px-2 py-1 filter grayscale contrast-80 brightness-10"
                     />
                 </div>
-              </div>
-              {/* Lista de vantagens */}
-              <div className="relative">
-                <ul role="list" className="space-y-2 text-foreground text-base md:text-lg font-kumbh font-normal">
-                  {[
-                    'Planilha de precificação',
-                    'Template de pesquisa de mercado',
-                    'Scripts de atendimento no WhatsApp prontos',
-                    'Checklist dos primeiros 30 dias'
-                  ].map((item, index) => (
-                    <li key={index} className="flex items-center gap-2">
-                      <Check className="size-4 text-[#C9184A]" />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <p className="text-foreground mt-6 text-sm font-kumbh font-normal">Ideal para confeiteiras que, assim como eu em 2020, têm mão pra bolo mas ainda não descobriram como transformar esse talento em um negócio lucrativo e organizado.</p>
               </div>
             </div>
           </div>
