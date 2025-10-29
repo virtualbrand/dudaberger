@@ -31,7 +31,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 32,
       installmentPrice: "8 x de R$ 4,61",
       soldPercentage: 0,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=5cuo1pho"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=5cuo1pho"
     },
     {
       number: 2,
@@ -39,7 +39,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 37,
       installmentPrice: "8 x de R$ 5,33",
       soldPercentage: 63.7,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=kzn7moqq"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=kzn7moqq"
     },
     {
       number: 3,
@@ -47,7 +47,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 42,
       installmentPrice: "8 x de R$ 6,05",
       soldPercentage: 0,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=tmesww54"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=tmesww54"
     },
     {
       number: 4,
@@ -55,7 +55,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 47,
       installmentPrice: "8 x de R$ 6,77",
       soldPercentage: 0,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=oy7km1t6"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=oy7km1t6"
     },
     {
       number: 5,
@@ -63,7 +63,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 52,
       installmentPrice: "8 x de R$ 7,49",
       soldPercentage: 0,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=5d68vs6t"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=5d68vs6t"
     },
     {
       number: 6,
@@ -71,7 +71,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 57,
       installmentPrice: "8 x de R$ 8,21",
       soldPercentage: 0,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=armkuaxb"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=armkuaxb"
     },
     {
       number: 7,
@@ -79,7 +79,7 @@ export const workshopConfig: WorkshopConfig = {
       currentPrice: 62,
       installmentPrice: "8 x de R$ 9,02",
       soldPercentage: 0,
-      paymentLink: "https://pay.hotmart.com/U102307449V?off=jy0e2oiu"
+      paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=jy0e2oiu"
     }
   ]
 };
