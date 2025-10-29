@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { preloadVantaScripts } from './useVantaPreload';
 
 interface VantaFogOptions {
   highlightColor: number;
@@ -24,67 +25,24 @@ declare global {
   }
 }
 
-let scriptsLoaded = false;
-let loadingPromise: Promise<void> | null = null;
-
-const loadVantaScripts = async () => {
-  // Se já está carregando, retorna a promise existente
-  if (loadingPromise) {
-    return loadingPromise;
-  }
-
-  // Se já foi carregado, retorna imediatamente
-  if (scriptsLoaded) {
-    return Promise.resolve();
-  }
-
-  loadingPromise = (async () => {
-    try {
-      // Carrega Three.js primeiro
-      if (!window.THREE) {
-        const threeScript = document.createElement('script');
-        threeScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js';
-        document.head.appendChild(threeScript);
-        await new Promise((resolve, reject) => {
-          threeScript.onload = resolve;
-          threeScript.onerror = reject;
-        });
-      }
-
-      // Carrega Vanta FOG
-      if (!window.VANTA?.FOG) {
-        const vantaScript = document.createElement('script');
-        vantaScript.src = 'https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.fog.min.js';
-        document.head.appendChild(vantaScript);
-        await new Promise((resolve, reject) => {
-          vantaScript.onload = resolve;
-          vantaScript.onerror = reject;
-        });
-      }
-
-      scriptsLoaded = true;
-    } catch (error) {
-      console.error('Erro ao carregar scripts do Vanta:', error);
-      loadingPromise = null;
-      throw error;
-    }
-  })();
-
-  return loadingPromise;
-};
-
 export const useVantaEffect = (options: VantaFogOptions) => {
   const vantaRef = useRef<HTMLDivElement>(null);
   const vantaEffect = useRef<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const initVanta = async () => {
       if (vantaEffect.current || !vantaRef.current) return;
 
       try {
-        await loadVantaScripts();
+        setIsLoading(true);
+        setError(null);
 
-        if (window.VANTA?.FOG && vantaRef.current) {
+        // Usa o sistema de preload otimizado
+        await preloadVantaScripts();
+
+        if (window.VANTA && typeof window.VANTA.FOG === 'function' && vantaRef.current) {
           vantaEffect.current = window.VANTA.FOG({
             el: vantaRef.current,
             mouseControls: options.mouseControls ?? true,
@@ -100,9 +58,13 @@ export const useVantaEffect = (options: VantaFogOptions) => {
             speed: options.speed ?? 1.5,
             zoom: options.zoom ?? 1,
           });
+          
+          setIsLoading(false);
         }
       } catch (error) {
         console.error('Erro ao inicializar Vanta:', error);
+        setError(error instanceof Error ? error.message : 'Erro desconhecido');
+        setIsLoading(false);
       }
     };
 
@@ -116,5 +78,9 @@ export const useVantaEffect = (options: VantaFogOptions) => {
     };
   }, [options]);
 
-  return vantaRef;
+  return { 
+    vantaRef, 
+    isLoading, 
+    error 
+  };
 };

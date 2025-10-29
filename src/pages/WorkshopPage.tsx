@@ -15,10 +15,12 @@ import {
 const WorkshopPage = () => {
   return (
     <>
-            <Seo
+      <Seo
         title="Do ZERO aos R$ 5.000/mês com Confeitaria | Workshop Ao Vivo"
         description="2 dias ao vivo para sair do zero e faturar R$ 5.000/mês com confeitaria caseira. Aprenda produto, precificação e vendas que realmente funcionam. 08 e 09 de novembro no Zoom."
         canonical="https://dudaberger.com.br/workshop-confeitaria-casa"
+        enableVantaPreload={true}
+        criticalImages={["/images/workshop-duda-logo.svg"]}
         schemaMarkup={{
           '@context': 'https://schema.org',
           '@type': 'Event',

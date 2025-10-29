@@ -30,8 +30,38 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          react: ['react', 'react-dom', 'react-router-dom'],
+          // React ecosystem
+          'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+          
+          // Animation libraries
+          'vendor-animation': ['gsap', 'framer-motion', '@studio-freight/lenis', 'lenis'],
+          
+          // UI components
+          'vendor-ui': [
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-dialog', 
+            '@radix-ui/react-progress',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-avatar'
+          ],
+          
+          // 3D and heavy libs
+          'vendor-3d': ['three', '@react-three/fiber', '@react-three/drei'],
+          
+          // Icons and utilities
+          'vendor-utils': ['clsx', 'tailwind-merge', 'class-variance-authority', '@tabler/icons-react', 'lucide-react']
         },
+      },
+    },
+    // Avisar sobre chunks grandes
+    chunkSizeWarningLimit: 300,
+    
+    // Minificação agressiva
+    minify: 'terser',
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
       },
     },
   },

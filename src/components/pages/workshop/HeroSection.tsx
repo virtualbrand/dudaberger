@@ -1,10 +1,13 @@
 import { Progress } from "@/components/ui/progress";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { VantaLoading } from "@/components/ui/vanta-loading";
+import { VantaFallback } from "@/components/ui/vanta-fallback";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 import { workshopConfig, getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot } from "@/data/workshop-config";
 import { useVantaEffect } from "@/hooks/useVantaEffect";
 
 export const HeroSection = () => {
-  const vantaRef = useVantaEffect({
+  const { vantaRef, isLoading } = useVantaEffect({
     highlightColor: 0x800F2F,
     midtoneColor: 0xFFB3C1,
     lowlightColor: 0xA4133C,
@@ -16,10 +19,33 @@ export const HeroSection = () => {
       ref={vantaRef}
       className="min-h-screen w-full relative overflow-hidden"
     >
-      <div className="absolute top-0 left-0 w-full">
+      {/* Fallback estático - fica atrás do Vanta */}
+      {isLoading && (
+        <VantaFallback 
+          highlightColor="#800F2F"
+          midtoneColor="#FFB3C1"
+          lowlightColor="#A4133C" 
+          baseColor="#23060E"
+          className="z-0"
+        />
+      )}
+      
+      {/* Loading overlay enquanto o Vanta carrega */}
+      {isLoading && (
+        <div className="absolute inset-0 z-5 bg-black/10 backdrop-blur-[0.5px] flex items-center justify-center">
+          <VantaLoading />
+        </div>
+      )}
+      
+      <div className="absolute top-0 left-0 w-full z-10">
         <div className="container mx-auto px-6 md:px-8">
           <div className="flex items-center gap-3 py-8">
-            <img src="/images/workshop-duda-logo.svg" alt="Logo" className="w-45 h-45" />
+            <OptimizedImage 
+              src="/images/workshop-duda-logo.svg" 
+              alt="Logo Workshop Duda Berger" 
+              className="w-45 h-45"
+              priority={true}
+            />
             <div className="inline-block px-4 py-2 rounded-full bg-white/10 text-white/80 text-sm">
               {workshopConfig.event.edition}
             </div>
@@ -27,7 +53,7 @@ export const HeroSection = () => {
         </div>
       </div>
       
-      <div className="relative h-screen w-full flex items-center z-10">
+      <div className="relative h-screen w-full flex items-center z-20">
         <div className="container mx-auto px-6 md:px-8">
           <div className="max-w-4xl">
             <div className="inline-block px-6 py-2 rounded-full bg-white/10 text-white/80 text-sm mb-8">

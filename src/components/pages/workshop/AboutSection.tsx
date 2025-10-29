@@ -1,4 +1,5 @@
 import { useScrollAnimation } from "@/hooks/useScrollAnimation"
+import { OptimizedImage } from "@/components/ui/optimized-image"
 
 export const AboutSection = () => {
   useScrollAnimation();
@@ -9,9 +10,9 @@ export const AboutSection = () => {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Imagem da Duda à esquerda */}
           <div className="fade-in">
-            <img 
+            <OptimizedImage 
               src="/images/duda-about-presets.webp" 
-              alt="Duda Berger"
+              alt="Duda Berger - Mentora em Confeitaria"
               className="w-full h-auto rounded-lg shadow-lg object-cover"
             />
           </div>

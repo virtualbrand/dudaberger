@@ -8,6 +8,7 @@ const LinksPage = () => {
         title="Duda Berger | Links"
         description="Links úteis e importantes da Duda Berger - Confeiteira."
         canonical="https://dudaberger.com.br/links"
+        criticalImages={["/images/links/hero-desktop.webp"]}
         schemaMarkup={{
           '@context': 'https://schema.org',
           '@type': 'WebSite',
