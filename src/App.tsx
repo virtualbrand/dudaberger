@@ -2,8 +2,6 @@ import './App.css'
 import { useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Lenis from '@studio-freight/lenis';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { HelmetProvider } from 'react-helmet-async';
 import PageLoader from './components/ui/page-loader';
 import ScrollManager from './components/ScrollManager';
@@ -18,8 +16,6 @@ const GuirlandaNatalPage = lazy(() => import('./pages/GuirlandaNatalPage'));
 const LinksPage = lazy(() => import('./pages/LinksPage'));
 const CasamentoPage = lazy(() => import('./pages/CasamentoPage'));
 
-gsap.registerPlugin(ScrollTrigger);
-
 function App() {
   // useScrollDebug(); // Descomente para debug
   
@@ -27,7 +23,7 @@ function App() {
     let lenis: Lenis | null = null;
     let fallbackEnabled = false;
 
-    const initLenis = () => {
+    const initLenis = async () => {
       try {
         // Verifica se o scroll é necessário
         const hasScrollableContent = document.body.scrollHeight > window.innerHeight;
@@ -54,9 +50,23 @@ function App() {
         }
         requestAnimationFrame(raf);
 
-        // Conecta com ScrollTrigger se disponível
-        if (typeof ScrollTrigger !== 'undefined') {
+        // Carrega GSAP dinamicamente apenas se necessário
+        try {
+          const [gsapModule, scrollTriggerModule] = await Promise.all([
+            import('gsap'),
+            import('gsap/ScrollTrigger')
+          ]);
+          
+          const gsap = gsapModule.gsap;
+          const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
+          
+          gsap.registerPlugin(ScrollTrigger);
+          
+          // Conecta com ScrollTrigger
           lenis.on('scroll', ScrollTrigger.update);
+          console.log('✅ GSAP + ScrollTrigger carregado dinamicamente');
+        } catch (error) {
+          console.log('⚠️ GSAP não carregado (opcional):', error);
         }
 
         // Fallback: se não houver eventos de scroll em 3 segundos, desabilita Lenis

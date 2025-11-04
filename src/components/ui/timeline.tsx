@@ -1,10 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface TimelineEntry {
   title?: string;
@@ -40,41 +36,72 @@ export const Timeline = ({
   useEffect(() => {
     if (!lineRef.current || !ref.current) return;
 
-    const isMobile = window.innerWidth < 768;
+    const initAnimation = async () => {
+      try {
+        // Carrega GSAP dinamicamente
+        const [gsapModule, scrollTriggerModule] = await Promise.all([
+          import('gsap'),
+          import('gsap/ScrollTrigger')
+        ]);
 
-    // Usa ScrollTrigger tanto para mobile quanto desktop
-    const timeline = gsap.timeline({
-      scrollTrigger: {
-        trigger: ref.current,
-        start: "top 80%",
-        end: isMobile ? "bottom top" : "bottom 40%",
-        scrub: 0.3,
-        invalidateOnRefresh: true,
-        markers: false,
+        const gsap = gsapModule.gsap;
+        const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
+        
+        gsap.registerPlugin(ScrollTrigger);
+
+        const isMobile = window.innerWidth < 768;
+
+        // Usa ScrollTrigger tanto para mobile quanto desktop
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 80%",
+            end: isMobile ? "bottom top" : "bottom 40%",
+            scrub: 0.3,
+            invalidateOnRefresh: true,
+            markers: false,
+          }
+        });
+
+        // No mobile, anima até 200% para garantir que cobre todos os itens
+        timeline.fromTo(
+          lineRef.current,
+          {
+            height: "0%",
+          },
+          {
+            height: isMobile ? "200%" : "98%",
+            ease: "none",
+          }
+        );
+
+        const handleResize = () => {
+          ScrollTrigger.refresh();
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+          timeline.kill();
+          window.removeEventListener('resize', handleResize);
+        };
+
+      } catch (error) {
+        console.log('⚠️ Timeline GSAP não carregado:', error);
+        return () => {}; // Noop cleanup
       }
-    });
-
-    // No mobile, anima até 200% para garantir que cobre todos os itens
-    timeline.fromTo(
-      lineRef.current,
-      {
-        height: "0%",
-      },
-      {
-        height: isMobile ? "200%" : "98%",
-        ease: "none",
-      }
-    );
-
-    const handleResize = () => {
-      ScrollTrigger.refresh();
     };
 
-    window.addEventListener('resize', handleResize);
+    let cleanup: (() => void) | undefined;
+    
+    initAnimation().then(cleanupFn => {
+      cleanup = cleanupFn;
+    });
 
     return () => {
-      timeline.kill();
-      window.removeEventListener('resize', handleResize);
+      if (cleanup) {
+        cleanup();
+      }
     };
   }, [height]);
 
