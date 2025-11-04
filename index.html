@@ -25,6 +25,34 @@
     <!-- Preload de fontes críticas -->
     <link rel="preload" as="font" href="/fonts/KumbhSans-Regular.woff2" type="font/woff2" crossorigin>
     <link rel="preload" as="font" href="/fonts/KumbhSans-Bold.woff2" type="font/woff2" crossorigin>
+    
+    <!-- Critical CSS Inline para eliminar render blocking -->
+    <style>
+      /* Critical CSS para first paint */
+      body { margin: 0; font-family: 'Kumbh Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+      #root { min-height: 100vh; }
+      
+      /* Spinner de loading crítico */
+      .page-loader { 
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+        display: flex; align-items: center; justify-content: center;
+        background: rgba(255,255,255,0.9); z-index: 9999;
+      }
+      .spinner { 
+        width: 20px; height: 20px; border: 2px solid #f3f3f3;
+        border-top: 2px solid #E91E63; border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+      
+      /* Hide até CSS carregar */
+      .hidden-until-loaded { opacity: 0; }
+    </style>
+    
+    <!-- Preload CSS principal para carregar em paralelo -->
+    <link rel="preload" as="style" href="/src/index.css" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
+    
     <!-- O título será controlado dinamicamente pelo react-helmet -->
   </head>
   <body>
@@ -32,7 +60,26 @@
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5MWZSJ9G"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div id="root"></div>
+    
+    <!-- Loader crítico inline -->
+    <div id="critical-loader" class="page-loader">
+      <div class="spinner"></div>
+    </div>
+    
+    <div id="root" class="hidden-until-loaded"></div>
+    
+    <!-- Scripts com loading otimizado -->
+    <script>
+      // Remove loader quando React montar
+      window.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          const loader = document.getElementById('critical-loader');
+          const root = document.getElementById('root');
+          if (loader) loader.style.display = 'none';
+          if (root) root.classList.remove('hidden-until-loaded');
+        }, 100);
+      });
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -56,7 +56,7 @@ export default defineConfig({
     // Avisar sobre chunks grandes
     chunkSizeWarningLimit: 300,
     
-    // Minificação agressiva
+    // Minificação agressiva + CSS optimization
     minify: 'terser',
     terserOptions: {
       compress: {
@@ -64,5 +64,11 @@ export default defineConfig({
         drop_debugger: true,
       },
     },
+    
+    // CSS code splitting
+    cssCodeSplit: true,
+    
+    // Inline small assets
+    assetsInlineLimit: 4096,
   },
 });
