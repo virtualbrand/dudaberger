@@ -1,26 +1,6 @@
 User-agent: *
 Allow: /
-Allow: /workshop
-Allow: /efeito-agua-na-boca
-Allow: /links
-Allow: /calculadora
-Allow: /casamento
-Allow: /guirlanda-natal
 
-# Bloquear recursos desnecessários para SEO
-Disallow: /assets/
-Disallow: /*.css$
-Disallow: /*.js$
-Disallow: /fonts/
-
-# Permitir bots específicos
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot  
-Allow: /
-
-# Sitemap
 Sitemap: https://dudaberger.com.br/sitemap.xml
 
 
