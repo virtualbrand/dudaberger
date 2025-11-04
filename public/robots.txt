@@ -1,6 +1,26 @@
+# robots.txt for dudaberger.com.br
+
+# Allow all crawlers to access all content
 User-agent: *
 Allow: /
 
+# Specific rules for Googlebot
+User-agent: Googlebot
+Allow: /
+
+# Specific rules for Googlebot Images
+User-agent: Googlebot-Image
+Allow: /
+
+# Block downloads folder (if exists)
+User-agent: *
+Disallow: /downloads/
+
+# Block private areas
+User-agent: *
+Disallow: /private/
+
+# Sitemap location (absolute URL as recommended)
 Sitemap: https://dudaberger.com.br/sitemap.xml
 
 
