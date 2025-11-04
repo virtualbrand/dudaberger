@@ -1,39 +1,27 @@
-name: 🗑️ Cloudflare Cache Purge
+name: Cloudflare Cache Purge
 
 on:
   push:
     branches: [ master ]
-  workflow_dispatch: # Permite execução manual
+  workflow_dispatch:
 
 jobs:
   purge-cache:
     runs-on: ubuntu-latest
-    name: 🧹 Limpar Cache Cloudflare
+    name: Limpar Cache Cloudflare
     
     steps:
-      - name: 📋 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v4
         
-      - name: � Verificar Commit Info
-        id: commit
-        run: |
-          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
-          echo "commit_author=$(git log -1 --pretty=%an)" >> $GITHUB_OUTPUT
-          echo "commit_hash=$(git log -1 --pretty=%h)" >> $GITHUB_OUTPUT
-        
-      - name: �🗑️ Purge Cloudflare Cache
+      - name: Purge Cloudflare Cache
         uses: jakejarvis/cloudflare-purge-action@master
         env:
           CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           
-      - name: ✅ Cache Purge Success
+      - name: Success Message
         run: |
-          echo "🎉 Cache da Cloudflare limpo com sucesso!"
-          echo "🚀 Site atualizado em: https://dudaberger.com.br"
-          echo "⏰ Timestamp: $(date)"
-          echo "👤 Autor: ${{ steps.commit.outputs.commit_author }}"
-          echo "💬 Commit: ${{ steps.commit.outputs.commit_message }}"
-          echo "🔗 Hash: ${{ steps.commit.outputs.commit_hash }}"
-          echo ""
-          echo "📊 Próximos acessos ao site terão conteúdo 100% atualizado!"
+          echo "Cache da Cloudflare limpo com sucesso!"
+          echo "Site atualizado em: https://dudaberger.com.br"
+          echo "Timestamp: $(date)"
