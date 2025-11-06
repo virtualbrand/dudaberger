@@ -19,7 +19,7 @@ interface WorkshopConfig {
 
 // Configuração de todos os lotes
 export const workshopConfig: WorkshopConfig = {
-  currentLotNumber: 2, // Altere apenas este número para mudar o lote ativo
+  currentLotNumber: 6, // Altere apenas este número para mudar o lote ativo
    event: {
     edition: "1ª EDIÇÃO",
     date: "08 E 09 DE NOVEMBRO | NO ZOOM | AO VIVO"
@@ -70,7 +70,7 @@ export const workshopConfig: WorkshopConfig = {
       originalPrice: 147,
       currentPrice: 57,
       installmentPrice: "8 x de R$ 8,21",
-      soldPercentage: 0,
+      soldPercentage: 99.3,
       paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=armkuaxb"
     },
     {
@@ -102,7 +102,7 @@ export const getProgressText = () => {
 // Função helper para formatar o texto do botão principal
 export const getPrimaryButtonText = () => {
   const { number } = getCurrentLot();
-  return `Comprar ingresso | Lote ${number}`;
+  return number === 6 ? `Comprar ingresso | Último lote` : `Comprar ingresso | Lote ${number}`;
 };
 
 // Função helper para formatar o texto do hover
