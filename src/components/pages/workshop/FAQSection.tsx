@@ -15,12 +15,12 @@ const faqs = [
   {
     id: 'item-2',
     question: "Como saber se é pra mim?",
-    answer: "Se você quer transformar sua habilidade de fazer bolos em renda extra de R$ 5.000/mês trabalhando da cozinha de casa, este workshop é para você.\n\nVamos proporcionar uma experiência prática onde você vai descobrir exatamente o que vender, como precificar para ter lucro real e as melhores formas de divulgar - mesmo que ainda esteja na CLT.\n\nSe esses objetivos estão alinhados com o que você procura, este workshop é definitivamente para você."
+    answer: "Se você quer transformar sua habilidade de fazer bolos em renda extra de R$ 10.000/mês trabalhando da cozinha de casa, este workshop é para você.\n\nVamos proporcionar uma experiência prática onde você vai descobrir exatamente o que vender, como precificar para ter lucro real e as melhores formas de divulgar - mesmo que ainda esteja na CLT.\n\nSe esses objetivos estão alinhados com o que você procura, este workshop é definitivamente para você."
   },
   {
     id: 'item-3',
     question: "Vão me vender algo durante o Workshop ou é 100% conteúdo?",
-    answer: "Sim, vamos te oferecer uma oportunidade.\n\nDurante os 2 dias, você terá acesso a conteúdo completo e prático ao vivo através do Zoom. No final do workshop, vou apresentar o Método RENDA completo - meu curso de 5 módulos para quem quer ir além dos primeiros R$ 5.000/mês de forma estruturada. \n\nMas isso não compromete o valor do workshop: você vai sair com aprendizados práticos, planilhas, templates e um plano de ação para executar imediatamente, independente de qualquer outra decisão."
+    answer: "Sim, vamos te oferecer uma oportunidade.\n\nDurante os 2 dias, você terá acesso a conteúdo completo e prático ao vivo através do Zoom. No final do workshop, vou apresentar o Método RENDA completo - meu curso de 5 módulos para quem quer ir além dos primeiros R$ 10.000/mês de forma estruturada. \n\nMas isso não compromete o valor do workshop: você vai sair com aprendizados práticos, planilhas, templates e um plano de ação para executar imediatamente, independente de qualquer outra decisão."
   },
   {
     id: 'item-4',

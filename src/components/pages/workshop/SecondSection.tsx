@@ -11,7 +11,7 @@ export const SecondSection = () => {
             Por que esse Workshop pode transformar o seu negócio?
           </h2>
           <p className="fade-in text-lg md:text-xl text-[var(--color-primary-500)] max-w-3xl mx-auto">
-            Se você sonha em faturar com confeitaria mas não sabe por onde começar, este workshop foi feito para você. Em 2 dias, você vai descobrir o método validado que me levou do zero aos R$ 5.000/mês trabalhando de casa - e como aplicar isso na sua realidade, mesmo sem experiência ou investimento alto.
+            Se você sonha em faturar com confeitaria mas não sabe por onde começar, este workshop foi feito para você. Em 2 dias, você vai descobrir o método validado que me levou do zero aos R$ 10.000/mês trabalhando de casa - e como aplicar isso na sua realidade, mesmo sem experiência ou investimento alto.
           </p>
         </div>
       </div>

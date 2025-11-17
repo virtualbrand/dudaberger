@@ -37,9 +37,9 @@ export function HowToSection() {
       icon: <IconChecklist />,
     },
     {
-      title: "De R$ 0 a R$ 5 mil/mês",
+      title: "De R$ 0 a R$ 10 mil/mês",
       description:
-        "A estratégia validada que me levou do zero absoluto a R$ 5.000 /mês trabalhando de casa.",
+        "A estratégia validada que me levou do zero absoluto a R$ 10.000 /mês trabalhando de casa.",
       icon: <IconTrendingUp />,
     },
     {

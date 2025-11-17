@@ -19,10 +19,10 @@ interface WorkshopConfig {
 
 // Configuração de todos os lotes
 export const workshopConfig: WorkshopConfig = {
-  currentLotNumber: 6, // Altere apenas este número para mudar o lote ativo
+  currentLotNumber: 2, // Altere apenas este número para mudar o lote ativo
    event: {
-    edition: "1ª EDIÇÃO",
-    date: "08 E 09 DE NOVEMBRO | NO ZOOM | AO VIVO"
+    edition: "2ª EDIÇÃO",
+    date: "06 E 07 DE DEZEMBRO | NO ZOOM | AO VIVO"
   },
   lots: [
     {
@@ -102,7 +102,7 @@ export const getProgressText = () => {
 // Função helper para formatar o texto do botão principal
 export const getPrimaryButtonText = () => {
   const { number } = getCurrentLot();
-  return number === 6 ? `Comprar ingresso | Último lote` : `Comprar ingresso | Lote ${number}`;
+  return number === 7 ? `Comprar ingresso | Último lote` : `Comprar ingresso | Lote ${number}`;
 };
 
 // Função helper para formatar o texto do hover
