@@ -1,7 +1,8 @@
 import './App.css'
-import { useEffect, lazy, Suspense } from 'react';
+// import { useEffect, lazy, Suspense } from 'react'; // useEffect desativado com Lenis
+import { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Lenis from '@studio-freight/lenis';
+// import Lenis from '@studio-freight/lenis'; // DESATIVADO PROVISORIAMENTE
 import { HelmetProvider } from 'react-helmet-async';
 import PageLoader from './components/ui/page-loader';
 import ScrollManager from './components/ScrollManager';
@@ -19,6 +20,8 @@ const CasamentoPage = lazy(() => import('./pages/CasamentoPage'));
 function App() {
   // useScrollDebug(); // Descomente para debug
   
+  // LENIS SCROLL DESATIVADO PROVISORIAMENTE
+  /*
   useEffect(() => {
     let lenis: Lenis | null = null;
     let fallbackEnabled = false;
@@ -105,6 +108,7 @@ function App() {
       }
     };
   }, []);
+  */
 
   return (
     <HelmetProvider>

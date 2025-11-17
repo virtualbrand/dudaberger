@@ -60,7 +60,7 @@ export const HeroSection = () => {
               {workshopConfig.event.date}
             </div>
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 leading-tight">
-              R$ 10.000 /mês com Confeitaria trabalhando de casa
+              R$ 10.000 /mês trabalhando de casa com Confeitaria
             </h1>
             <div className="text-white mb-8 text-lg md:text-xl">
               <p>

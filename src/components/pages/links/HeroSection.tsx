@@ -8,7 +8,7 @@ const HeroSection = () => {
     },
     {
       title: "Workshop de Confeitaria",
-      description: "Do ZERO aos R$ 5.000 /mês trabalhando de casa com Confeitaria",
+      description: "R$ 10.000 /mês trabalhando de casa com Confeitaria",
       url: "/workshop",
       image: "/images/links/workshop-cover.webp"
     },
