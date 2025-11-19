@@ -22,7 +22,7 @@ export const workshopConfig: WorkshopConfig = {
   currentLotNumber: 2, // Altere apenas este número para mudar o lote ativo
    event: {
     edition: "2ª EDIÇÃO",
-    date: "06 E 07 DE DEZEMBRO | NO ZOOM | AO VIVO"
+    date: "13 E 14 DE DEZEMBRO | NO ZOOM | AO VIVO"
   },
   lots: [
     {

@@ -16,17 +16,17 @@ const WorkshopPage = () => {
   return (
     <>
       <Seo
-        title="Do ZERO aos R$ 5.000/mês com Confeitaria | Workshop Ao Vivo"
-        description="2 dias ao vivo para sair do zero e faturar R$ 5.000/mês com confeitaria caseira. Aprenda produto, precificação e vendas que realmente funcionam. 08 e 09 de novembro no Zoom."
+        title="R$ 10.000/mês trabalhando de casa com Confeitaria | Workshop Ao Vivo"
+        description="2 dias ao vivo para faturar R$ 10.000/mês com confeitaria trabalhando de casa. Aprenda produto, precificação e vendas que realmente funcionam. 13 e 14 de dezembro no Zoom."
         canonical="https://dudaberger.com.br/workshop"
         enableVantaPreload={true}
         criticalImages={["/images/workshop-duda-logo.svg"]}
         schemaMarkup={{
           '@context': 'https://schema.org',
           '@type': 'Event',
-          name: 'Workshop: Do ZERO aos R$ 5.000/mês com Confeitaria',
-          startDate: '2025-11-08',
-          endDate: '2025-11-09',
+          name: 'Workshop: R$ 10.000/mês trabalhando de casa com Confeitaria',
+          startDate: '2025-12-13',
+          endDate: '2025-12-14',
           eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
           eventStatus: 'https://schema.org/EventScheduled',
           location: {
