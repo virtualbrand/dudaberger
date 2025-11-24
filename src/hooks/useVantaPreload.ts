@@ -57,8 +57,8 @@ const preloadVantaScripts = async (): Promise<void> => {
           threeScript.onload = () => resolve();
           threeScript.onerror = () => reject(new Error('Falha ao carregar Three.js'));
           
-          // Timeout de 10 segundos
-          setTimeout(() => reject(new Error('Timeout ao carregar Three.js')), 10000);
+          // Timeout de 5 segundos (reduzido de 10)
+          setTimeout(() => reject(new Error('Timeout ao carregar Three.js')), 5000);
         });
       }
 
@@ -73,8 +73,8 @@ const preloadVantaScripts = async (): Promise<void> => {
           vantaScript.onload = () => resolve();
           vantaScript.onerror = () => reject(new Error('Falha ao carregar Vanta FOG'));
           
-          // Timeout de 10 segundos
-          setTimeout(() => reject(new Error('Timeout ao carregar Vanta FOG')), 10000);
+          // Timeout de 5 segundos (reduzido de 10)
+          setTimeout(() => reject(new Error('Timeout ao carregar Vanta FOG')), 5000);
         });
       }
 

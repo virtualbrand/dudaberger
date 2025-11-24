@@ -7,8 +7,6 @@
   },
   "hooks/useScrollAnimation.ts -> gsap/ScrollTrigger": {
     "id": "hooks/useScrollAnimation.ts -> gsap/ScrollTrigger",
-    "files": [
-      "static/chunks/_app-pages-browser_node_modules_gsap_ScrollTrigger_js.js"
-    ]
+    "files": []
   }
 }

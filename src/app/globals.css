@@ -2,23 +2,8 @@
 @import "tw-animate-css";
 
 /* ================================
-   FONT FACE DECLARATIONS
+   FONTS - Gerenciadas pelo next/font no layout.tsx
    ================================ */
-@font-face {
-  font-family: 'KumbhSans';
-  src: url('/fonts/KumbhSans-Regular.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'KumbhSans';
-  src: url('/fonts/KumbhSans-Bold.woff2') format('woff2');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* ================================
    RESET & BASE STYLES
@@ -35,7 +20,7 @@ html {
 }
 
 :root {
-  font-family: 'KumbhSans', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-kumbh), 'KumbhSans', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -424,6 +409,104 @@ button:focus-visible {
 .card {
   will-change: transform, background-color;
   position: relative;
+}
+
+/* Otimizações de Performance */
+.scroll-left,
+.scroll-right,
+.fade-in,
+.slide-up {
+  will-change: transform, opacity;
+  content-visibility: auto;
+}
+
+/* Desabilitar will-change após animação */
+.animation-complete {
+  will-change: auto;
+}
+
+/* Animações CSS para substituir framer-motion */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Classe para animação com Intersection Observer */
+.scroll-fade-in {
+  animation: fadeInUp 0.7s ease-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 /* Sticky title para a seção de cards */

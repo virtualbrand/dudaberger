@@ -1,7 +1,6 @@
 
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { getPaymentLink } from "@/data/workshop-config";
 
 interface PresetAccessModalProps {
@@ -151,21 +150,15 @@ export default function PresetAccessModal({ open, onClose }: PresetAccessModalPr
   };
 
   return (
-    <AnimatePresence>
+    <>
       {open && (
-        <motion.div
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.22 }}
+          style={{ animation: 'fadeIn 0.22s ease-out' }}
         >
-          <motion.div
+          <div
             className="bg-[var(--color-lavender-300)] rounded-lg p-8 w-full max-w-md relative shadow-2xl"
-            initial={{ scale: 0.95, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0.95, opacity: 0 }}
-            transition={{ duration: 0.22 }}
+            style={{ animation: 'scaleIn 0.22s ease-out' }}
           >
             <button
               className="absolute top-4 right-4 text-white bg-transparent hover:bg-gray-200/30 rounded-full"
@@ -226,9 +219,9 @@ export default function PresetAccessModal({ open, onClose }: PresetAccessModalPr
                 {isSubmitting ? "Indo para o checkout..." : "Garantir minha vaga"}
               </button>
             </form>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       )}
-    </AnimatePresence>
+    </>
   );
 }

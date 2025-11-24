@@ -1,3 +1,5 @@
+import NextImage from "next/image";
+
 const HeroSection = () => {
   const links = [
     {
@@ -28,29 +30,31 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen w-full overflow-hidden">
       {/* Background image */}
-      <img
+      <NextImage
         src="/images/links/hero-desktop.webp"
         alt="Duda Berger Links"
-        className="absolute inset-0 h-full w-full object-cover object-center hidden md:block"
+        fill
+        className="object-cover object-center hidden md:block"
         style={{ 
           imageRendering: 'crisp-edges',
           filter: 'contrast(1.02) brightness(1.01)'
         }}
-        loading="eager"
-        decoding="sync"
+        priority
+        quality={75}
       />
       
       {/* Mobile background image */}
-      <img
+      <NextImage
         src="/images/links/hero-mobile.webp"
         alt="Duda Berger Links"
-        className="absolute inset-0 h-full w-full object-cover object-center block md:hidden"
+        fill
+        className="object-cover object-center block md:hidden"
         style={{ 
           imageRendering: 'crisp-edges',
           filter: 'contrast(1.02) brightness(1.01)'
         }}
-        loading="eager"
-        decoding="sync"
+        priority
+        quality={75}
       />
       
       {/* Dark overlay */}
@@ -88,10 +92,13 @@ const HeroSection = () => {
                 <div className="flex items-center space-x-5">
                   <div className="text-2xl flex-shrink-0">
                     {link.image && (
-                      <img 
+                      <NextImage 
                         src={link.image} 
                         alt={link.title}
+                        width={64}
+                        height={64}
                         className="w-16 h-16 rounded-lg object-cover"
+                        loading="lazy"
                       />
                     )}
                   </div>

@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import { GradientBackground } from "../../ui/gradient-background"
 import { Check } from "lucide-react"
 
@@ -15,15 +14,9 @@ const PricingSection = () => {
     >
       <div id="investimento" className="mx-auto max-w-5xl px-6 scroll-mt-24">
         <div className="mx-auto max-w-2xl text-center mb-10">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-center !text-white font-kumbh"
-          >
+          <h2 className="text-4xl md:text-5xl font-bold text-center !text-white font-kumbh scroll-fade-in">
             Investimento
-          </motion.h2>
+          </h2>
         </div>
         <div className="bg-white/80 rounded-3xl shadow-2xl shadow-zinc-950/5">
           <div className="grid items-center gap-12 divide-y p-8 md:grid-cols-2 md:divide-x md:divide-y-0">
@@ -46,7 +39,7 @@ const PricingSection = () => {
                       "noopener,noreferrer"
                     )
                   }
-                  className="mt-2 bg-accent-500 hover:bg-accent-600 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg font-kumbh text-lg md:text-xl"
+                  className="mt-2 bg-accent-500 hover:bg-accent-600 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg font-kumbh text-lg md:text-xl hover:scale-105 active:scale-95"
                   style={{
                     boxShadow: "0 4px 24px 0 rgba(242,185,75,0.15)",
                   }}

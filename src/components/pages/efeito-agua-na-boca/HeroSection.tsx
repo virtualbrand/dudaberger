@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 // ...existing code...
 
 export const HeroSection = () => {
@@ -16,26 +15,20 @@ export const HeroSection = () => {
       <div className="h-full w-full relative">
         <div className="absolute inset-0 flex items-center pointer-events-none z-10">
           <div className="container mx-auto px-4 md:px-8">
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
+            <div
               className="backdrop-blur-md rounded-2xl p-8 md:p-10 md:pb-10 lg:p-12 max-w-xl lg:max-w-2xl text-white shadow-2xl pointer-events-auto bg-[var(--color-primary-500)]"
+              style={{ animation: 'slideInLeft 0.8s ease-out 0.3s both' }}
             >
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
+            <h1 
               className="text-3xl md:text-4xl lg:text-5xl tracking-tight font-bold !text-white"
+              style={{ animation: 'fadeInUp 0.6s ease-out 0.5s both' }}
             >
               Foto que dá água na boca vende mais!
-            </motion.h1>
+            </h1>
             
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
+            <div 
               className="text-white mb-6 leading-relaxed text-base md:text-lg"
+              style={{ animation: 'fadeInUp 0.6s ease-out 0.7s both' }}
             >
               <p className="mb-3">
                 Não basta a comida <strong className="text-white">ser gostosa</strong>, ela precisa <strong className="text-white">parecer gostosa!</strong>
@@ -45,25 +38,21 @@ export const HeroSection = () => {
               </p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
+            <div
               className="space-y-3"
+              style={{ animation: 'fadeInUp 0.6s ease-out 0.9s both' }}
             >
-              <motion.button
-                whileHover={{ scale: 1.02, y: -1 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 w-full text-base md:text-lg"
+              <button
+                className="bg-accent-500 hover:bg-accent-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition-all duration-300 w-full text-base md:text-lg hover:scale-[1.02] hover:-translate-y-0.5 active:scale-[0.98]"
                 onClick={() => {
                   const el = document.getElementById('investimento');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
               >
                 Quero despertar o Efeito Água na Boca
-              </motion.button>
-            </motion.div>
-          </motion.div>
+              </button>
+            </div>
+          </div>
           </div>
         </div>
       </div>

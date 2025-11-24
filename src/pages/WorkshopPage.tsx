@@ -1,4 +1,5 @@
 import Seo from '@/components/Seo';
+import SectionErrorBoundary from '@/components/SectionErrorBoundary';
 import { 
   HeroSection, 
   HowToSection,
@@ -48,15 +49,41 @@ const WorkshopPage = () => {
           }
         }}
       />
-      <HeroSection />
-      <SecondSection />
-      <PainSection />
-      <HowToSection />
-      <CronogramaSection />
-      <PricingSection />
-      <FAQSection />
-      <AboutSection />
-      <DisclaimerSection />
+      <SectionErrorBoundary sectionName="Hero">
+        <HeroSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Apresentação">
+        <SecondSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Problemas">
+        <PainSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Como Funciona">
+        <HowToSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Cronograma">
+        <CronogramaSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Investimento">
+        <PricingSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Perguntas Frequentes">
+        <FAQSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Sobre a Duda">
+        <AboutSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Aviso Legal">
+        <DisclaimerSection />
+      </SectionErrorBoundary>
     </>
   );
 }

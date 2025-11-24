@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 import {
   Accordion,
   AccordionContent,
@@ -54,32 +53,18 @@ export const FAQSection = () => {
     <section className="py-16 md:py-24">
       <div className="mx-auto max-w-4xl px-6">
         <div className="space-y-12">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-primary-700 text-center text-4xl font-semibold"
-          >
+          <h2 className="text-primary-700 text-center text-4xl font-semibold scroll-fade-in">
             Dúvidas Frequentes
-          </motion.h2>
+          </h2>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
+          <div className="scroll-fade-in">
             <Accordion
               type="single"
               collapsible
               className="-mx-2 sm:mx-0"
             >
               {faqs.map((item) => (
-                <div
-                  className="group"
-                  key={item.id}
-                >
+                <div className="group scroll-fade-in" key={item.id}>
                   <AccordionItem
                     value={item.id}
                     className="peer rounded-xl border-none px-5 py-1 md:px-7 data-[state=open]:bg-gray-50"
@@ -95,15 +80,9 @@ export const FAQSection = () => {
                 </div>
               ))}
             </Accordion>
-          </motion.div>
+          </div>
 
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="text-muted-foreground text-center"
-          >
+          <p className="text-muted-foreground text-center scroll-fade-in">
             Não encontrou o que procura? Entre em contato com nosso{' '}
             <a
               href="https://wa.link/n3h6vu"
@@ -113,7 +92,7 @@ export const FAQSection = () => {
             >
               suporte
             </a>
-          </motion.p>
+          </p>
         </div>
       </div>
     </section>

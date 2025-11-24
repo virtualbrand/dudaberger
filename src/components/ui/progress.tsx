@@ -4,7 +4,6 @@ import * as React from "react";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
 
 const progressVariants = cva(
   "relative overflow-hidden rounded-full bg-secondary",
@@ -128,7 +127,7 @@ const Progress = React.forwardRef<
                 className="opacity-20"
               />
               {/* Progress circle */}
-              <motion.circle
+              <circle
                 cx={circleSize / 2}
                 cy={circleSize / 2}
                 r={radius}
@@ -145,38 +144,33 @@ const Progress = React.forwardRef<
                 fill="transparent"
                 strokeLinecap="round"
                 strokeDasharray={circumference}
-                initial={{ strokeDashoffset: circumference }}
-                animate={{
-                  strokeDashoffset: animated
-                    ? strokeDashoffset
-                    : strokeDashoffset,
-                }}
-                transition={{
-                  duration: animated ? 1.5 : 0,
-                  ease: "easeInOut",
+                strokeDashoffset={strokeDashoffset}
+                style={{
+                  transition: animated ? 'stroke-dashoffset 1.5s ease-out' : 'none',
+                  willChange: 'stroke-dashoffset',
                 }}
               />
             </svg>
             {showValue && (
-              <motion.div
+              <div
                 className="absolute inset-0 flex items-center justify-center text-sm font-semibold tabular-nums"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: animated ? 0.5 : 0, duration: 0.3 }}
+                style={{
+                  animation: animated ? 'fadeIn 0.3s ease-out 0.5s both' : 'none',
+                }}
               >
                 {Math.round(progress)}%
-              </motion.div>
+              </div>
             )}
           </div>
           {showValue && (
-            <motion.div
-              className="text-center text-xs  text-muted-foreground tabular-nums"
-              initial={{ opacity: 0, y: -5 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: animated ? 0.3 : 0, duration: 0.2 }}
+            <div
+              className="text-center text-xs text-muted-foreground tabular-nums"
+              style={{
+                animation: animated ? 'fadeInUp 0.2s ease-out 0.3s both' : 'none',
+              }}
             >
               {Math.round(progress)}%
-            </motion.div>
+            </div>
           )}
         </div>
       );
@@ -195,27 +189,22 @@ const Progress = React.forwardRef<
         >
           <ProgressPrimitive.Indicator
             className={cn(progressIndicatorVariants({ variant }), barClassName)}
-            asChild
-          >
-            <motion.div
-              initial={{ transform: "translateX(-100%)" }}
-              animate={{ transform: `translateX(-${100 - progress}%)` }}
-              transition={{
-                duration: animated ? 1.2 : 0,
-                ease: "easeInOut",
-              }}
-            />
-          </ProgressPrimitive.Indicator>
+            style={{
+              transform: `translateX(-${100 - progress}%)`,
+              transition: animated ? 'transform 1.2s ease-in-out' : 'none',
+              willChange: 'transform',
+            }}
+          />
         </ProgressPrimitive.Root>
         {showValue && (
-          <motion.div
+          <div
             className="text-right text-xs font-semibold text-muted-foreground tabular-nums"
-            initial={{ opacity: 0, y: -5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: animated ? 0.3 : 0, duration: 0.2 }}
+            style={{
+              animation: animated ? 'fadeInUp 0.2s ease-out 0.3s both' : 'none',
+            }}
           >
             {Math.round(progress)}%
-          </motion.div>
+          </div>
         )}
       </div>
     );

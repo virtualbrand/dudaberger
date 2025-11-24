@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -48,17 +47,9 @@ const TestimonialsColumn = (props: {
 }) => {
   return (
     <div className={props.className}>
-      <motion.div
-        animate={{
-          translateY: "-50%",
-        }}
-        transition={{
-          duration: props.duration || 15,
-          repeat: Infinity,
-          ease: "linear",
-          repeatType: "loop",
-        }}
+      <div
         className="flex flex-col gap-3 pb-3"
+        style={{ animation: `scrollUp ${props.duration || 15}s linear infinite` }}
       >
         {[
           ...new Array(2).fill(0).map((_, index) => (
@@ -88,7 +79,7 @@ const TestimonialsColumn = (props: {
             </React.Fragment>
           )),
         ]}
-      </motion.div>
+      </div>
     </div>
   );
 };
@@ -99,20 +90,14 @@ export const TestimonialsSection = () => {
   <div className="container w-[86%] mx-auto md:px-8">
 
         {/* Título da seção */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          className="text-center mb-10"
-        >
+        <div className="text-center mb-10 scroll-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold text-primary-700 mb-3">
             O que nossas clientes falam sobre o Efeito Água na Boca
           </h2>
           <p className="text-lg text-text-600 max-w-2xl mx-auto leading-relaxed">
             Mais de 200 confeiteiras já dominaram a técnica e transformaram fotos amadoras em imagens que despertam desejo instantâneo - veja o que aconteceu com as vendas delas:
           </p>
-        </motion.div>
+        </div>
 
         {/* Colunas de depoimentos */}
         <div className="relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[500px] overflow-hidden">

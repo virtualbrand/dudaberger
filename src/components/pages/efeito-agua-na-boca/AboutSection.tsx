@@ -1,4 +1,3 @@
-import { motion } from "framer-motion"
 
 export const AboutSection = () => {
   return (
@@ -6,27 +5,16 @@ export const AboutSection = () => {
       <div className="max-w-6xl w-[90%] mx-auto md:px-8">
         <div className="md:flex items-center gap-12">
           <div className="md:w-1/2 mb-8 md:mb-0">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="relative"
-            >
+            <div className="relative scroll-fade-in">
               <img 
                 src="/images/duda-about-presets.webp" 
                 alt="Duda Berger confeitando" 
                 className="w-full min-h-[500px] object-cover rounded-2xl shadow-xl"
               />
-            </motion.div>
+            </div>
           </div>
           <div className="md:w-1/2">
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
+            <div className="scroll-fade-in">
               <div className="flex items-center mb-6">
                 <div>
                   <h2 className="text-3xl md:text-4xl font-bold text-primary-700">Quem é a Duda Berger?</h2>
@@ -47,7 +35,7 @@ export const AboutSection = () => {
                     Agora é sua vez de usar meus presets e dominar o <strong>Efeito Água na Boca.</strong>
                   </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
       </div>

@@ -28,18 +28,17 @@ declare global {
 export const useVantaEffect = (options: VantaFogOptions) => {
   const vantaRef = useRef<HTMLDivElement>(null);
   const vantaEffect = useRef<any>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const initialized = useRef(false);
 
   useEffect(() => {
+    // Evita múltiplas inicializações
+    if (initialized.current || vantaEffect.current || !vantaRef.current) return;
+    
+    initialized.current = true;
+
     const initVanta = async () => {
-      if (vantaEffect.current || !vantaRef.current) return;
-
       try {
-        setIsLoading(true);
-        setError(null);
-
-        // Usa o sistema de preload otimizado
+        // Tenta carregar os scripts (com timeout interno de 5s)
         await preloadVantaScripts();
 
         if (window.VANTA && typeof window.VANTA.FOG === 'function' && vantaRef.current) {
@@ -59,28 +58,30 @@ export const useVantaEffect = (options: VantaFogOptions) => {
             zoom: options.zoom ?? 1,
           });
           
-          setIsLoading(false);
+          console.log('Vanta.js inicializado com sucesso');
+        } else {
+          console.warn('Vanta.js não disponível - usando fallback');
         }
       } catch (error) {
-        console.error('Erro ao inicializar Vanta:', error);
-        setError(error instanceof Error ? error.message : 'Erro desconhecido');
-        setIsLoading(false);
+        console.warn('Erro ao inicializar Vanta - usando fallback:', error);
       }
     };
 
+    // Executa sem bloquear
     initVanta();
 
     return () => {
       if (vantaEffect.current) {
-        vantaEffect.current.destroy();
+        try {
+          vantaEffect.current.destroy();
+        } catch (e) {
+          console.warn('Erro ao destruir Vanta:', e);
+        }
         vantaEffect.current = null;
       }
+      initialized.current = false;
     };
-  }, [options]);
+  }, [options.highlightColor, options.midtoneColor, options.lowlightColor, options.baseColor]);
 
-  return { 
-    vantaRef, 
-    isLoading, 
-    error 
-  };
+  return { vantaRef };
 };

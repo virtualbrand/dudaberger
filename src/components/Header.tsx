@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -72,11 +71,9 @@ export const Header = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <motion.nav 
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          exit={{ opacity: 0, height: 0 }}
+        <nav 
           className="md:hidden mt-4 border-t border-primary-100 pt-4"
+          style={{ animation: 'slideDown 0.3s ease-out' }}
         >
           <ul className="flex flex-col space-y-2">
             <li>
@@ -110,7 +107,7 @@ export const Header = () => {
               </a>
             </li>
           </ul>
-        </motion.nav>
+        </nav>
       )}
     </header>
   )

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { InteractiveHoverButton } from "../../ui/interactive-hover-button";
 import { Progress } from "@/components/ui/progress";
 import { getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot, getInstallmentPrice, getPaymentLink } from "@/data/workshop-config";
@@ -77,10 +78,13 @@ const PricingSection = () => {
                   </div>
                 </div>
                 <div className="flex items-center justify-center pt-4">
-                    <img 
+                    <Image 
                       src="/images/formas-pagamento.svg" 
                       alt="Formas de pagamento aceitas: Visa, Mastercard, American Express, Elo, Hipercard, Diners, PIX" 
+                      width={200}
+                      height={32}
                       className="h-7 md:h-8 rounded-md px-2 py-1 filter grayscale contrast-80 brightness-10"
+                      loading="lazy"
                     />
                 </div>
               </div>

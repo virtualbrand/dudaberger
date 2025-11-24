@@ -7,13 +7,13 @@ import { cva } from "class-variance-authority"
 import type {
   HTMLMotionProps,
   MotionValue,
-} from "motion/react"
+} from "framer-motion"
 import {
   motion,
   useMotionTemplate,
   useScroll,
   useTransform,
-} from "motion/react"
+} from "framer-motion"
 
 import { cn } from "@/lib/utils"
 

@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 export const useScrollAnimation = () => {
   useEffect(() => {
     let isLoaded = false;
+    let scrollTriggers: any[] = [];
+    let rafId: number | null = null;
 
     const initAnimations = async () => {
       try {
@@ -30,7 +32,7 @@ export const useScrollAnimation = () => {
 
           animations.forEach(animation => {
             document.querySelectorAll(animation.selector).forEach(element => {
-              gsap.fromTo(element, 
+              const trigger = gsap.fromTo(element, 
                 {
                   opacity: 0,
                   filter: "blur(10px)",
@@ -51,6 +53,11 @@ export const useScrollAnimation = () => {
                   }
                 }
               );
+              
+              // Armazenar referência ao ScrollTrigger
+              if (trigger.scrollTrigger) {
+                scrollTriggers.push(trigger.scrollTrigger);
+              }
             });
           });
 
@@ -59,8 +66,18 @@ export const useScrollAnimation = () => {
 
         return () => {
           clearTimeout(timer);
-          if (isLoaded) {
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+          // Limpar todos os ScrollTriggers criados
+          scrollTriggers.forEach(trigger => {
+            if (trigger && typeof trigger.kill === 'function') {
+              trigger.kill();
+            }
+          });
+          scrollTriggers = [];
+          
+          // Cancelar qualquer RAF pendente
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
           }
         };
 
@@ -76,11 +93,21 @@ export const useScrollAnimation = () => {
       cleanup = cleanupFn;
     });
 
-    // Cleanup principal
+    // Cleanup principal - executado quando componente desmonta
     return () => {
       if (cleanup) {
         cleanup();
       }
+      
+      // Limpeza adicional de segurança
+      if (isLoaded) {
+        try {
+          const { ScrollTrigger } = require('gsap/ScrollTrigger');
+          ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill());
+        } catch (e) {
+          // ScrollTrigger não carregado, ignorar
+        }
+      }
     };
-  }, []);
+  }, []); // Array vazio garante que só executa uma vez
 };
