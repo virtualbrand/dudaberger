@@ -1,4 +1,6 @@
 
+"use client";
+
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";

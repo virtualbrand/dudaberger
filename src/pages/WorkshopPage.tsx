@@ -19,7 +19,7 @@ const WorkshopPage = () => {
         title="R$ 10.000/mês trabalhando de casa com Confeitaria | Workshop Ao Vivo"
         description="2 dias ao vivo para faturar R$ 10.000/mês com confeitaria trabalhando de casa. Aprenda produto, precificação e vendas que realmente funcionam. 13 e 14 de dezembro no Zoom."
         canonical="https://dudaberger.com.br/workshop"
-        enableVantaPreload={true}
+        enableVantaPreload={false}
         criticalImages={["/images/workshop-duda-logo.svg"]}
         schemaMarkup={{
           '@context': 'https://schema.org',

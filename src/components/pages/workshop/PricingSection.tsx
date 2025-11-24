@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { InteractiveHoverButton } from "../../ui/interactive-hover-button";
 import { Progress } from "@/components/ui/progress";

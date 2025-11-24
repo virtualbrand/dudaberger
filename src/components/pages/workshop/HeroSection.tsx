@@ -1,3 +1,5 @@
+"use client";
+
 import { Progress } from "@/components/ui/progress";
 import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
 import { VantaLoading } from "@/components/ui/vanta-loading";
