@@ -138,6 +138,118 @@ html {
   --color-white-light-brown: #F3ECE9;
 
   /* ================================
+     Paleta 2.0
+     ================================ */
+
+  /* Carbon Black - #1C1C1D */
+  --carbon-black-50: #f8f8f8;
+  --carbon-black-100: #e6e6e6;
+  --carbon-black-200: #cccccd;
+  --carbon-black-300: #b3b3b4;
+  --carbon-black-400: #99999a;
+  --carbon-black-500: #808081;
+  --carbon-black-600: #666667;
+  --carbon-black-700: #4d4d4e;
+  --carbon-black-800: #333334;
+  --carbon-black-900: #1C1C1D;
+
+  /* Bitter Chocolate - #703535 */
+  --bitter-chocolate-50: #fef3f3;
+  --bitter-chocolate-100: #fce8e8;
+  --bitter-chocolate-200: #f8c5c5;
+  --bitter-chocolate-300: #f3a2a2;
+  --bitter-chocolate-400: #ea5c5c;
+  --bitter-chocolate-500: #703535;
+  --bitter-chocolate-600: #5a2a2a;
+  --bitter-chocolate-700: #431f1f;
+  --bitter-chocolate-800: #2d1515;
+  --bitter-chocolate-900: #160a0a;
+
+  /* Lobster Pink - #D65B58 */
+  --lobster-pink-50: #fef4f4;
+  --lobster-pink-100: #fce9e9;
+  --lobster-pink-200: #f9c8c7;
+  --lobster-pink-300: #f5a6a5;
+  --lobster-pink-400: #ee6361;
+  --lobster-pink-500: #D65B58;
+  --lobster-pink-600: #ab4946;
+  --lobster-pink-700: #803735;
+  --lobster-pink-800: #562423;
+  --lobster-pink-900: #2b1212;
+
+  /* Rosy Taupe - #D1A09C */
+  --rosy-taupe-50: #faf7f7;
+  --rosy-taupe-100: #f5efee;
+  --rosy-taupe-200: #e8d7d5;
+  --rosy-taupe-300: #dabfbb;
+  --rosy-taupe-400: #bf8f89;
+  --rosy-taupe-500: #D1A09C;
+  --rosy-taupe-600: #a7807d;
+  --rosy-taupe-700: #7d605e;
+  --rosy-taupe-800: #54403e;
+  --rosy-taupe-900: #2a201f;
+
+  /* Old Lace - #F6EEE1 */
+  --old-lace-50: #ffffff;
+  --old-lace-100: #fefdfb;
+  --old-lace-200: #fdfaf5;
+  --old-lace-300: #fbf7ef;
+  --old-lace-400: #f9f1e8;
+  --old-lace-500: #F6EEE1;
+  --old-lace-600: #c5beb4;
+  --old-lace-700: #948f87;
+  --old-lace-800: #625f5a;
+  --old-lace-900: #31302d;
+
+  /* Evergreen - #183D32 */
+  --evergreen-50: #f2f7f5;
+  --evergreen-100: #e6efec;
+  --evergreen-200: #bfd7cf;
+  --evergreen-300: #99bfb1;
+  --evergreen-400: #4d8f77;
+  --evergreen-500: #183D32;
+  --evergreen-600: #133128;
+  --evergreen-700: #0e251e;
+  --evergreen-800: #0a1814;
+  --evergreen-900: #050c0a;
+
+  /* Frosted Mint - #DDF0CA */
+  --frosted-mint-50: #fbfef8;
+  --frosted-mint-100: #f7fdf1;
+  --frosted-mint-200: #ecfadb;
+  --frosted-mint-300: #e0f7c5;
+  --frosted-mint-400: #c9f099;
+  --frosted-mint-500: #DDF0CA;
+  --frosted-mint-600: #b1c0a2;
+  --frosted-mint-700: #859079;
+  --frosted-mint-800: #586051;
+  --frosted-mint-900: #2c3028;
+
+  /* Honey Bronze - #EAA93A */
+  --honey-bronze-50: #fef9f2;
+  --honey-bronze-100: #fdf3e6;
+  --honey-bronze-200: #fbe1bf;
+  --honey-bronze-300: #f8cf99;
+  --honey-bronze-400: #f3ab4d;
+  --honey-bronze-500: #EAA93A;
+  --honey-bronze-600: #bb872e;
+  --honey-bronze-700: #8c6523;
+  --honey-bronze-800: #5e4317;
+  --honey-bronze-900: #2f220c;
+
+  /* Bronze - #B87F32 */
+  --bronze-50: #faf6f2;
+  --bronze-100: #f5ede6;
+  --bronze-200: #e6d3bf;
+  --bronze-300: #d7b999;
+  --bronze-400: #b9854d;
+  --bronze-500: #B87F32;
+  --bronze-600: #936628;
+  --bronze-700: #6e4c1e;
+  --bronze-800: #4a3314;
+  --bronze-900: #25190a;
+
+  /* ================================
      CONFIGURAÇÕES GLOBAIS
      ================================ */
   color: var(--color-text-900);

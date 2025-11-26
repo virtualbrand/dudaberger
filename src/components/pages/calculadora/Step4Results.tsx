@@ -73,37 +73,40 @@ export const Step4Results: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--old-lace-500)' }}>
           Análise Financeira da sua Confeitaria
         </h2>
-        <p className="text-gray-600">Resultados completos da sua simulação</p>
+        <p style={{ color: 'var(--rosy-taupe-300)' }}>Resultados completos da sua simulação</p>
       </div>
 
       {/* Card 1: Resumo Financeiro */}
-      <div className="bg-white border-2 border-gray-200 rounded-xl p-6 mb-6 shadow-lg">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <DollarSign className="w-6 h-6 text-pink-600" />
+      <div className="border-2 rounded-xl p-6 mb-6 shadow-lg" style={{ 
+        backgroundColor: 'var(--old-lace-500)', 
+        borderColor: 'var(--honey-bronze-500)' 
+      }}>
+        <h3 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--carbon-black-900)' }}>
+          <DollarSign className="w-6 h-6" style={{ color: 'var(--honey-bronze-600)' }} />
           Resumo Financeiro
         </h3>
 
         <div className="space-y-4">
-          <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-            <span className="text-gray-700">Faturamento Total Mensal</span>
-            <span className="text-xl font-bold text-green-600">
+          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '1px solid var(--rosy-taupe-300)' }}>
+            <span style={{ color: 'var(--carbon-black-800)' }}>Faturamento Total Mensal</span>
+            <span className="text-xl font-bold" style={{ color: 'var(--evergreen-600)' }}>
               {formatCurrency(summary.totalRevenue)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-            <span className="text-gray-700">(-) Custos Variáveis Totais</span>
-            <span className="text-xl font-semibold text-orange-600">
+          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '1px solid var(--rosy-taupe-300)' }}>
+            <span style={{ color: 'var(--carbon-black-800)' }}>(-) Custos Variáveis Totais</span>
+            <span className="text-xl font-semibold" style={{ color: 'var(--honey-bronze-600)' }}>
               {formatCurrency(summary.totalVariableCosts)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center pb-2 border-b-2 border-gray-300">
-            <span className="text-gray-700 font-medium">(=) Margem de Contribuição Total</span>
-            <span className="text-xl font-bold text-blue-600">
+          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '2px solid var(--carbon-black-700)' }}>
+            <span className="font-medium" style={{ color: 'var(--carbon-black-800)' }}>(=) Margem de Contribuição Total</span>
+            <span className="text-xl font-bold" style={{ color: 'var(--bronze-600)' }}>
               {formatCurrency(summary.totalContributionMargin)}
               <span className="text-sm ml-2">
                 ({formatPercentage(summary.averageContributionMarginPercent)})
@@ -111,20 +114,20 @@ export const Step4Results: React.FC = () => {
             </span>
           </div>
 
-          <div className="flex justify-between items-center pb-2 border-b border-gray-200">
-            <span className="text-gray-700">(-) Custos Fixos</span>
-            <span className="text-xl font-semibold text-red-600">
+          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '1px solid var(--rosy-taupe-300)' }}>
+            <span style={{ color: 'var(--carbon-black-800)' }}>(-) Custos Fixos</span>
+            <span className="text-xl font-semibold" style={{ color: 'var(--lobster-pink-600)' }}>
               {formatCurrency(summary.totalFixedCosts)}
             </span>
           </div>
 
-          <div className={`flex justify-between items-center p-4 rounded-lg ${
-            isProfitable ? 'bg-green-50' : 'bg-red-50'
-          }`}>
-            <span className="text-lg font-bold text-gray-900">(=) Lucro/Prejuízo</span>
-            <span className={`text-3xl font-bold ${
-              isProfitable ? 'text-green-600' : 'text-red-600'
-            }`}>
+          <div className="flex justify-between items-center p-4 rounded-lg" style={{
+            backgroundColor: isProfitable ? 'var(--frosted-mint-500)' : 'var(--lobster-pink-100)'
+          }}>
+            <span className="text-lg font-bold" style={{ color: 'var(--carbon-black-900)' }}>(=) Lucro/Prejuízo</span>
+            <span className="text-3xl font-bold" style={{
+              color: isProfitable ? 'var(--evergreen-700)' : 'var(--lobster-pink-700)'
+            }}>
               {formatCurrency(summary.profitOrLoss)}
             </span>
           </div>
@@ -132,22 +135,25 @@ export const Step4Results: React.FC = () => {
       </div>
 
       {/* Card 2: Ponto de Equilíbrio */}
-      <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-xl p-6 mb-6 shadow-lg">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <Target className="w-6 h-6 text-purple-600" />
+      <div className="rounded-xl p-6 mb-6 shadow-lg border-2" style={{ 
+        backgroundColor: 'var(--old-lace-500)', 
+        borderColor: 'var(--bronze-500)'
+      }}>
+        <h3 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--carbon-black-900)' }}>
+          <Target className="w-6 h-6" style={{ color: 'var(--bronze-600)' }} />
           Ponto de Equilíbrio
         </h3>
 
         <div className="space-y-4">
           <div>
-            <p className="text-sm text-gray-600 mb-1">PE em Faturamento</p>
-            <p className="text-3xl font-bold text-purple-600">
+            <p className="text-sm mb-1" style={{ color: 'var(--carbon-black-700)' }}>PE em Faturamento</p>
+            <p className="text-3xl font-bold" style={{ color: 'var(--bronze-600)' }}>
               {formatCurrency(summary.breakEvenPoint)}<span className="text-lg">/mês</span>
             </p>
           </div>
 
-          <div className="bg-white rounded-lg p-4">
-            <p className="text-sm text-gray-600 mb-1">Você precisa faturar</p>
+          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--rosy-taupe-200)' }}>
+            <p className="text-sm mb-1" style={{ color: 'var(--carbon-black-700)' }}>Você precisa faturar</p>
             <p className="text-2xl font-bold text-gray-900">
               {formatCurrency(summary.breakEvenPointDaily)}<span className="text-base">/dia</span>
             </p>
@@ -272,16 +278,19 @@ export const Step4Results: React.FC = () => {
       />
 
       {/* Card 5: Análise de Cenários */}
-      <div className="bg-white border-2 border-gray-200 rounded-xl p-6 mb-6 shadow-lg">
+      <div className="border-2 rounded-xl p-6 mb-6 shadow-lg" style={{ 
+        backgroundColor: 'var(--old-lace-500)', 
+        borderColor: 'var(--rosy-taupe-400)'
+      }}>
         <button
           onClick={() => setShowScenarios(!showScenarios)}
           className="w-full flex items-center justify-between text-left"
         >
-          <h3 className="text-xl font-bold text-gray-900">Análise de Cenários</h3>
+          <h3 className="text-xl font-bold" style={{ color: 'var(--carbon-black-900)' }}>Análise de Cenários</h3>
           {showScenarios ? (
-            <ChevronUp className="w-6 h-6 text-gray-600" />
+            <ChevronUp className="w-6 h-6" style={{ color: 'var(--carbon-black-700)' }} />
           ) : (
-            <ChevronDown className="w-6 h-6 text-gray-600" />
+            <ChevronDown className="w-6 h-6" style={{ color: 'var(--carbon-black-700)' }} />
           )}
         </button>
         
@@ -296,7 +305,11 @@ export const Step4Results: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-4 justify-between">
         <button
           onClick={handleBack}
-          className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90"
+          style={{ 
+            backgroundColor: 'var(--rosy-taupe-500)', 
+            color: 'var(--old-lace-500)'
+          }}
         >
           ← Voltar e Editar
         </button>
@@ -304,7 +317,11 @@ export const Step4Results: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-4">
           <button
             onClick={handleReset}
-            className="px-8 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center gap-2"
+            className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-2"
+            style={{ 
+              backgroundColor: 'var(--honey-bronze-600)', 
+              color: 'var(--old-lace-500)'
+            }}
           >
             <RotateCcw className="w-5 h-5" />
             Recomeçar Cálculo
@@ -312,7 +329,11 @@ export const Step4Results: React.FC = () => {
 
           <button
             onClick={handleExportPDF}
-            className="px-8 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors flex items-center justify-center gap-2"
+            className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-2"
+            style={{ 
+              backgroundColor: 'var(--evergreen-600)', 
+              color: 'var(--old-lace-500)'
+            }}
           >
             <Download className="w-5 h-5" />
             Exportar PDF

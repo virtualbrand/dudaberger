@@ -60,20 +60,21 @@ export const Step1Products: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Cadastre seus Produtos</h2>
-        <p className="text-gray-600">Adicione os produtos que você vende e seus custos</p>
+        <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--old-lace-500)' }}>Cadastre seus Produtos</h2>
+        <p style={{ color: 'var(--rosy-taupe-300)' }}>Adicione os produtos que você vende e seus custos</p>
       </div>
 
       {/* Produtos Cadastrados */}
       {state.products.length > 0 && (
         <div className="mb-8 space-y-4">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3 className="text-lg font-semibold" style={{ color: 'var(--old-lace-500)' }}>
               Produtos Cadastrados ({state.products.length}/15)
             </h3>
             <button
               onClick={handleClearAll}
-              className="text-sm text-red-600 hover:text-red-700 underline"
+              className="text-sm underline hover:opacity-80 transition-opacity"
+              style={{ color: 'var(--lobster-pink-500)' }}
             >
               Limpar todos
             </button>
@@ -86,18 +87,23 @@ export const Step1Products: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                className="rounded-lg p-4 hover:shadow-lg transition-shadow border"
+                style={{ 
+                  backgroundColor: 'var(--old-lace-500)', 
+                  borderColor: 'var(--rosy-taupe-400)'
+                }}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 text-lg">{product.name}</h4>
-                    <p className="text-sm text-gray-600">
+                    <h4 className="font-semibold text-lg" style={{ color: 'var(--carbon-black-900)' }}>{product.name}</h4>
+                    <p className="text-sm" style={{ color: 'var(--carbon-black-700)' }}>
                       Preço de Venda: {formatCurrency(product.salePrice)}
                     </p>
                   </div>
                   <button
                     onClick={() => removeProduct(product.id)}
-                    className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                    className="p-2 rounded-lg transition-all hover:opacity-80"
+                    style={{ color: 'var(--lobster-pink-600)' }}
                     title="Remover produto"
                   >
                     <Trash2 className="w-5 h-5" />
@@ -106,36 +112,36 @@ export const Step1Products: React.FC = () => {
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                   <div>
-                    <span className="text-gray-600">Custo Ingredientes:</span>
-                    <p className="font-medium">{formatCurrency(product.ingredientCost)}</p>
+                    <span style={{ color: 'var(--carbon-black-700)' }}>Custo Ingredientes:</span>
+                    <p className="font-medium" style={{ color: 'var(--carbon-black-900)' }}>{formatCurrency(product.ingredientCost)}</p>
                   </div>
                   <div>
-                    <span className="text-gray-600">Custo Embalagem:</span>
-                    <p className="font-medium">{formatCurrency(product.packagingCost)}</p>
+                    <span style={{ color: 'var(--carbon-black-700)' }}>Custo Embalagem:</span>
+                    <p className="font-medium" style={{ color: 'var(--carbon-black-900)' }}>{formatCurrency(product.packagingCost)}</p>
                   </div>
                   <div>
-                    <span className="text-gray-600">Taxa:</span>
-                    <p className="font-medium">{product.feePercentage}%</p>
+                    <span style={{ color: 'var(--carbon-black-700)' }}>Taxa:</span>
+                    <p className="font-medium" style={{ color: 'var(--carbon-black-900)' }}>{product.feePercentage}%</p>
                   </div>
                   <div>
-                    <span className="text-gray-600">Custo Variável Total:</span>
-                    <p className="font-medium text-orange-600">
+                    <span style={{ color: 'var(--carbon-black-700)' }}>Custo Variável Total:</span>
+                    <p className="font-medium" style={{ color: 'var(--honey-bronze-600)' }}>
                       {formatCurrency(calc.totalVariableCost)}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 border-t border-gray-200 flex items-center justify-between">
+                <div className="mt-3 pt-3 flex items-center justify-between" style={{ borderTop: '1px solid var(--rosy-taupe-300)' }}>
                   <div className="flex items-center gap-4">
                     <div>
-                      <span className="text-xs text-gray-600">Margem de Contribuição:</span>
-                      <p className="font-bold text-lg text-green-600">
+                      <span className="text-xs" style={{ color: 'var(--carbon-black-700)' }}>Margem de Contribuição:</span>
+                      <p className="font-bold text-lg" style={{ color: 'var(--evergreen-500)' }}>
                         {formatCurrency(calc.contributionMarginValue)}
                       </p>
                     </div>
                     <div>
-                      <span className="text-xs text-gray-600">MC %:</span>
-                      <p className="font-bold text-lg text-green-600">
+                      <span className="text-xs" style={{ color: 'var(--carbon-black-700)' }}>MC %:</span>
+                      <p className="font-bold text-lg" style={{ color: 'var(--evergreen-500)' }}>
                         {formatPercentage(calc.contributionMarginPercent)}
                       </p>
                     </div>
@@ -151,15 +157,21 @@ export const Step1Products: React.FC = () => {
       )}
 
       {/* Formulário para Novo Produto */}
-      <div className="bg-gradient-to-br from-pink-50 to-purple-50 border-2 border-pink-200 rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+      <div className="rounded-lg p-6 mb-6 border-2" style={{ 
+        backgroundColor: 'var(--old-lace-500)', 
+        borderColor: 'var(--honey-bronze-500)'
+      }}>
+        <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--carbon-black-900)' }}>
           {state.products.length === 0 ? 'Adicione seu primeiro produto' : 'Adicionar Novo Produto'}
         </h3>
 
         {state.products.length >= 15 && (
-          <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-yellow-600" />
-            <p className="text-sm text-yellow-800">
+          <div className="mb-4 p-3 rounded-lg flex items-center gap-2 border" style={{
+            backgroundColor: 'var(--honey-bronze-100)',
+            borderColor: 'var(--honey-bronze-400)'
+          }}>
+            <AlertCircle className="w-5 h-5" style={{ color: 'var(--honey-bronze-700)' }} />
+            <p className="text-sm" style={{ color: 'var(--honey-bronze-900)' }}>
               Você atingiu o limite máximo de 15 produtos.
             </p>
           </div>
@@ -217,7 +229,13 @@ export const Step1Products: React.FC = () => {
         <button
           onClick={handleAddProduct}
           disabled={state.products.length >= 15 || !newProduct.name || newProduct.salePrice <= 0}
-          className="mt-4 w-full md:w-auto px-6 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
+          className="mt-4 w-full md:w-auto px-6 py-3 font-semibold rounded-lg disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all hover:opacity-90"
+          style={{
+            backgroundColor: state.products.length >= 15 || !newProduct.name || newProduct.salePrice <= 0 
+              ? 'var(--carbon-black-600)' 
+              : 'var(--honey-bronze-500)',
+            color: 'var(--old-lace-500)'
+          }}
         >
           <Plus className="w-5 h-5" />
           Adicionar Produto
@@ -229,14 +247,18 @@ export const Step1Products: React.FC = () => {
         <button
           onClick={handleNext}
           disabled={!canProceed}
-          className="px-8 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          className="px-8 py-3 font-semibold rounded-lg disabled:cursor-not-allowed transition-all hover:opacity-90"
+          style={{
+            backgroundColor: !canProceed ? 'var(--carbon-black-600)' : 'var(--evergreen-500)',
+            color: 'var(--old-lace-500)'
+          }}
         >
           Próximo: Custos Fixos →
         </button>
       </div>
 
       {!canProceed && state.products.length === 0 && (
-        <p className="text-center text-sm text-red-600 mt-4">
+        <p className="text-center text-sm mt-4" style={{ color: 'var(--lobster-pink-500)' }}>
           Adicione pelo menos 1 produto para continuar
         </p>
       )}

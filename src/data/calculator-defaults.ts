@@ -10,22 +10,6 @@ export const EXAMPLE_PRODUCTS: Omit<Product, 'id'>[] = [
     quantity: 0,
   },
   {
-    name: 'Bolo no Pote 300g',
-    salePrice: 18,
-    ingredientCost: 4.2,
-    packagingCost: 1.8,
-    feePercentage: 3,
-    quantity: 0,
-  },
-  {
-    name: 'Docinhos 100un',
-    salePrice: 250,
-    ingredientCost: 65,
-    packagingCost: 15,
-    feePercentage: 3,
-    quantity: 0,
-  },
-  {
     name: 'Torta Fatia',
     salePrice: 15,
     ingredientCost: 4.5,
