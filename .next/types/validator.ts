@@ -54,6 +54,15 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 }
 
 
+// Validate ../../src/app/calculadora/page.tsx
+{
+  type __IsExpected<Specific extends AppPageConfig<"/calculadora">> = Specific
+  const handler = {} as typeof import("../../src/app/calculadora/page.js")
+  type __Check = __IsExpected<typeof handler>
+  // @ts-ignore
+  type __Unused = __Check
+}
+
 // Validate ../../src/app/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/">> = Specific

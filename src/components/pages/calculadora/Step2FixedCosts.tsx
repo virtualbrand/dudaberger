@@ -1,0 +1,171 @@
+'use client';
+
+import React, { useState } from 'react';
+import { useCalculator } from '@/contexts/CalculatorContext';
+import { FixedCost } from '@/types/calculadora';
+import { generateId } from '@/data/calculator-defaults';
+import { formatCurrency } from '@/utils/calculatorUtils';
+import { CurrencyInput, TextInput } from './FormInputs';
+import { Plus, Trash2, DollarSign } from 'lucide-react';
+
+export const Step2FixedCosts: React.FC = () => {
+  const { state, addFixedCost, updateFixedCost, removeFixedCost, goToStep } = useCalculator();
+  const [newCost, setNewCost] = useState<Omit<FixedCost, 'id'>>({
+    description: '',
+    value: 0,
+    isCustom: true,
+  });
+
+  const totalFixedCosts = state.fixedCosts.reduce((sum, cost) => sum + cost.value, 0);
+
+  const handleAddCustomCost = () => {
+    if (!newCost.description || newCost.value <= 0) {
+      alert('Por favor, preencha a descrição e o valor do custo fixo.');
+      return;
+    }
+
+    const cost: FixedCost = {
+      ...newCost,
+      id: generateId(),
+    };
+
+    addFixedCost(cost);
+    setNewCost({
+      description: '',
+      value: 0,
+      isCustom: true,
+    });
+  };
+
+  const handleNext = () => {
+    goToStep(3);
+  };
+
+  const handleBack = () => {
+    goToStep(1);
+  };
+
+  return (
+    <div className="max-w-5xl mx-auto">
+      <div className="text-center mb-8">
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">Informe seus Custos Fixos Mensais</h2>
+        <p className="text-gray-600">Custos que você paga todo mês independente das vendas</p>
+      </div>
+
+      {/* Card com Total */}
+      <div className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200 rounded-lg p-6 mb-8">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-purple-600 text-white p-3 rounded-full">
+              <DollarSign className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-sm text-gray-600">Total de Custos Fixos</p>
+              <p className="text-3xl font-bold text-purple-600">
+                {formatCurrency(totalFixedCosts)}
+              </p>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-sm text-gray-600">Por dia</p>
+            <p className="text-xl font-semibold text-gray-900">
+              {formatCurrency(totalFixedCosts / 30)}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Lista de Custos Fixos */}
+      <div className="space-y-4 mb-8">
+        <h3 className="text-lg font-semibold text-gray-900">Custos Fixos</h3>
+
+        {state.fixedCosts.map((cost) => (
+          <div
+            key={cost.id}
+            className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex-1">
+                {cost.isCustom ? (
+                  <TextInput
+                    value={cost.description}
+                    onChange={(value) => updateFixedCost(cost.id, { description: value })}
+                    placeholder="Descrição do custo"
+                  />
+                ) : (
+                  <p className="font-medium text-gray-900">{cost.description}</p>
+                )}
+              </div>
+
+              <div className="w-48">
+                <CurrencyInput
+                  value={cost.value}
+                  onChange={(value) => updateFixedCost(cost.id, { value })}
+                  placeholder="R$ 0,00"
+                />
+              </div>
+
+              {cost.isCustom && (
+                <button
+                  onClick={() => removeFixedCost(cost.id)}
+                  className="text-red-600 hover:text-red-700 p-2 hover:bg-red-50 rounded-lg transition-colors"
+                  title="Remover custo"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Adicionar Novo Custo Fixo */}
+      <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Adicionar Outro Custo Fixo</h3>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:col-span-2">
+            <TextInput
+              label="Descrição"
+              value={newCost.description}
+              onChange={(value) => setNewCost({ ...newCost, description: value })}
+              placeholder="Ex: Manutenção de veículo"
+            />
+          </div>
+
+          <CurrencyInput
+            label="Valor Mensal"
+            value={newCost.value}
+            onChange={(value) => setNewCost({ ...newCost, value })}
+            placeholder="R$ 0,00"
+          />
+        </div>
+
+        <button
+          onClick={handleAddCustomCost}
+          disabled={!newCost.description || newCost.value <= 0}
+          className="mt-4 w-full md:w-auto px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-colors"
+        >
+          <Plus className="w-5 h-5" />
+          Adicionar Custo Fixo
+        </button>
+      </div>
+
+      {/* Botões de Navegação */}
+      <div className="flex justify-between">
+        <button
+          onClick={handleBack}
+          className="px-8 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+        >
+          ← Voltar
+        </button>
+        <button
+          onClick={handleNext}
+          className="px-8 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition-colors"
+        >
+          Próximo: Volume de Vendas →
+        </button>
+      </div>
+    </div>
+  );
+};

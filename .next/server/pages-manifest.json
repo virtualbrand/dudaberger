@@ -1,1 +1,13 @@
-{}
+{
+  "/_error": "pages/_error.js",
+  "/_app": "pages/_app.js",
+  "/EfeitoAguaNaBocaPage": "pages/EfeitoAguaNaBocaPage.js",
+  "/CasamentoPage": "pages/CasamentoPage.js",
+  "/CalculadoraPage": "pages/CalculadoraPage.js",
+  "/GuirlandaNatalPage": "pages/GuirlandaNatalPage.js",
+  "/HomePage": "pages/HomePage.js",
+  "/WorkshopPage": "pages/WorkshopPage.js",
+  "/LinksPage": "pages/LinksPage.js",
+  "/_document": "pages/_document.js",
+  "/ProductPage": "pages/ProductPage.js"
+}
