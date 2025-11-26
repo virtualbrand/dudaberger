@@ -56,7 +56,7 @@ export const ConteudoSection = () => {
   useScrollAnimation();
   
   return (
-    <section className="bg-white px-6 md:px-8 py-16 md:py-30">
+    <section className="bg-[var(--old-lace-500)] px-6 md:px-8 py-16 md:py-30">
       <div className="max-w-7xl mx-auto">
         <div className="mb-12">
           <h2 className="text-center text-3xl md:text-4xl font-bold !text-[var(--color-amaranth-500)] fade-in">
@@ -74,7 +74,7 @@ export const ConteudoSection = () => {
               role="article"
               aria-labelledby={`card-${modulo.id}-title`}
               aria-describedby={`card-${modulo.id}-content`}
-              className="bg-white border border-gray-200 rounded-2xl p-6 pb-12 shadow-sm hover:shadow-md transition-shadow duration-300"
+              className="bg-[var(--old-lace-500)] border border-gray-200 rounded-2xl p-6 pb-12 shadow-sm hover:shadow-md transition-shadow duration-300"
             >
               <div className="flex flex-col space-y-4 h-full">
                 <div className="flex items-center justify-between">

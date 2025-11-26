@@ -1,0 +1,79 @@
+/* ================================
+   COMPONENT STYLES
+   Estilos de componentes reutilizáveis
+   ================================ */
+
+/* ================================
+   BUTTONS
+   ================================ */
+
+button {
+  border-radius: 50px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: var(--font-unbounded), 'Unbounded', system-ui, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--color-accent-500);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background-color: var(--color-accent-500);
+  color: var(--color-text-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent-600);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary-500);
+  color: var(--color-text-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-600);
+}
+
+/* ================================
+   ACCORDION
+   ================================ */
+
+.accordion-trigger {
+  background-color: transparent !important;
+  border: none !important;
+  color: inherit !important;
+  border-radius: 0 !important;
+  padding: 1rem 0 !important;
+}
+
+.accordion-trigger:hover {
+  background-color: transparent !important;
+  transform: none !important;
+  color: inherit !important;
+}
+
+.accordion-trigger:focus,
+.accordion-trigger:focus-visible {
+  outline: none !important;
+  background-color: transparent !important;
+}

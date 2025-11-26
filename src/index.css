@@ -197,7 +197,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
-  background-color: var(--color-off-white);
+  background-color: var(--old-lace-500);
   color: var(--color-text-900);
   overflow-x: hidden;
   font-family: 'KumbhSans', system-ui, Avenir, Helvetica, Arial, sans-serif;

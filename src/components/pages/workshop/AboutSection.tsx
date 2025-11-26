@@ -7,7 +7,7 @@ export const AboutSection = () => {
   useScrollAnimation();
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-[var(--old-lace-500)]">
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Imagem da Duda à esquerda */}

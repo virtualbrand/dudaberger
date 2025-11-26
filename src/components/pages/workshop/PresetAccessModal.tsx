@@ -83,7 +83,7 @@ function AppInput({
       <div className="relative w-full">
         <input
           type={type}
-          className={`relative z-10 border-2 border-[var(--color-lavender-600)] h-12 w-full rounded-md bg-white px-4 outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-[var(--color-lavender-50)] placeholder:font-normal text-sm lg:text-base font-normal text-gray-800 placeholder:text-gray-400 ${className}`}
+          className={`relative z-10 border-2 border-[var(--color-lavender-600)] h-12 w-full rounded-md bg-[var(--old-lace-500)] px-4 outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-[var(--color-lavender-50)] placeholder:font-normal text-sm lg:text-base font-normal text-gray-800 placeholder:text-gray-400 ${className}`}
           placeholder={placeholder}
           value={value}
           name={name}

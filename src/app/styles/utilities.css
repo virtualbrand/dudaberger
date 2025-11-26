@@ -1,0 +1,106 @@
+/* ================================
+   UTILITY CLASSES
+   Classes utilitárias reutilizáveis
+   ================================ */
+
+/* ================================
+   COLOR UTILITIES
+   ================================ */
+
+/* Text Colors */
+.text-primary { color: var(--color-primary-500); }
+.text-secondary { color: var(--color-secondary-500); }
+.text-accent { color: var(--color-accent-500); }
+.text-rose { color: var(--color-rose-500); }
+.text-pink { color: var(--color-pink-500); }
+.text-lavender { color: var(--color-lavender-500); }
+.text-amaranth { color: var(--color-amaranth-500); }
+.text-foreground { color: var(--color-text-900); }
+.text-muted-foreground { color: var(--color-text-600); }
+
+/* Background Colors */
+.bg-muted { background-color: var(--color-white-light-brown); }
+.bg-old-lace { background-color: var(--old-lace-500) !important; }
+
+/* Gradient Backgrounds */
+.bg-primary-gradient {
+  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+}
+
+.bg-secondary-gradient {
+  background: linear-gradient(135deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%);
+}
+
+.bg-accent-gradient {
+  background: linear-gradient(135deg, var(--color-accent-500) 0%, var(--color-accent-600) 100%);
+}
+
+/* ================================
+   SCROLL UTILITIES
+   ================================ */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* ================================
+   PERFORMANCE UTILITIES
+   ================================ */
+
+/* Otimizações de Performance */
+.scroll-left,
+.scroll-right,
+.fade-in,
+.slide-up {
+  will-change: transform, opacity;
+  content-visibility: auto;
+}
+
+/* Desabilitar will-change após animação */
+.animation-complete {
+  will-change: auto;
+}
+
+/* ================================
+   LAYOUT UTILITIES
+   ================================ */
+
+/* Sticky title para seção de cards */
+.sticky-title {
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .sticky-title > div {
+    position: sticky;
+    top: 8rem;
+  }
+}
+
+/* GSAP Stacking Cards */
+.cards-section {
+  position: relative;
+}
+
+.cards {
+  display: grid;
+  place-items: center;
+}
+
+.cards > * {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.card {
+  will-change: transform, background-color;
+  position: relative;
+}
