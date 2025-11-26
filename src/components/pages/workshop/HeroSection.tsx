@@ -1,7 +1,7 @@
 "use client";
 
 import { Progress } from "@/components/ui/progress";
-import { InteractiveHoverButton } from "@/components/ui/interactive-hover-button";
+import { ArrowRight } from "lucide-react";
 import { VantaFallback } from '@/components/ui/vanta-fallback'
 import { OptimizedImage } from "@/components/ui/optimized-image";
 import { workshopConfig, getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot } from "@/data/workshop-config";
@@ -60,15 +60,16 @@ export const HeroSection = () => {
             </div>
                           <div className="mt-10">
               <div className="flex flex-col gap-4 max-w-[360px]">
-                <InteractiveHoverButton
-                  text={getPrimaryButtonText()}
-                  hoverText={getHoverButtonText()}
-                  className="w-full"
+                <button
                   onClick={() => {
                     const el = document.getElementById('investimento');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                />
+                  className="w-full group bg-[var(--color-accent-500)] hover:bg-[var(--color-accent-600)] text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
+                >
+                  <span>{getPrimaryButtonText()}</span>
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </button>
                 <div className="flex flex-col gap-2">
                   <Progress
                     value={getCurrentLot().soldPercentage}

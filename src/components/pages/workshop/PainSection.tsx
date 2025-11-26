@@ -4,8 +4,6 @@
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useVantaEffect } from "@/hooks/useVantaEffect";
-import { VantaFallback } from "@/components/ui/vanta-fallback";
 
 // Componente para cada item da lista com efeito de riscar
 const CheckboxItem = ({ text }: { text: string }) => {
@@ -34,26 +32,16 @@ const CheckboxItem = ({ text }: { text: string }) => {
 
 const PainSection = () => {
   useScrollAnimation();
-  const { vantaRef } = useVantaEffect({
-    highlightColor: 0x800F2F,
-    midtoneColor: 0xA4133C,
-    lowlightColor: 0xFFB3C1,
-    baseColor: 0x23060E,
-  });
 
   return (
     <section 
-      ref={vantaRef}
-      className="w-full py-24 lg:py-24 relative overflow-hidden"
+      className="w-full py-24 lg:py-24 relative overflow-hidden bg-gradient-to-b from-[#23060E] via-[#800F2F] to-[#23060E]"
     >
-      {/* Fallback estático - sempre visível */}
-      <VantaFallback 
-        highlightColor="#800F2F"
-        midtoneColor="#A4133C"
-        lowlightColor="#FFB3C1" 
-        baseColor="#23060E"
-        className="z-0"
-      />
+      {/* Gradiente estático para performance */}
+      <div className="absolute inset-0 opacity-30 z-0">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#A4133C] rounded-full filter blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#FFB3C1] rounded-full filter blur-3xl" />
+      </div>
       
       <div className="relative z-10 container mx-auto px-6 md:px-8">
         <h2 className="fade-in text-3xl md:text-4xl font-bold text-white mb-6 text-center">

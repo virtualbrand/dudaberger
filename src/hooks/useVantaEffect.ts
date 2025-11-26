@@ -30,13 +30,17 @@ export const useVantaEffect = (options: VantaEffectOptions) => {
 
     const initVanta = async () => {
       try {
-        // Só carrega Vanta após idle ou timeout de 2s
+        // Desktop: delay maior (4s) para reduzir main-thread work
+        // Mobile: delay menor (2s) pois tem menos processamento
+        const isDesktop = window.innerWidth >= 1024;
+        const delay = isDesktop ? 4000 : 2000;
+        
         if ('requestIdleCallback' in window) {
           await new Promise(resolve => {
-            requestIdleCallback(resolve, { timeout: 2000 });
+            requestIdleCallback(resolve, { timeout: delay });
           });
         } else {
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
 
         // Tenta carregar os scripts (com timeout interno de 5s)

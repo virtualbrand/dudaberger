@@ -6,19 +6,12 @@ import { InteractiveHoverButton } from "../../ui/interactive-hover-button";
 import { Progress } from "@/components/ui/progress";
 import { getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLot, getInstallmentPrice, getPaymentLink } from "@/data/workshop-config";
 import PresetAccessModal from "./PresetAccessModal";
+import { ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useVantaEffect } from "@/hooks/useVantaEffect";
-import { VantaFallback } from "@/components/ui/vanta-fallback";
 
 const PricingSection = () => {
   useScrollAnimation();
   const [showModal, setShowModal] = useState(false)
-  const { vantaRef } = useVantaEffect({
-    highlightColor: 0x800F2F,
-    midtoneColor: 0xFFB3C1,
-    lowlightColor: 0xA4133C,
-    baseColor: 0x23060E,
-  });
 
   // Função que redireciona direto para o checkout
   const handleCheckout = () => {
@@ -31,17 +24,13 @@ const PricingSection = () => {
 
   return (
     <section 
-      ref={vantaRef}
-      className="w-full py-16 md:py-24 relative overflow-hidden"
+      className="w-full py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-[#F6EEE1] via-[#E5D5C3] to-[#F6EEE1]"
     >
-      {/* Fallback estático - sempre visível */}
-      <VantaFallback 
-        highlightColor="#800F2F"
-        midtoneColor="#FFB3C1"
-        lowlightColor="#A4133C" 
-        baseColor="#23060E"
-        className="z-0"
-      />
+      {/* Gradiente estático para performance */}
+      <div className="absolute inset-0 opacity-20 z-0">
+        <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#FFB3C1] rounded-full filter blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-[#A4133C] rounded-full filter blur-3xl" />
+      </div>
       
       <div className="relative z-10">
         <div id="investimento" className="mx-auto max-w-5xl px-6 scroll-mt-24">
@@ -60,12 +49,13 @@ const PricingSection = () => {
                   <span className="block text-lg md:text-xl font-bold text-[var(--color-amaranth-500)] font-kumbh">ou {getInstallmentPrice()}</span>
                 </span>
                 <div className="flex flex-col gap-4 max-w-[360px] mx-auto">
-                  <InteractiveHoverButton
-                    text={getPrimaryButtonText()}
-                    hoverText={getHoverButtonText()}
-                    className="w-full"
+                  <button
                     onClick={handleCheckout}
-                  />
+                    className="w-full group bg-[var(--color-accent-500)] hover:bg-[var(--color-accent-600)] text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
+                  >
+                    <span>{getPrimaryButtonText()}</span>
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </button>
                   <div className="flex flex-col gap-2">
                     <Progress
                       value={getCurrentLot().soldPercentage}
