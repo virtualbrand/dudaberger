@@ -46,7 +46,7 @@ const PricingSection = () => {
       <div className="relative z-10">
         <div id="investimento" className="mx-auto max-w-5xl px-6 scroll-mt-24">
           <div className="mx-auto max-w-2xl text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center !text-white font-kumbh fade-in">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white font-kumbh fade-in">
               Quanto você vai investir para adquirir todo esse conhecimento?
             </h2>
           </div>
@@ -56,8 +56,8 @@ const PricingSection = () => {
               <div className="text-center">
                 <span className="mb-6 mt-6 inline-block text-5xl font-bold">
                   <span className="block text-sm md:text-base text-gray-700 line-through font-kumbh" style={{ opacity: 0.7 }}>R$ {getCurrentLot().originalPrice}</span>
-                  <span className="block text-4xl md:text-5xl font-bold !text-[var(--color-amaranth-500)] font-kumbh">R$ {getCurrentLot().currentPrice}</span>
-                  <span className="block text-lg md:text-xl font-bold !text-[var(--color-amaranth-500)] font-kumbh">ou {getInstallmentPrice()}</span>
+                  <span className="block text-4xl md:text-5xl font-bold text-[var(--color-amaranth-500)] font-kumbh">R$ {getCurrentLot().currentPrice}</span>
+                  <span className="block text-lg md:text-xl font-bold text-[var(--color-amaranth-500)] font-kumbh">ou {getInstallmentPrice()}</span>
                 </span>
                 <div className="flex flex-col gap-4 max-w-[360px] mx-auto">
                   <InteractiveHoverButton

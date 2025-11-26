@@ -55,7 +55,7 @@ const PainSection = () => {
       />
       
       <div className="relative z-10 container mx-auto px-6 md:px-8">
-        <h2 className="fade-in text-3xl md:text-4xl font-bold !text-white mb-6 text-center">
+        <h2 className="fade-in text-3xl md:text-4xl font-bold text-white mb-6 text-center">
           Você está presa em alguma dessas situações?
         </h2>
         <p className="fade-in text-lg text-center text-white mb-8 max-w-3xl mx-auto">

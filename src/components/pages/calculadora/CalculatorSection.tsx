@@ -14,7 +14,7 @@ const CalculatorContent: React.FC = () => {
   const { state } = useCalculator();
 
   return (
-    <div className="min-h-screen py-8 px-4" style={{ backgroundColor: '#1C1C1D' }}>
+    <div className="min-h-screen py-8 px-4" style={{ backgroundColor: '#703535' }}>
       <div className="max-w-7xl mx-auto">
         <Stepper currentStep={state.currentStep} steps={STEPS} />
 

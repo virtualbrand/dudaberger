@@ -60,21 +60,20 @@ export const Step1Products: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--old-lace-500)' }}>Cadastre seus Produtos</h2>
-        <p style={{ color: 'var(--rosy-taupe-300)' }}>Adicione os produtos que você vende e seus custos</p>
+        <h2 className="text-3xl font-bold mb-2 text-[var(--old-lace-500)]">Cadastre seus Produtos</h2>
+        <p className="text-[var(--rosy-taupe-300)]">Adicione os produtos que você vende e seus custos</p>
       </div>
 
       {/* Produtos Cadastrados */}
       {state.products.length > 0 && (
         <div className="mb-8 space-y-4">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold" style={{ color: 'var(--old-lace-500)' }}>
+            <h3 className="text-lg font-semibold text-[var(--old-lace-500)]">
               Produtos Cadastrados ({state.products.length}/15)
             </h3>
             <button
               onClick={handleClearAll}
-              className="text-sm underline hover:opacity-80 transition-opacity"
-              style={{ color: 'var(--lobster-pink-500)' }}
+              className="text-sm underline hover:opacity-80 transition-opacity text-[var(--lobster-pink-500)] cursor-pointer"
             >
               Limpar todos
             </button>
@@ -87,66 +86,68 @@ export const Step1Products: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className="rounded-lg p-4 hover:shadow-lg transition-shadow border"
-                style={{ 
-                  backgroundColor: 'var(--old-lace-500)', 
-                  borderColor: 'var(--rosy-taupe-400)'
-                }}
+                className="rounded-lg border bg-[#FFFFFF] border-[var(--rosy-taupe-400)] overflow-hidden hover:shadow-md transition-shadow"
               >
-                <div className="flex items-start justify-between mb-3">
+                {/* Header com nome e preço */}
+                <div className="flex items-center justify-between p-4 bg-[var(--old-lace-500)] border-b border-[var(--rosy-taupe-300)]">
                   <div className="flex-1">
-                    <h4 className="font-semibold text-lg" style={{ color: 'var(--carbon-black-900)' }}>{product.name}</h4>
-                    <p className="text-sm" style={{ color: 'var(--carbon-black-700)' }}>
-                      Preço de Venda: {formatCurrency(product.salePrice)}
-                    </p>
+                    <h4 className="font-bold text-lg text-[var(--carbon-black-900)]">{product.name}</h4>
                   </div>
-                  <button
-                    onClick={() => removeProduct(product.id)}
-                    className="p-2 rounded-lg transition-all hover:opacity-80"
-                    style={{ color: 'var(--lobster-pink-600)' }}
-                    title="Remover produto"
-                  >
-                    <Trash2 className="w-5 h-5" />
-                  </button>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-[var(--evergreen-600)]">
+                        {formatCurrency(product.salePrice)}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => removeProduct(product.id)}
+                      className="p-2 rounded-lg transition-all hover:bg-[var(--lobster-pink-100)] text-[var(--lobster-pink-600)] cursor-pointer"
+                      title="Remover produto"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                  <div>
-                    <span style={{ color: 'var(--carbon-black-700)' }}>Custo Ingredientes:</span>
-                    <p className="font-medium" style={{ color: 'var(--carbon-black-900)' }}>{formatCurrency(product.ingredientCost)}</p>
+                {/* Detalhes dos custos */}
+                <div className="p-4 space-y-2">
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-[var(--carbon-black-700)]">Custo Ingredientes:</span>
+                    <p className="font-semibold text-[var(--carbon-black-900)]">{formatCurrency(product.ingredientCost)}</p>
                   </div>
-                  <div>
-                    <span style={{ color: 'var(--carbon-black-700)' }}>Custo Embalagem:</span>
-                    <p className="font-medium" style={{ color: 'var(--carbon-black-900)' }}>{formatCurrency(product.packagingCost)}</p>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-[var(--carbon-black-700)]">Custo Embalagem:</span>
+                    <p className="font-semibold text-[var(--carbon-black-900)]">{formatCurrency(product.packagingCost)}</p>
                   </div>
-                  <div>
-                    <span style={{ color: 'var(--carbon-black-700)' }}>Taxa:</span>
-                    <p className="font-medium" style={{ color: 'var(--carbon-black-900)' }}>{product.feePercentage}%</p>
+                  <div className="flex justify-between items-center py-1">
+                    <span className="text-sm text-[var(--carbon-black-700)]">Taxa:</span>
+                    <p className="font-semibold text-[var(--carbon-black-900)]">{product.feePercentage}%</p>
                   </div>
-                  <div>
-                    <span style={{ color: 'var(--carbon-black-700)' }}>Custo Variável Total:</span>
-                    <p className="font-medium" style={{ color: 'var(--honey-bronze-600)' }}>
+                  <div className="flex justify-between items-center py-1 pt-2 border-t border-[var(--rosy-taupe-200)]">
+                    <span className="text-sm font-semibold text-[var(--honey-bronze-700)]">Custo Variável Total:</span>
+                    <p className="font-bold text-[var(--honey-bronze-700)]">
                       {formatCurrency(calc.totalVariableCost)}
                     </p>
                   </div>
                 </div>
 
-                <div className="mt-3 pt-3 flex items-center justify-between" style={{ borderTop: '1px solid var(--rosy-taupe-300)' }}>
-                  <div className="flex items-center gap-4">
+                {/* Footer com margem de contribuição */}
+                <div className="px-4 py-3 bg-[var(--evergreen-50)] border-t border-[var(--evergreen-200)] flex items-center justify-between">
+                  <div className="flex items-center gap-6">
                     <div>
-                      <span className="text-xs" style={{ color: 'var(--carbon-black-700)' }}>Margem de Contribuição:</span>
-                      <p className="font-bold text-lg" style={{ color: 'var(--evergreen-500)' }}>
+                      <span className="text-xs text-[var(--evergreen-700)]">Margem de Contribuição:</span>
+                      <p className="font-bold text-xl text-[var(--evergreen-700)]">
                         {formatCurrency(calc.contributionMarginValue)}
                       </p>
                     </div>
                     <div>
-                      <span className="text-xs" style={{ color: 'var(--carbon-black-700)' }}>MC %:</span>
-                      <p className="font-bold text-lg" style={{ color: 'var(--evergreen-500)' }}>
+                      <span className="text-xs text-[var(--evergreen-700)]">MC %:</span>
+                      <p className="font-bold text-xl text-[var(--evergreen-700)]">
                         {formatPercentage(calc.contributionMarginPercent)}
                       </p>
                     </div>
                   </div>
-                  <span className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${badge.color}`}>
+                  <span className={`px-4 py-1.5 rounded-full text-sm font-bold text-white ${badge.color}`}>
                     {badge.text}
                   </span>
                 </div>
@@ -247,7 +248,7 @@ export const Step1Products: React.FC = () => {
         <button
           onClick={handleNext}
           disabled={!canProceed}
-          className="px-8 py-3 font-semibold rounded-lg disabled:cursor-not-allowed transition-all hover:opacity-90"
+          className="px-8 py-3 font-semibold rounded-lg disabled:cursor-not-allowed cursor-pointer transition-all hover:opacity-90"
           style={{
             backgroundColor: !canProceed ? 'var(--carbon-black-600)' : 'var(--evergreen-500)',
             color: 'var(--old-lace-500)'

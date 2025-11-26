@@ -1,0 +1,5 @@
+/* Background escuro para a página da calculadora */
+html,
+body {
+  background-color: #703535 !important;
+}

@@ -59,7 +59,7 @@ export const FAQSection = () => {
       <div className="mx-auto max-w-4xl px-6">
         <div className="space-y-12">
           <h2 
-            className="!text-[var(--color-amaranth-500)] text-center text-4xl font-semibold fade-in"
+            className="text-[var(--color-amaranth-500)] text-center text-4xl font-semibold fade-in"
           >
             Dúvidas Frequentes
           </h2>
@@ -78,7 +78,7 @@ export const FAQSection = () => {
                     value={item.id}
                     className="peer rounded-xl border-none px-5 py-1 md:px-7 data-[state=open]:bg-gray-50 fade-in"
                   >
-                    <AccordionTrigger className="cursor-pointer !text-lg hover:no-underline text-left !text-black font-semibold">
+                    <AccordionTrigger className="cursor-pointer text-lg hover:no-underline text-left text-black font-semibold">
                       {item.question}
                     </AccordionTrigger>
                     <AccordionContent>

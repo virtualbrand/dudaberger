@@ -76,7 +76,7 @@ export const Step3Sales: React.FC = () => {
               key={product.id}
               className="rounded-lg p-4 hover:shadow-lg transition-shadow border"
               style={{ 
-                backgroundColor: 'var(--old-lace-500)', 
+                backgroundColor: '#F6EEE1', 
                 borderColor: 'var(--rosy-taupe-400)'
               }}
             >
@@ -144,7 +144,7 @@ export const Step3Sales: React.FC = () => {
       <div className="flex justify-between">
         <button
           onClick={handleBack}
-          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90"
+          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 cursor-pointer"
           style={{ 
             backgroundColor: 'var(--rosy-taupe-500)', 
             color: 'var(--old-lace-500)'
@@ -154,7 +154,7 @@ export const Step3Sales: React.FC = () => {
         </button>
         <button
           onClick={handleNext}
-          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90"
+          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 cursor-pointer"
           style={{ 
             backgroundColor: 'var(--evergreen-500)', 
             color: 'var(--old-lace-500)'

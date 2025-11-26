@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import CalculatorSection from '@/components/pages/calculadora/CalculatorSection';
+import './calculadora.css';
 
 export const metadata: Metadata = {
   title: 'Calculadora de Precificação para Confeitaria',
@@ -26,8 +27,8 @@ export const metadata: Metadata = {
 
 export default function CalculadoraPage() {
   return (
-    <main className="w-full min-h-screen" style={{ backgroundColor: '#1C1C1D' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#703535' }}>
       <CalculatorSection />
-    </main>
+    </div>
   );
 }

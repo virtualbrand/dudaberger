@@ -31,11 +31,10 @@ export const HeroSection = () => {
       
       <div className="absolute top-0 left-0 w-full z-10">
         <div className="container mx-auto px-6 md:px-8">
-          <div className="flex items-center gap-3 py-8">
+          <div className="flex items-center gap-3 pt-20">
             <OptimizedImage 
-              src="/images/workshop-duda-logo.svg" 
-              alt="Logo Workshop Duda Berger" 
-              className="w-45 h-45"
+              src="/images/workshop/logo.webp" 
+              alt="Workshop Duda Berger" 
               priority={true}
             />
           </div>

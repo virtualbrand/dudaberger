@@ -284,7 +284,7 @@ export const Step4Results: React.FC = () => {
       }}>
         <button
           onClick={() => setShowScenarios(!showScenarios)}
-          className="w-full flex items-center justify-between text-left"
+          className="w-full flex items-center justify-between text-left cursor-pointer"
         >
           <h3 className="text-xl font-bold" style={{ color: 'var(--carbon-black-900)' }}>Análise de Cenários</h3>
           {showScenarios ? (
@@ -305,7 +305,7 @@ export const Step4Results: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-4 justify-between">
         <button
           onClick={handleBack}
-          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90"
+          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 cursor-pointer"
           style={{ 
             backgroundColor: 'var(--rosy-taupe-500)', 
             color: 'var(--old-lace-500)'
@@ -317,7 +317,7 @@ export const Step4Results: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-4">
           <button
             onClick={handleReset}
-            className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-2"
+            className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-2 cursor-pointer"
             style={{ 
               backgroundColor: 'var(--honey-bronze-600)', 
               color: 'var(--old-lace-500)'
@@ -329,7 +329,7 @@ export const Step4Results: React.FC = () => {
 
           <button
             onClick={handleExportPDF}
-            className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-2"
+            className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 flex items-center justify-center gap-2 cursor-pointer"
             style={{ 
               backgroundColor: 'var(--evergreen-600)', 
               color: 'var(--old-lace-500)'
