@@ -80,8 +80,13 @@ Ative as seguintes otimizações:
 #### 0-RTT Connection Resumption
 - ✅ Enable
 
-#### Rocket Loader
-- ❌ Disable (conflita com Next.js e GSAP)
+#### Rocket Loader ⚠️ CRÍTICO
+- ❌ **DISABLE** (conflita com Next.js e GSAP)
+- ⚠️ Se estiver ativado, causa erros:
+  - `Failed to load resource: 404`
+  - `Refused to execute script... MIME type 'text/plain'`
+  - Scripts do Next.js não executam
+  - **DESATIVE IMEDIATAMENTE**
 
 ---
 
@@ -153,10 +158,27 @@ Com essas configurações:
 
 ## ⚠️ Importante
 
+- **Rocket Loader DEVE estar OFF**: Causa erros 404 e MIME type nos scripts do Next.js
 - **Next.js (_next/static/)**: Já tem hash no nome do arquivo, então pode ter cache infinito
 - **Imagens**: Se você atualizar uma imagem, mude o nome ou versione a URL
 - **HTML**: Cache de 30 dias com `must-revalidate` garante que usuários vejam atualizações
 - **Cloudflare Edge Cache**: Mantém cópia nos servidores deles (CDN global)
+
+---
+
+## 🔧 Troubleshooting
+
+### Erro: "Failed to load resource: 404" em arquivos _next/static/
+**Causa**: Rocket Loader do Cloudflare está ativado  
+**Solução**: Speed > Optimization > Rocket Loader > OFF + Purge Cache
+
+### Erro: "Refused to execute script... MIME type 'text/plain'"
+**Causa**: Rocket Loader modificando MIME types dos scripts  
+**Solução**: Speed > Optimization > Rocket Loader > OFF + Purge Cache
+
+### Cache não está funcionando (CF-Cache-Status: MISS sempre)
+**Causa**: Page Rules não configuradas ou Edge Cache TTL muito baixo  
+**Solução**: Configure as Page Rules acima + aumente Edge Cache TTL
 
 ---
 
