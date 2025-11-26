@@ -8,6 +8,15 @@ export const useScrollAnimation = () => {
 
     const initAnimations = async () => {
       try {
+        // Aguarda idle time ou timeout de 1s para não bloquear thread principal
+        if ('requestIdleCallback' in window) {
+          await new Promise(resolve => {
+            requestIdleCallback(resolve, { timeout: 1000 });
+          });
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
         // Carrega GSAP dinamicamente
         const [gsapModule, scrollTriggerModule] = await Promise.all([
           import('gsap'),
@@ -82,7 +91,6 @@ export const useScrollAnimation = () => {
         };
 
       } catch (error) {
-        console.log('⚠️ Animações GSAP não carregadas:', error);
         return () => {}; // Noop cleanup
       }
     };

@@ -1,25 +1,52 @@
 {
   "pages": {
+    "/_not-found/page": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "static/chunks/1255-f04e7a26e145c577.js",
+      "static/chunks/main-app-bf23dbe4d63e7b41.js",
+      "static/chunks/app/_not-found/page-770de0f66438d7c8.js"
+    ],
     "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "static/chunks/1255-f04e7a26e145c577.js",
+      "static/chunks/main-app-bf23dbe4d63e7b41.js",
+      "static/css/691a2390cda322ea.css",
+      "static/chunks/app/layout-4bc783fe95ff39ad.js"
+    ],
+    "/calculadora/page": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "static/chunks/1255-f04e7a26e145c577.js",
+      "static/chunks/main-app-bf23dbe4d63e7b41.js",
+      "static/css/438edf82d5c0a64b.css",
+      "static/chunks/2f0b94e8-3186a98eb4c9012b.js",
+      "static/chunks/164f4fb6-3c485cfd18b55484.js",
+      "static/chunks/2941-3073f41623fdda0b.js",
+      "static/chunks/app/calculadora/page-285d1792a9542098.js"
     ],
     "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "static/chunks/1255-f04e7a26e145c577.js",
+      "static/chunks/main-app-bf23dbe4d63e7b41.js",
+      "static/chunks/1356-513652f73909a339.js",
+      "static/chunks/app/page-1d89a21031bdd154.js"
+    ],
+    "/workshop/layout": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "static/chunks/1255-f04e7a26e145c577.js",
+      "static/chunks/main-app-bf23dbe4d63e7b41.js",
+      "static/chunks/app/workshop/layout-20d824ebeee2df98.js"
     ],
     "/workshop/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/workshop/page.js"
-    ],
-    "/_not-found/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+      "static/chunks/1255-f04e7a26e145c577.js",
+      "static/chunks/main-app-bf23dbe4d63e7b41.js",
+      "static/chunks/app/workshop/page-856ad698fba16cb5.js"
     ]
   }
 }

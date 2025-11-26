@@ -1,20 +1,96 @@
 {
   "polyfillFiles": [
-    "static/chunks/polyfills.js"
+    "static/chunks/polyfills-42372ed130431b0a.js"
   ],
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/development/_buildManifest.js",
-    "static/development/_ssgManifest.js"
+    "static/uGBdOUuf6yCHwCiXOb56U/_buildManifest.js",
+    "static/uGBdOUuf6yCHwCiXOb56U/_ssgManifest.js"
   ],
   "rootMainFiles": [
-    "static/chunks/webpack.js",
-    "static/chunks/main-app.js"
+    "static/chunks/webpack-4bf18794808df3da.js",
+    "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
+    "static/chunks/1255-f04e7a26e145c577.js",
+    "static/chunks/main-app-bf23dbe4d63e7b41.js"
   ],
   "rootMainFilesTree": {},
   "pages": {
-    "/_app": []
+    "/CalculadoraPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/0bd2f4cc-b999a3526d8d5c6f.js",
+      "static/chunks/643144ee-be225c564ea5438c.js",
+      "static/chunks/9769-05e1269df169bf47.js",
+      "static/chunks/pages/CalculadoraPage-f7897bff0b25d735.js"
+    ],
+    "/CasamentoPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/3719-eb7574f1f902a832.js",
+      "static/chunks/2741-066f8dda30e5df91.js",
+      "static/chunks/pages/CasamentoPage-e902a50703feccf9.js"
+    ],
+    "/EfeitoAguaNaBocaPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/3719-eb7574f1f902a832.js",
+      "static/chunks/2741-066f8dda30e5df91.js",
+      "static/chunks/1877-997bec35cd3434ab.js",
+      "static/chunks/pages/EfeitoAguaNaBocaPage-842a4f52de16ab7a.js"
+    ],
+    "/GuirlandaNatalPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/pages/GuirlandaNatalPage-63563e12e6b429ad.js"
+    ],
+    "/HomePage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/pages/HomePage-8241d7a280f6646d.js"
+    ],
+    "/LinksPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/4587-96f24f8ccb937aae.js",
+      "static/chunks/pages/LinksPage-42c81b0873e6d562.js"
+    ],
+    "/ProductPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/3719-eb7574f1f902a832.js",
+      "static/chunks/8230-50ab02359d650f34.js",
+      "static/chunks/pages/ProductPage-14da60677f866238.js"
+    ],
+    "/WorkshopPage": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/2741-066f8dda30e5df91.js",
+      "static/chunks/1877-997bec35cd3434ab.js",
+      "static/chunks/4587-96f24f8ccb937aae.js",
+      "static/chunks/1675-f619c28b377c706c.js",
+      "static/chunks/pages/WorkshopPage-f21c943954304f7a.js"
+    ],
+    "/_app": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/pages/_app-4b3fb5e477a0267f.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack-4bf18794808df3da.js",
+      "static/chunks/framework-157ba15cb60a57ac.js",
+      "static/chunks/main-80a73f5e112dce09.js",
+      "static/chunks/pages/_error-c970d8b55ace1b48.js"
+    ]
   },
   "ampFirstPages": []
 }

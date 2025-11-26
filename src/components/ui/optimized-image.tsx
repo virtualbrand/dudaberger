@@ -1,6 +1,6 @@
 import type { ImgHTMLAttributes } from 'react';
 
-interface OptimizedImageProps extends ImgHTMLAttributes<HTMLImageElement> {
+interface OptimizedImageProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, 'loading'> {
   src: string;
   alt: string;
   priority?: boolean;
@@ -46,6 +46,8 @@ export const OptimizedImage = ({
           alt={alt}
           className={className}
           loading={priority ? "eager" : "lazy"}
+          // @ts-ignore - fetchPriority é válido mas pode não estar no tipo
+          fetchPriority={priority ? "high" : "auto"}
           decoding="async"
           {...props}
         />
@@ -60,6 +62,8 @@ export const OptimizedImage = ({
       alt={alt}
       className={className}
       loading={priority ? "eager" : "lazy"}
+      // @ts-ignore - fetchPriority é válido mas pode não estar no tipo
+      fetchPriority={priority ? "high" : "auto"}
       decoding="async"
       {...props}
     />

@@ -38,6 +38,15 @@ export const Timeline = ({
 
     const initAnimation = async () => {
       try {
+        // Aguarda idle time ou timeout de 1s
+        if ('requestIdleCallback' in window) {
+          await new Promise(resolve => {
+            requestIdleCallback(resolve, { timeout: 1000 });
+          });
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 500));
+        }
+
         // Carrega GSAP dinamicamente
         const [gsapModule, scrollTriggerModule] = await Promise.all([
           import('gsap'),
@@ -87,7 +96,6 @@ export const Timeline = ({
         };
 
       } catch (error) {
-        console.log('⚠️ Timeline GSAP não carregado:', error);
         return () => {}; // Noop cleanup
       }
     };

@@ -2,13 +2,13 @@
 
 import { cn } from "@/lib/utils";
 import {
-  IconGift,
-  IconCalculator,
-  IconTarget,
-  IconChecklist,
-  IconTrendingUp,
-  IconTools,
-} from "@tabler/icons-react";
+  Gift,
+  Calculator,
+  Target,
+  CheckSquare,
+  TrendingUp,
+  Wrench,
+} from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export function HowToSection() {
@@ -18,37 +18,37 @@ export function HowToSection() {
       title: "O que vender primeiro",
       description:
         "Descubra por que bolos de aniversário são o caminho mais rápido para faturar bem começando do zero.",
-      icon: <IconGift />,
+      icon: <Gift />,
     },
     {
       title: "Como precificar corretamente",
       description:
         "Calcule preços que garantem lucro real - sem trabalhar de graça nem perder clientes por valor alto.",
-      icon: <IconCalculator />,
+      icon: <Calculator />,
     },
     {
       title: "Como encontrar clientes",
       description:
         "Estratégias práticas para conseguir pedidos e fazer os clientes virem até você.",
-      icon: <IconTarget />,
+      icon: <Target />,
     },
     {
       title: "Seu espaço único",
       description:
         "Como definir o seu diferencial único e ser valorizada como confeiteira em sua cidade",
-      icon: <IconChecklist />,
+      icon: <CheckSquare />,
     },
     {
       title: "De R$ 0 a R$ 10 mil/mês",
       description:
         "A estratégia validada que me levou do zero absoluto a R$ 10.000 /mês trabalhando de casa.",
-      icon: <IconTrendingUp />,
+      icon: <TrendingUp />,
     },
     {
       title: "Comece com o que você tem",
       description:
         "Plano de ação de como divulgar seu produto de forma prática, eficiente e consistente.",
-      icon: <IconTools />,
+      icon: <Wrench />,
     },
   ];
 

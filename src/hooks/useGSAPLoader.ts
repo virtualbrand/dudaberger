@@ -42,7 +42,6 @@ export const useGSAPLoader = () => {
         error: null
       });
 
-      console.log('✅ GSAP carregado dinamicamente');
       return { gsap, ScrollTrigger, isLoaded: true, isLoading: false, error: null };
 
     } catch (error) {

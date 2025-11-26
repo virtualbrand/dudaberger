@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { preloadVantaScripts } from './useVantaPreload';
 import type { VantaEffectInstance } from '@/types/vanta-global';
 
-interface VantaFogOptions {
+interface VantaEffectOptions {
   highlightColor: number;
   midtoneColor: number;
   lowlightColor: number;
@@ -17,7 +17,7 @@ interface VantaFogOptions {
   minWidth?: number;
 }
 
-export const useVantaEffect = (options: VantaFogOptions) => {
+export const useVantaEffect = (options: VantaEffectOptions) => {
   const vantaRef = useRef<HTMLDivElement>(null);
   const vantaEffect = useRef<VantaEffectInstance | null>(null);
   const initialized = useRef(false);
@@ -30,6 +30,15 @@ export const useVantaEffect = (options: VantaFogOptions) => {
 
     const initVanta = async () => {
       try {
+        // Só carrega Vanta após idle ou timeout de 2s
+        if ('requestIdleCallback' in window) {
+          await new Promise(resolve => {
+            requestIdleCallback(resolve, { timeout: 2000 });
+          });
+        } else {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+
         // Tenta carregar os scripts (com timeout interno de 5s)
         await preloadVantaScripts();
 
@@ -49,8 +58,6 @@ export const useVantaEffect = (options: VantaFogOptions) => {
             speed: options.speed ?? 1.5,
             zoom: options.zoom ?? 1,
           });
-          
-          console.log('Vanta.js inicializado com sucesso');
         } else {
           console.warn('Vanta.js não disponível - usando fallback');
         }

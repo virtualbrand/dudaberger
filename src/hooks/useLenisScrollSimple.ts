@@ -30,7 +30,6 @@ export const useLenisScrollSimple = () => {
         const hasScrollableContent = document.body.scrollHeight > window.innerHeight + 50;
         
         if (!hasScrollableContent) {
-          console.log('⚠️ Conteúdo não scrollável, Lenis desabilitado');
           return;
         }
 
@@ -53,9 +52,6 @@ export const useLenisScrollSimple = () => {
           rafIdRef.current = requestAnimationFrame(raf);
         }
         rafIdRef.current = requestAnimationFrame(raf);
-
-        console.log('✅ Lenis inicializado para rota:', location.pathname);
-
       } catch (error) {
         console.error('❌ Erro ao inicializar Lenis:', error);
         // Fallback para scroll nativo

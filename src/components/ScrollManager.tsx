@@ -16,8 +16,8 @@ export const ScrollManager = () => {
         const scrollTriggerModule = await import('gsap/ScrollTrigger');
         const ScrollTrigger = scrollTriggerModule.ScrollTrigger;
         ScrollTrigger.refresh();
-      } catch (error) {
-        console.log('⚠️ ScrollTrigger não disponível para refresh');
+      } catch (e) {
+        // ScrollTrigger não disponível
       }
     }, 100);
 
