@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{\"hooks/useScrollAnimation.ts -> gsap\":{\"id\":\"hooks/useScrollAnimation.ts -> gsap\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_gsap_index_js.js\"]},\"hooks/useScrollAnimation.ts -> gsap/ScrollTrigger\":{\"id\":\"hooks/useScrollAnimation.ts -> gsap/ScrollTrigger\",\"files\":[]}}"
+self.__REACT_LOADABLE_MANIFEST="{}"
