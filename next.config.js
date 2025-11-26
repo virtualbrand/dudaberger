@@ -35,6 +35,7 @@ const nextConfig = {
   },
   async headers() {
     return [
+      // Security headers para todas as páginas
       {
         source: '/:path*',
         headers: [
@@ -50,13 +51,9 @@ const nextConfig = {
             key: 'X-Content-Type-Options',
             value: 'nosniff'
           },
-          // Performance headers
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          },
         ],
       },
+      // Cache longo para fontes (1 ano)
       {
         source: '/fonts/:path*',
         headers: [
@@ -66,6 +63,7 @@ const nextConfig = {
           },
         ],
       },
+      // Cache longo para imagens (1 ano)
       {
         source: '/images/:path*',
         headers: [
@@ -75,12 +73,43 @@ const nextConfig = {
           },
         ],
       },
+      // Cache longo para CSS (1 ano)
       {
         source: '/_next/static/css/:path*',
         headers: [
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
+      // Cache longo para JS (1 ano)
+      {
+        source: '/_next/static/chunks/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
+      // Cache longo para todos os assets estáticos do Next.js (1 ano)
+      {
+        source: '/_next/static/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
+      // Cache médio para HTML (30 dias como recomendado pelo Lighthouse)
+      {
+        source: '/:path*.html',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=2592000, must-revalidate'
           },
         ],
       },
