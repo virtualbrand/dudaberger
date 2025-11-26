@@ -45,13 +45,16 @@ const PricingSection = () => {
               <div className="text-center">
                 <span className="mb-6 mt-6 inline-block text-5xl font-bold">
                   <span className="block text-sm md:text-base text-gray-700 line-through font-kumbh" style={{ opacity: 0.7 }}>R$ {getCurrentLot().originalPrice}</span>
-                  <span className="block text-4xl md:text-5xl font-bold text-[var(--color-amaranth-500)] font-kumbh">R$ {getCurrentLot().currentPrice}</span>
-                  <span className="block text-lg md:text-xl font-bold text-[var(--color-amaranth-500)] font-kumbh">ou {getInstallmentPrice()}</span>
+                  <span className="block text-4xl md:text-5xl font-bold font-kumbh" style={{ color: '#C9184A' }}>R$ {getCurrentLot().currentPrice}</span>
+                  <span className="block text-lg md:text-xl font-bold font-kumbh" style={{ color: '#C9184A' }}>ou {getInstallmentPrice()}</span>
                 </span>
                 <div className="flex flex-col gap-4 max-w-[360px] mx-auto">
                   <button
                     onClick={handleCheckout}
-                    className="w-full group bg-[var(--color-accent-500)] hover:bg-[var(--color-accent-600)] text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
+                    className="w-full group text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
+                    style={{ backgroundColor: '#E54E24' }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b73e1d'}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E54E24'}
                   >
                     <span>{getPrimaryButtonText()}</span>
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

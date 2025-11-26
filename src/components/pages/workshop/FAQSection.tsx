@@ -59,7 +59,8 @@ export const FAQSection = () => {
       <div className="mx-auto max-w-4xl px-6">
         <div className="space-y-12">
           <h2 
-            className="text-[var(--color-amaranth-500)] text-center text-4xl font-semibold fade-in"
+            className="text-center text-4xl font-semibold fade-in"
+            style={{ color: '#C9184A' }}
           >
             Dúvidas Frequentes
           </h2>

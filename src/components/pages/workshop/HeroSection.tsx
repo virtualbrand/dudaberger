@@ -65,7 +65,10 @@ export const HeroSection = () => {
                     const el = document.getElementById('investimento');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full group bg-[var(--color-accent-500)] hover:bg-[var(--color-accent-600)] text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
+                  className="w-full group text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
+                  style={{ backgroundColor: '#E54E24' }}
+                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b73e1d'}
+                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E54E24'}
                 >
                   <span>{getPrimaryButtonText()}</span>
                   <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

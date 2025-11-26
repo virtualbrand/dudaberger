@@ -53,13 +53,13 @@ export function HowToSection() {
   ];
 
   return (
-    <section className="w-full bg-[var(--old-lace-500)] pt-20 pb-40">
+    <section className="w-full pt-20 pb-40" style={{ backgroundColor: '#F6EEE1' }}>
       <div className="container mx-auto px-6 md:px-8">
         <div className="text-center mt-16 mb-2">
-          <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold text-[var(--color-amaranth-500)] mb-4">
+          <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold mb-4" style={{ color: '#C9184A' }}>
             O que você vai aprender no Workshop
           </h2>
-          <p className="fade-in text-lg text-[var(--color-primary-500)] max-w-3xl mx-auto">
+          <p className="fade-in text-lg max-w-3xl mx-auto" style={{ color: '#23060E' }}>
             Tudo que você precisa saber sobre produto, precificação e vendas para faturar da sua cozinha
           </p>
         </div>
@@ -114,16 +114,16 @@ const HowToFeature = ({
       {index >= 3 && (
         <div className="opacity-0 group-hover/feature:opacity-20 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-rose-500 to-transparent pointer-events-none" />
       )}
-      <div className="fade-in mb-4 relative z-10 px-12 text-[var(--color-amaranth-500)]">
+      <div className="fade-in mb-4 relative z-10 px-12" style={{ color: '#C9184A' }}>
         {icon}
       </div>
       <div className="fade-in text-xl font-bold mb-2 relative z-10 px-12">
-        <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-[var(--color-amaranth-500)] dark:bg-[var(--color-amaranth-500)] group-hover/feature:bg-rose-500 transition-all duration-200 origin-center" />
-        <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-[var(--color-amaranth-500)] dark:text-neutral-100">
+        <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full group-hover/feature:bg-rose-500 transition-all duration-200 origin-center" style={{ backgroundColor: '#C9184A' }} />
+        <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block dark:text-neutral-100" style={{ color: '#C9184A' }}>
           {title}
         </span>
       </div>
-      <p className="fade-in text-base text-[var(--color-primary-500)] dark:text-neutral-300 max-w-sm relative z-10 px-12">
+      <p className="fade-in text-base dark:text-neutral-300 max-w-sm relative z-10 px-12" style={{ color: '#23060E' }}>
         {description}
       </p>
     </div>

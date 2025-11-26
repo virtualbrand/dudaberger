@@ -7,7 +7,7 @@ export const AboutSection = () => {
   useScrollAnimation();
 
   return (
-    <section className="py-20 bg-[var(--old-lace-500)]">
+    <section className="py-20" style={{ backgroundColor: '#F6EEE1' }}>
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid md:grid-cols-2 gap-12 items-start">
           {/* Imagem da Duda à esquerda */}
@@ -21,7 +21,7 @@ export const AboutSection = () => {
 
           {/* Conteúdo à direita */}
           <div className="space-y-6">
-            <h2 className="fade-in text-3xl md:text-4xl font-bold !text-[var(--color-amaranth-500)] mb-8">
+            <h2 className="fade-in text-3xl md:text-4xl font-bold mb-8" style={{ color: '#C9184A' }}>
               Quem será sua Mentora
             </h2>
             
