@@ -6,7 +6,10 @@ export const SecondSection = () => {
   useScrollAnimation();
 
   return (
-    <section className="w-full bg-old-lace pt-30 pb-60">
+    <section 
+      className="w-full bg-old-lace pt-30 pb-60"
+      style={{ backgroundColor: 'var(--old-lace-500)' }}
+    >
       <div className="container mx-auto px-6 md:px-8">
         <div className="text-center mt-16 mb-2">
           <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold !text-[var(--color-amaranth-500)] mb-4">
