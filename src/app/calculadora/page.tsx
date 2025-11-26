@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function CalculadoraPage() {
   return (
-    <div className="w-full min-h-screen" style={{ backgroundColor: '#703535' }}>
+    <div className="w-full min-h-screen" style={{ backgroundColor: '#F6EEE1' }}>
       <CalculatorSection />
     </div>
   );

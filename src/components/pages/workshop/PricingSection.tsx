@@ -24,7 +24,7 @@ const PricingSection = () => {
 
   return (
     <section 
-      className="w-full py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-[#F6EEE1] via-[#E5D5C3] to-[#F6EEE1]"
+      className="w-full py-16 md:py-24 relative overflow-hidden bg-[#703535]"
     >
       {/* Gradiente estático para performance */}
       <div className="absolute inset-0 opacity-20 z-0">
@@ -44,17 +44,14 @@ const PricingSection = () => {
               {/* Box de preço */}
               <div className="text-center">
                 <span className="mb-6 mt-6 inline-block text-5xl font-bold">
-                  <span className="block text-sm md:text-base text-gray-700 line-through font-kumbh" style={{ opacity: 0.7 }}>R$ {getCurrentLot().originalPrice}</span>
-                  <span className="block text-4xl md:text-5xl font-bold font-kumbh" style={{ color: '#C9184A' }}>R$ {getCurrentLot().currentPrice}</span>
-                  <span className="block text-lg md:text-xl font-bold font-kumbh" style={{ color: '#C9184A' }}>ou {getInstallmentPrice()}</span>
+                  <span className="block text-sm md:text-base text-gray-700 line-through font-unbounded opacity-70">R$ {getCurrentLot().originalPrice}</span>
+                  <span className="block text-4xl md:text-5xl font-bold font-unbounded text-[#C9184A]">R$ {getCurrentLot().currentPrice}</span>
+                  <span className="block text-lg md:text-xl font-bold font-unbounded text-[#C9184A]">ou {getInstallmentPrice()}</span>
                 </span>
                 <div className="flex flex-col gap-4 max-w-[360px] mx-auto">
                   <button
                     onClick={handleCheckout}
-                    className="w-full group text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
-                    style={{ backgroundColor: '#E54E24' }}
-                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b73e1d'}
-                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E54E24'}
+                    className="w-full group text-white text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2 font-unbounded cursor-pointer bg-[#E54E24] hover:bg-[#b73e1d]"
                   >
                     <span>{getPrimaryButtonText()}</span>
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

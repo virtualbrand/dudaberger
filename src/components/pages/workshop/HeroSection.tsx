@@ -36,6 +36,7 @@ export const HeroSection = () => {
               src="/images/workshop/logo.webp" 
               alt="Workshop Duda Berger" 
               priority={true}
+              className="w-[280px]"
             />
           </div>
         </div>
@@ -65,10 +66,7 @@ export const HeroSection = () => {
                     const el = document.getElementById('investimento');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full group text-white font-medium text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2"
-                  style={{ backgroundColor: '#E54E24' }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#b73e1d'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#E54E24'}
+                  className="w-full group text-white text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2 font-unbounded cursor-pointer bg-[#E54E24] hover:bg-[#b73e1d]"
                 >
                   <span>{getPrimaryButtonText()}</span>
                   <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

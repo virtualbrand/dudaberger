@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         'sans': ['KumbhSans', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
         'kumbh': ['KumbhSans', 'system-ui', 'Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+        'unbounded': ['Unbounded', 'system-ui', 'sans-serif'],
       },
       colors: {
         // Cores do Sistema

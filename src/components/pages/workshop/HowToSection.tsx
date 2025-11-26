@@ -53,13 +53,13 @@ export function HowToSection() {
   ];
 
   return (
-    <section className="w-full pt-20 pb-40" style={{ backgroundColor: '#F6EEE1' }}>
+    <section className="w-full pt-20 pb-40 bg-[#F6EEE1]">
       <div className="container mx-auto px-6 md:px-8">
         <div className="text-center mt-16 mb-2">
-          <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold mb-4" style={{ color: '#C9184A' }}>
+          <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-[#D65B58]">
             O que você vai aprender no Workshop
           </h2>
-          <p className="fade-in text-lg max-w-3xl mx-auto" style={{ color: '#23060E' }}>
+          <p className="fade-in text-lg max-w-3xl mx-auto text-[#23060E]">
             Tudo que você precisa saber sobre produto, precificação e vendas para faturar da sua cozinha
           </p>
         </div>

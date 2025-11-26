@@ -28,7 +28,7 @@ html {
   line-height: 1.5;
   font-weight: 400;
   color: var(--color-text-900);
-  /* background-color: var(--color-off-white); */
+  background-color: var(#F6EEE1);
   
   /* Performance optimizations */
   font-synthesis: none;
@@ -43,7 +43,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
-  /* background-color: var(--color-off-white); */
+  background-color: var(#F6EEE1);
   color: var(--color-text-900);
   overflow-x: hidden;
   font-family: 'KumbhSans', system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -84,6 +84,17 @@ h1 {
 h2, h3, h4, h5, h6 {
   font-family: var(--font-unbounded), 'Unbounded', system-ui, sans-serif;
   font-weight: 600;
+}
+
+.font-unbounded {
+  font-family: 'Unbounded', system-ui, sans-serif !important;
+  font-weight: 600 !important;
+}
+
+button:focus,
+button:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 p {

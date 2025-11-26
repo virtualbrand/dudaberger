@@ -7,9 +7,9 @@ export const AboutSection = () => {
   useScrollAnimation();
 
   return (
-    <section className="py-20" style={{ backgroundColor: '#F6EEE1' }}>
+    <section className="py-20 bg-[#F6EEE1]">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="grid md:grid-cols-2 gap-12 items-start">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Imagem da Duda à esquerda */}
           <div className="fade-in">
             <OptimizedImage 
@@ -21,11 +21,11 @@ export const AboutSection = () => {
 
           {/* Conteúdo à direita */}
           <div className="space-y-6">
-            <h2 className="fade-in text-3xl md:text-4xl font-bold mb-8" style={{ color: '#C9184A' }}>
+            <h2 className="fade-in text-3xl md:text-4xl font-bold mb-8 text-[#D65B58]">
               Quem será sua Mentora
             </h2>
             
-            <div className="space-y-4 text-neutral-700 leading-relaxed">
+            <div className="space-y-4 leading-relaxed text-[#703535]">
               <p className="fade-in">
                 De mochileira aventureira a confeiteira: minha história começou servindo café da manhã numa pousada boutique na Praia do Rosa, onde aprendi que produtos artesanais e locais valem ouro.
               </p>

@@ -55,12 +55,11 @@ export const FAQSection = () => {
   useScrollAnimation();
   
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 bg-[#fbf7ef]">
       <div className="mx-auto max-w-4xl px-6">
         <div className="space-y-12">
           <h2 
-            className="text-center text-4xl font-semibold fade-in"
-            style={{ color: '#C9184A' }}
+            className="text-center text-4xl font-semibold fade-in text-[#D65B58]"
           >
             Dúvidas Frequentes
           </h2>
@@ -77,16 +76,16 @@ export const FAQSection = () => {
                 >
                   <AccordionItem
                     value={item.id}
-                    className="peer rounded-xl border-none px-5 py-1 md:px-7 data-[state=open]:bg-gray-50 fade-in"
+                    className="peer rounded-xl border-none px-5 py-1 md:px-7 data-[state=open]:bg-[#fefdfb] data-[state=open]:shadow-sm fade-in"
                   >
-                    <AccordionTrigger className="cursor-pointer text-lg hover:no-underline text-left text-black font-semibold">
+                    <AccordionTrigger className="cursor-pointer text-lg hover:no-underline text-left font-semibold text-[#703535]">
                       {item.question}
                     </AccordionTrigger>
                     <AccordionContent>
                       <p className="text-foreground text-left text-base whitespace-pre-line">{item.answer}</p>
                     </AccordionContent>
                   </AccordionItem>
-                  <hr className="mx-5 -mb-px group-last:hidden peer-data-[state=open]:hidden md:mx-7 border-gray-200" />
+                  <hr className="mx-5 -mb-px group-last:hidden peer-data-[state=open]:hidden md:mx-7 border-[#e8d4d4]" />
                 </div>
               ))}
             </Accordion>
@@ -99,7 +98,7 @@ export const FAQSection = () => {
               href="https://wa.link/n3h6vu"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-primary font-medium hover:underline"
+              className="text-primary font-medium hover:underline cursor-pointer"
             >
               suporte
             </a>
