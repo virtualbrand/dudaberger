@@ -15,18 +15,18 @@ export class PerformanceOptimizer {
   }
 
   // Debounce function para evitar múltiplas execuções
-  debounce<T extends (...args: any[]) => void>(func: T, wait: number): T {
+  debounce<T extends (...args: unknown[]) => void>(func: T, wait: number): T {
     let timeout: NodeJS.Timeout;
-    return ((...args: any[]) => {
+    return ((...args: Parameters<T>) => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(this, args), wait);
     }) as T;
   }
 
   // Throttle function para limitar execuções por tempo
-  throttle<T extends (...args: any[]) => void>(func: T, limit: number): T {
+  throttle<T extends (...args: unknown[]) => void>(func: T, limit: number): T {
     let inThrottle: boolean;
-    return ((...args: any[]) => {
+    return ((...args: Parameters<T>) => {
       if (!inThrottle) {
         func.apply(this, args);
         inThrottle = true;

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { preloadVantaScripts } from './useVantaPreload';
+import type { VantaEffectInstance } from '@/types/vanta-global';
 
 interface VantaFogOptions {
   highlightColor: number;
@@ -16,18 +17,9 @@ interface VantaFogOptions {
   minWidth?: number;
 }
 
-declare global {
-  interface Window {
-    THREE: any;
-    VANTA: {
-      FOG: (options: any) => any;
-    };
-  }
-}
-
 export const useVantaEffect = (options: VantaFogOptions) => {
   const vantaRef = useRef<HTMLDivElement>(null);
-  const vantaEffect = useRef<any>(null);
+  const vantaEffect = useRef<VantaEffectInstance | null>(null);
   const initialized = useRef(false);
 
   useEffect(() => {

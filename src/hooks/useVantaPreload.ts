@@ -7,17 +7,19 @@ interface VantaPreloadState {
 }
 
 // Estado global compartilhado para evitar múltiplos carregamentos
-let globalState: VantaPreloadState = {
-  isLoading: false,
-  isReady: false,
-  error: null
+const globalState: { current: VantaPreloadState } = {
+  current: {
+    isLoading: false,
+    isReady: false,
+    error: null
+  }
 };
 
 let loadPromise: Promise<void> | null = null;
 const listeners = new Set<(state: VantaPreloadState) => void>();
 
 const notifyListeners = () => {
-  listeners.forEach(listener => listener(globalState));
+  listeners.forEach(listener => listener(globalState.current));
 };
 
 const preloadVantaScripts = async (): Promise<void> => {
@@ -25,12 +27,12 @@ const preloadVantaScripts = async (): Promise<void> => {
     return loadPromise;
   }
 
-  if (globalState.isReady) {
+  if (globalState.current.isReady) {
     return Promise.resolve();
   }
 
-  globalState.isLoading = true;
-  globalState.error = null;
+  globalState.current.isLoading = true;
+  globalState.current.error = null;
   notifyListeners();
 
   loadPromise = (async () => {
@@ -40,8 +42,8 @@ const preloadVantaScripts = async (): Promise<void> => {
           window.THREE && 
           window.VANTA && 
           typeof window.VANTA.FOG === 'function') {
-        globalState.isReady = true;
-        globalState.isLoading = false;
+        globalState.current.isReady = true;
+        globalState.current.isLoading = false;
         notifyListeners();
         return;
       }
@@ -78,12 +80,12 @@ const preloadVantaScripts = async (): Promise<void> => {
         });
       }
 
-      globalState.isReady = true;
-      globalState.isLoading = false;
-      globalState.error = null;
+      globalState.current.isReady = true;
+      globalState.current.isLoading = false;
+      globalState.current.error = null;
     } catch (error) {
-      globalState.isLoading = false;
-      globalState.error = error instanceof Error ? error.message : 'Erro desconhecido';
+      globalState.current.isLoading = false;
+      globalState.current.error = error instanceof Error ? error.message : 'Erro desconhecido';
       loadPromise = null;
     }
 
@@ -98,7 +100,7 @@ const preloadVantaScripts = async (): Promise<void> => {
  * Pode ser usado em componentes que aparecem antes da Hero para iniciar o carregamento
  */
 export const useVantaPreload = () => {
-  const [state, setState] = useState<VantaPreloadState>(globalState);
+  const [state, setState] = useState<VantaPreloadState>(globalState.current);
 
   useEffect(() => {
     const listener = (newState: VantaPreloadState) => {
@@ -113,7 +115,7 @@ export const useVantaPreload = () => {
   }, []);
 
   const startPreload = () => {
-    if (!globalState.isLoading && !globalState.isReady) {
+    if (!globalState.current.isLoading && !globalState.current.isReady) {
       preloadVantaScripts().catch(() => {
         // Erro já tratado no estado global
       });
@@ -129,12 +131,3 @@ export const useVantaPreload = () => {
 
 // Exporta a função de preload para uso direto
 export { preloadVantaScripts };
-
-declare global {
-  interface Window {
-    THREE: any;
-    VANTA: {
-      FOG: (options: any) => any;
-    };
-  }
-}
