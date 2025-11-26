@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/jsonribeiro/Documents/workspace/virtualbrand/clientes/dudaberger/src/app/layout\":[\"static/media/959e7b513866fc80-s.p.woff2\",\"static/media/f37dc0e4a04aeeb1-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{},\"appUsingSizeAdjust\":false,\"pagesUsingSizeAdjust\":false}"

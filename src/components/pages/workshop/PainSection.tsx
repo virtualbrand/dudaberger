@@ -33,7 +33,7 @@ const CheckboxItem = ({ text }: { text: string }) => {
 
 const PainSection = () => {
   useScrollAnimation();
-  const { vantaRef, isLoading } = useVantaEffect({
+  const { vantaRef } = useVantaEffect({
     highlightColor: 0x800F2F,
     midtoneColor: 0xA4133C,
     lowlightColor: 0xFFB3C1,
@@ -45,16 +45,14 @@ const PainSection = () => {
       ref={vantaRef}
       className="w-full py-24 lg:py-24 relative overflow-hidden"
     >
-      {/* Fallback estático - fica atrás do Vanta */}
-      {isLoading && (
-        <VantaFallback 
-          highlightColor="#800F2F"
-          midtoneColor="#A4133C"
-          lowlightColor="#FFB3C1" 
-          baseColor="#23060E"
-          className="z-0"
-        />
-      )}
+      {/* Fallback estático - sempre visível */}
+      <VantaFallback 
+        highlightColor="#800F2F"
+        midtoneColor="#A4133C"
+        lowlightColor="#FFB3C1" 
+        baseColor="#23060E"
+        className="z-0"
+      />
       
       <div className="relative z-10 container mx-auto px-6 md:px-8">
         <h2 className="fade-in text-3xl md:text-4xl font-bold !text-white mb-6 text-center">

@@ -38,14 +38,11 @@ export const HeroSection = () => {
               className="w-45 h-45"
               priority={true}
             />
-            <div className="inline-block px-4 py-2 rounded-full bg-white/10 text-white/80 text-sm">
-              {workshopConfig.event.edition}
-            </div>
           </div>
         </div>
       </div>
       
-      <div className="relative h-screen w-full flex items-center z-20">
+      <div className="relative min-h-screen w-full flex items-center z-20">
         <div className="container mx-auto px-6 md:px-8">
           <div className="max-w-4xl">
             <div className="inline-block px-6 py-2 rounded-full bg-white/10 text-white/80 text-sm mb-8">

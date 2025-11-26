@@ -1,6 +1,6 @@
 'use client';
 import { ReactLenis } from 'lenis/react';
-import { useTransform, motion, useScroll, MotionValue } from 'motion/react';
+import { useTransform, motion, useScroll, MotionValue } from 'framer-motion';
 import { useRef, forwardRef } from 'react';
 
 interface ProjectData {

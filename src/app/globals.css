@@ -1,8 +1,8 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 
 /* ================================
    FONTS - Gerenciadas pelo next/font no layout.tsx
+   Font preload automático via Next.js
    ================================ */
 
 /* ================================
@@ -214,9 +214,8 @@ h1 {
 }
 
 h2, h3, h4, h5, h6 {
-  color: var(--color-primary-500);
-  font-family: 'KumbhSans', system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: bold;
+  font-family: var(--font-unbounded), 'Unbounded', system-ui, sans-serif;
+  font-weight: 600;
 }
 
 p {

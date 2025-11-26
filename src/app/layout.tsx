@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import './globals.css';
+import NonCriticalCSS from '@/components/NonCriticalCSS';
+import './critical.css';
 
-// Otimizar fontes com next/font para preload automático
+// Fonte para corpo de texto
 const kumbhSans = localFont({
   src: [
     {
@@ -10,15 +11,26 @@ const kumbhSans = localFont({
       weight: '400',
       style: 'normal',
     },
-    {
-      path: '../../public/fonts/KumbhSans-Bold.woff2',
-      weight: '700',
-      style: 'normal',
-    },
   ],
   variable: '--font-kumbh',
   display: 'swap',
   preload: true,
+  fallback: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+});
+
+// Fonte para títulos
+const unbounded = localFont({
+  src: [
+    {
+      path: '../../public/fonts/unbounded-semibold.woff2',
+      weight: '600',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-unbounded',
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'sans-serif'],
 });
 
 export const metadata: Metadata = {
@@ -72,13 +84,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={kumbhSans.variable}>
+    <html lang="pt-BR" className={`${kumbhSans.variable} ${unbounded.variable}`}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://www.threejs.org" />
+        {/* Preload crítico para fontes - MAIS IMPORTANTE */}
+        <link
+          rel="preload"
+          href="/fonts/KumbhSans-Regular.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/unbounded-semibold.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        
+        {/* Preconnect prioritário APENAS para domínios essenciais */}
+        <link rel="preconnect" href="https://dudaberger.com.br" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
       </head>
       <body className={kumbhSans.className}>
+        <NonCriticalCSS />
         {children}
       </body>
     </html>

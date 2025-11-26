@@ -1,0 +1,431 @@
+/* ================================
+   NON-CRITICAL CSS - Below The Fold
+   Estilos que podem ser carregados após a primeira renderização
+   ================================ */
+
+/* ================================
+   PALETA DE CORES COMPLETA
+   ================================ */
+:root {
+  /* Primário - #23060E (Licorice) - Tons completos */
+  --color-primary-50: #faf8f8;
+  --color-primary-100: #f5f0f1;
+  --color-primary-200: #e6d9dc;
+  --color-primary-300: #d6c2c6;
+  --color-primary-400: #b89ca2;
+  --color-primary-600: #1c050b;
+  --color-primary-700: #150408;
+  --color-primary-800: #0e0306;
+  --color-primary-900: #070103;
+
+  /* Secundário - #800F2F (Claret) */
+  --color-secondary-50: #fef2f5;
+  --color-secondary-100: #fde6eb;
+  --color-secondary-200: #fbc0d1;
+  --color-secondary-300: #f899b6;
+  --color-secondary-400: #f14d82;
+  --color-secondary-600: #660c26;
+  --color-secondary-700: #4d091d;
+  --color-secondary-800: #330613;
+  --color-secondary-900: #1a030a;
+
+  /* Texto - #23060E (Licorice) */
+  --color-text-50: #faf8f8;
+  --color-text-100: #f5f0f1;
+  --color-text-200: #e6d9dc;
+  --color-text-300: #d6c2c6;
+  --color-text-400: #b89ca2;
+  --color-text-500: #9a7f87;
+  --color-text-600: #7c666c;
+  --color-text-700: #5e4d51;
+  --color-text-800: #3f3336;
+
+  /* Acento - #E54E24 (Cinnabar) */
+  --color-accent-50: #fef3f0;
+  --color-accent-100: #fde7e0;
+  --color-accent-200: #fbc7b3;
+  --color-accent-300: #f9a786;
+  --color-accent-400: #f56745;
+  --color-accent-700: #892f16;
+  --color-accent-800: #5c1f0e;
+  --color-accent-900: #2e1007;
+
+  /* Rose - #C9184A */
+  --color-rose-50: #fef2f5;
+  --color-rose-100: #fde6eb;
+  --color-rose-200: #fbc0d1;
+  --color-rose-300: #f899b6;
+  --color-rose-400: #f14d82;
+  --color-rose-500: #C9184A;
+  --color-rose-600: #a1133b;
+  --color-rose-700: #790e2c;
+  --color-rose-800: #50091e;
+  --color-rose-900: #28050f;
+
+  /* Pink - #FFB3C1 */
+  --color-pink-50: #fff9fa;
+  --color-pink-100: #fff3f5;
+  --color-pink-200: #ffe2e7;
+  --color-pink-300: #ffd1d9;
+  --color-pink-400: #ffc2cd;
+  --color-pink-500: #FFB3C1;
+  --color-pink-600: #cc8f9a;
+  --color-pink-700: #996b74;
+  --color-pink-800: #66484d;
+  --color-pink-900: #332427;
+
+  /* Lavender Blush - #FFEBEE */
+  --color-lavender-50: #ffffff;
+  --color-lavender-100: #ffffff;
+  --color-lavender-200: #fff9fa;
+  --color-lavender-300: #fff4f5;
+  --color-lavender-400: #fff0f1;
+  --color-lavender-500: #FFEBEE;
+  --color-lavender-600: #ccbcbf;
+  --color-lavender-700: #998d8f;
+  --color-lavender-800: #665e5f;
+  --color-lavender-900: #332f30;
+
+  /* Amaranth Purple - #A4133C */
+  --color-amaranth-50: #fef2f5;
+  --color-amaranth-100: #fde6eb;
+  --color-amaranth-200: #fbc0d1;
+  --color-amaranth-300: #f899b6;
+  --color-amaranth-400: #f14d82;
+  --color-amaranth-500: #A4133C;
+  --color-amaranth-600: #830f30;
+  --color-amaranth-700: #620b24;
+  --color-amaranth-800: #410818;
+  --color-amaranth-900: #21040c;
+
+  /* Variáveis para shadcn/ui */
+  --radius: 0.8rem;
+  --card-radius: 1rem;
+  --hu-font-geist: var(--font-geist);
+  --hu-font-jetbrains: var(--font-jetbrains-mono);
+  --hu-background: hsl(0, 0%, 100%);
+  --hu-foreground: hsl(0, 0%, 14%);
+  --hu-card: hsl(0, 0%, 99%);
+  --hu-card-foreground: hsl(0, 0%, 14%);
+  --hu-primary: hsl(235, 100%, 60%);
+  --hu-primary-foreground: hsl(0, 0%, 98%);
+  --hu-secondary: hsl(0, 0%, 97%);
+  --hu-secondary-foreground: hsl(0, 0%, 20%);
+  --hu-muted: hsl(0, 0%, 97%);
+  --hu-muted-foreground: hsl(0, 0%, 56%);
+  --hu-accent: hsl(0, 0%, 96%);
+  --hu-accent-foreground: hsl(0, 0%, 20%);
+  --hu-destructive: hsl(9, 96%, 47%);
+  --hu-destructive-foreground: hsl(0, 0%, 98%);
+  --hu-border: hsl(0, 0%, 92%);
+  --hu-input: hsl(0, 0%, 100%);
+  --hu-ring: hsl(0, 0%, 71%);
+  --color-fd-background: hsl(var(--hu-background));
+  --color-fd-card: hsl(var(--hu-background));
+}
+
+/* ================================
+   ESTILOS INTERATIVOS E HOVER
+   ================================ */
+a:hover {
+  color: var(--color-accent-600);
+  transition: color 0.3s ease;
+}
+
+/* Força o h1 a ter o mesmo tamanho do h2 */
+h1 {
+  font-size: 2.25rem;
+}
+@media (min-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+}
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 3rem;
+  }
+}
+
+/* ================================
+   COMPONENTES DE BOTÃO
+   ================================ */
+button {
+  border-radius: 50px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: var(--font-unbounded), 'Unbounded', system-ui, sans-serif;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--color-accent-500);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid var(--color-accent-500);
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background-color: var(--color-accent-500);
+  color: var(--color-text-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-accent-500);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary-500);
+  color: var(--color-text-white);
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-secondary-500);
+}
+
+/* ================================
+   CLASSES UTILITÁRIAS DE COR
+   ================================ */
+.text-primary {
+  color: var(--color-primary-500);
+}
+
+.text-secondary {
+  color: var(--color-secondary-500);
+}
+
+.text-accent {
+  color: var(--color-accent-500);
+}
+
+.text-rose {
+  color: var(--color-rose-500);
+}
+
+.text-pink {
+  color: var(--color-pink-500);
+}
+
+.text-lavender {
+  color: var(--color-lavender-500);
+}
+
+.text-amaranth {
+  color: var(--color-amaranth-500);
+}
+
+.bg-primary-gradient {
+  background: linear-gradient(135deg, var(--color-primary-500) 0%, var(--color-primary-600) 100%);
+}
+
+.bg-secondary-gradient {
+  background: linear-gradient(135deg, var(--color-secondary-500) 0%, var(--color-secondary-600) 100%);
+}
+
+.bg-accent-gradient {
+  background: linear-gradient(135deg, var(--color-accent-500) 0%, var(--color-accent-600) 100%);
+}
+
+/* ================================
+   COMPONENTES CUSTOMIZADOS
+   ================================ */
+
+/* Accordion customizado */
+.accordion-trigger {
+  background-color: transparent !important;
+  border: none !important;
+  color: inherit !important;
+  border-radius: 0 !important;
+  padding: 1rem 0 !important;
+}
+
+.accordion-trigger:hover {
+  background-color: transparent !important;
+  transform: none !important;
+  color: inherit !important;
+}
+
+.accordion-trigger:focus,
+.accordion-trigger:focus-visible {
+  outline: none !important;
+  background-color: transparent !important;
+}
+
+/* Carousel scrollbar hide */
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.dark {
+  --hu-background: hsl(0, 0%, 7%);
+  --hu-foreground: hsl(0, 0%, 100%);
+  --hu-card: hsl(0, 0%, 9%);
+  --hu-card-foreground: hsl(0, 0%, 100%);
+  --hu-primary: hsl(235, 100%, 60%);
+  --hu-primary-foreground: hsl(0, 0%, 98%);
+  --hu-secondary: hsl(0, 0%, 15%);
+  --hu-secondary-foreground: hsl(0, 0%, 100%);
+  --hu-muted: hsl(0, 0%, 15%);
+  --hu-muted-foreground: hsl(0, 0%, 71%);
+  --hu-accent: hsl(0, 0%, 15%);
+  --hu-accent-foreground: hsl(0, 0%, 100%);
+  --hu-destructive: hsl(0, 84%, 50%);
+  --hu-destructive-foreground: hsl(0, 0%, 98%);
+  --hu-border: hsl(0, 0%, 92%);
+  --hu-input: hsl(0, 0%, 100%);
+  --hu-ring: hsl(0, 0%, 56%);
+  --color-fd-background: hsl(var(--hu-background));
+  --color-fd-card: hsl(var(--hu-background));
+}
+
+/* ================================
+   STACKING CARDS STYLES (GSAP)
+   ================================ */
+.cards-section {
+  position: relative;
+}
+
+.cards {
+  display: grid;
+  place-items: center;
+}
+
+.cards > * {
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.card {
+  will-change: transform, background-color;
+  position: relative;
+}
+
+/* Otimizações de Performance */
+.scroll-left,
+.scroll-right,
+.fade-in,
+.slide-up {
+  will-change: transform, opacity;
+  content-visibility: auto;
+}
+
+/* Desabilitar will-change após animação */
+.animation-complete {
+  will-change: auto;
+}
+
+/* ================================
+   ANIMAÇÕES CSS
+   ================================ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    max-height: 500px;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+/* Classe para animação com Intersection Observer */
+.scroll-fade-in {
+  animation: fadeInUp 0.7s ease-out both;
+  will-change: transform, opacity;
+}
+
+/* Sticky title para a seção de cards */
+.sticky-title {
+  position: relative;
+}
+
+@media (min-width: 1024px) {
+  .sticky-title > div {
+    position: sticky;
+    top: 8rem;
+  }
+}

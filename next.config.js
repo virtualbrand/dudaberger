@@ -21,7 +21,18 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
-  // Headers para otimização e segurança
+  // Otimizar imports de bibliotecas grandes
+  experimental: {
+    optimizePackageImports: [
+      '@radix-ui/react-icons',
+      'lucide-react', 
+      '@tabler/icons-react',
+      'gsap',
+      '@studio-freight/lenis',
+      'lenis',
+      'three'
+    ],
+  },
   async headers() {
     return [
       {
@@ -38,6 +49,38 @@ const nextConfig = {
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff'
+          },
+          // Performance headers
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
+      {
+        source: '/fonts/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
+      {
+        source: '/images/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          },
+        ],
+      },
+      {
+        source: '/_next/static/css/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           },
         ],
       },
@@ -63,11 +106,6 @@ const nextConfig = {
       };
     }
     return config;
-  },
-
-  // Otimizar imports de bibliotecas grandes
-  experimental: {
-    optimizePackageImports: ['@radix-ui/react-icons', 'lucide-react', '@tabler/icons-react'],
   },
 
   // Output standalone para otimizar deploy

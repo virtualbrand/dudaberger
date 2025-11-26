@@ -1,11 +1,12 @@
+'use client';
 import { useEffect, useRef } from 'react';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 import Lenis from '@studio-freight/lenis';
 
 export const useLenisScrollRobust = () => {
   const lenisRef = useRef<Lenis | null>(null);
   const rafIdRef = useRef<number | null>(null);
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Limpa instância anterior se existir

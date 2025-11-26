@@ -12,7 +12,6 @@ interface WorkshopConfig {
   currentLotNumber: number;
   lots: Lot[];
   event: {
-    edition: string;
     date: string;
   };
 }
@@ -20,8 +19,7 @@ interface WorkshopConfig {
 // Configuração de todos os lotes
 export const workshopConfig: WorkshopConfig = {
   currentLotNumber: 2, // Altere apenas este número para mudar o lote ativo
-   event: {
-    edition: "2ª EDIÇÃO",
+  event: {
     date: "13 E 14 DE DEZEMBRO | NO ZOOM | AO VIVO"
   },
   lots: [

@@ -1,9 +1,10 @@
+'use client';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 
 // Componente para gerenciar scroll após mudanças de rota
 export const ScrollManager = () => {
-  const location = useLocation();
+  const pathname = usePathname();
 
   useEffect(() => {
     // Scroll para o topo quando a rota muda

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -12,12 +12,8 @@ export const Header = () => {
     <header className="py-4 px-4 md:px-8 bg-white/95 backdrop-blur-sm shadow-lg border-b border-primary-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 bg-gradient-to-br from-accent-400 to-accent-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
-            🍰
-          </div>
           <div>
-            <h1 className="text-xl md:text-2xl font-bold text-primary-600">A Confeiteira Próspera</h1>
-            <p className="text-xs text-chocolate-500 hidden md:block">por Duda Berger</p>
+            <h1 className="text-xl md:text-2xl font-bold text-primary-600">Duda Berger</h1>
           </div>
         </div>
         
@@ -25,7 +21,7 @@ export const Header = () => {
         <nav className="hidden md:block">
           <ul className="flex space-x-8">
             <li>
-              <Link to="/" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 font-medium flex items-center space-x-1">
+              <Link href="/" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 font-medium flex items-center space-x-1">
                 <span>🏠</span>
                 <span>Home</span>
               </Link>
@@ -43,7 +39,7 @@ export const Header = () => {
               </a>
             </li>
             <li>
-              <Link to="/presets" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 font-medium flex items-center space-x-1">
+              <Link href="/presets" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 font-medium flex items-center space-x-1">
                 <span>🎨</span>
                 <span>Presets</span>
               </Link>
@@ -77,7 +73,7 @@ export const Header = () => {
         >
           <ul className="flex flex-col space-y-2">
             <li>
-              <Link to="/" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 block py-3 px-4 rounded-lg hover:bg-accent-50 font-medium flex items-center space-x-2">
+              <Link href="/" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 block py-3 px-4 rounded-lg hover:bg-accent-50 font-medium flex items-center space-x-2">
                 <span>🏠</span>
                 <span>Home</span>
               </Link>
@@ -95,7 +91,7 @@ export const Header = () => {
               </a>
             </li>
             <li>
-              <Link to="/presets" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 block py-3 px-4 rounded-lg hover:bg-accent-50 font-medium flex items-center space-x-2">
+              <Link href="/presets" className="text-chocolate-600 hover:text-accent-600 transition-colors duration-300 block py-3 px-4 rounded-lg hover:bg-accent-50 font-medium flex items-center space-x-2">
                 <span>🎨</span>
                 <span>Presets</span>
               </Link>

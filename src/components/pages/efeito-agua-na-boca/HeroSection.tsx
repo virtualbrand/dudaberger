@@ -36,7 +36,7 @@ export const HeroSection = () => {
               <p className="mb-3">
                 Antes dos seus clientes comprarem o seu produto, eles saboreiam com os olhos. E pra <strong className="text-white">vender mais</strong>, as suas fotos precisam ativar o <strong className="text-white">Efeito Água na Boca</strong> - a única técnica que faz qualquer pessoa sentir vontade de comer só de olhar.
               </p>
-            </motion.div>
+            </div>
 
             <div
               className="space-y-3"

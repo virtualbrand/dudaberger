@@ -1,4 +1,20 @@
-import { Helmet } from 'react-helmet-async';
+/**
+ * @deprecated Este componente não deve ser usado no Next.js 15.
+ * Use a Metadata API nativa do Next.js em vez disso.
+ * 
+ * Exemplo:
+ * export const metadata: Metadata = {
+ *   title: 'Título da Página',
+ *   description: 'Descrição...',
+ *   openGraph: {...},
+ * };
+ * 
+ * Ver: /src/app/workshop/page.tsx para exemplo completo
+ */
+
+// Componente stub para compatibilidade com código legado
+// TODO: Remover após migração completa para App Router
+
 import { useEffect } from 'react';
 import { useVantaPreload } from '@/hooks/useVantaPreload';
 
@@ -25,46 +41,15 @@ const Seo = ({
 
   useEffect(() => {
     if (enableVantaPreload) {
-      // Inicia o preload assim que o componente monta
       startPreload();
     }
+    
+    // Log de aviso para desenvolvedores
+    console.warn('[DEPRECATED] O componente Seo está deprecated. Use Next.js Metadata API.');
   }, [enableVantaPreload, startPreload]);
 
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={canonical} />
-
-      {/* Preload de imagens críticas específicas da página */}
-      {criticalImages.map((imageUrl, index) => (
-        <link 
-          key={index}
-          rel="preload" 
-          as="image" 
-          href={imageUrl} 
-          fetchPriority="high" 
-        />
-      ))}
-
-      {/* Open Graph for Facebook, LinkedIn */}
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-
-      {/* Twitter Card */}
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-
-      {/* Structured Data (Schema Markup) */}
-      {schemaMarkup && (
-        <script type="application/ld+json">
-          {JSON.stringify(schemaMarkup)}
-        </script>
-      )}
-    </Helmet>
-  );
+  // Retorna null - SEO é gerenciado pelo Next.js
+  return null;
 };
 
 export default Seo;

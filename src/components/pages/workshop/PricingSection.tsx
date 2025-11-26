@@ -13,7 +13,7 @@ import { VantaFallback } from "@/components/ui/vanta-fallback";
 const PricingSection = () => {
   useScrollAnimation();
   const [showModal, setShowModal] = useState(false)
-  const { vantaRef, isLoading } = useVantaEffect({
+  const { vantaRef } = useVantaEffect({
     highlightColor: 0x800F2F,
     midtoneColor: 0xFFB3C1,
     lowlightColor: 0xA4133C,
@@ -34,16 +34,14 @@ const PricingSection = () => {
       ref={vantaRef}
       className="w-full py-16 md:py-24 relative overflow-hidden"
     >
-      {/* Fallback estático - fica atrás do Vanta */}
-      {isLoading && (
-        <VantaFallback 
-          highlightColor="#800F2F"
-          midtoneColor="#FFB3C1"
-          lowlightColor="#A4133C" 
-          baseColor="#23060E"
-          className="z-0"
-        />
-      )}
+      {/* Fallback estático - sempre visível */}
+      <VantaFallback 
+        highlightColor="#800F2F"
+        midtoneColor="#FFB3C1"
+        lowlightColor="#A4133C" 
+        baseColor="#23060E"
+        className="z-0"
+      />
       
       <div className="relative z-10">
         <div id="investimento" className="mx-auto max-w-5xl px-6 scroll-mt-24">
