@@ -14,15 +14,14 @@ Este é o website oficial que abriga todas as páginas e landing pages dos produ
 
 ## 🚀 Tecnologias Utilizadas
 
+- **Next.js 15** - Framework React com SSR e SSG
 - **React 19** - Biblioteca principal para construção da interface
 - **TypeScript** - Tipagem estática para maior robustez
-- **Vite** - Build tool moderna e rápida
 - **Tailwind CSS 4** - Framework de CSS utilitário
 - **Radix UI** - Componentes acessíveis e customizáveis
-- **Framer Motion** - Animações fluidas e interativas
 - **GSAP** - Animações avançadas e efeitos visuais
-- **React Router DOM** - Roteamento de páginas
-- **React Helmet Async** - Gerenciamento de SEO e meta tags
+- **Lenis** - Smooth scroll performance-optimized
+- **Lucide React** - Ícones leves e modernos
 
 ## 📁 Estrutura do Projeto
 
