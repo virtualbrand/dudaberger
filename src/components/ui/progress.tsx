@@ -185,6 +185,7 @@ const Progress = React.forwardRef<
         <ProgressPrimitive.Root
           ref={ref}
           className={cn(progressVariants({ variant, size }), className)}
+          aria-label={label || props['aria-label'] || 'Progress bar'}
           {...props}
         >
           <ProgressPrimitive.Indicator

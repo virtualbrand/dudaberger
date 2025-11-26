@@ -74,6 +74,7 @@ export const HeroSection = () => {
                     value={getCurrentLot().soldPercentage}
                     className="w-full h-2 bg-white/10 rounded-full"
                     barClassName="bg-[#FFB3C1] rounded-full transition-all"
+                    aria-label={`Progresso de vagas: ${getProgressText()}`}
                   />
                   <span className="text-sm text-white/90">{getProgressText()}</span>
                 </div>

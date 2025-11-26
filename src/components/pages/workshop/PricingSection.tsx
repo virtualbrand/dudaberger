@@ -71,6 +71,7 @@ const PricingSection = () => {
                       value={getCurrentLot().soldPercentage}
                       className="w-full h-2 bg-white/10 rounded-full"
                       barClassName="bg-[#996b74] rounded-full transition-all"
+                      aria-label={`Progresso de vagas: ${getProgressText()}`}
                     />
                     <span className="text-sm text-grey-700">{getProgressText()}</span>
                   </div>
