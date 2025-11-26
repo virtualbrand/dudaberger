@@ -41,9 +41,6 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
-    'max-image-preview': 'large',
-    'max-snippet': -1,
-    'max-video-preview': -1,
   },
   other: {
     'event:name': 'Workshop: R$ 10.000/mês trabalhando de casa com Confeitaria',
