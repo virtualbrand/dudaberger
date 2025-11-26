@@ -28,7 +28,7 @@ html {
   line-height: 1.5;
   font-weight: 400;
   color: var(--color-text-900);
-  background-color: var(--color-off-white);
+  /* background-color: var(--color-off-white); */
   
   /* Performance optimizations */
   font-synthesis: none;
@@ -43,7 +43,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   width: 100%;
-  background-color: var(--color-off-white);
+  /* background-color: var(--color-off-white); */
   color: var(--color-text-900);
   overflow-x: hidden;
   font-family: 'KumbhSans', system-ui, Avenir, Helvetica, Arial, sans-serif;
