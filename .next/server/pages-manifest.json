@@ -1,14 +1,5 @@
 {
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/CalculadoraPage": "pages/CalculadoraPage.html",
-  "/CasamentoPage": "pages/CasamentoPage.html",
-  "/EfeitoAguaNaBocaPage": "pages/EfeitoAguaNaBocaPage.html",
-  "/GuirlandaNatalPage": "pages/GuirlandaNatalPage.html",
-  "/HomePage": "pages/HomePage.html",
-  "/LinksPage": "pages/LinksPage.html",
-  "/WorkshopPage": "pages/WorkshopPage.html",
-  "/ProductPage": "pages/ProductPage.html",
-  "/_document": "pages/_document.js",
-  "/404": "pages/404.html"
+  "/_document": "pages/_document.js"
 }

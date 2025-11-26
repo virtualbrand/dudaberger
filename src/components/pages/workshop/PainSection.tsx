@@ -20,7 +20,8 @@ const CheckboxItem = ({ text }: { text: string }) => {
       <Checkbox 
         checked={isChecked}
         onCheckedChange={handleCheckedChange}
-        className="mt-1" 
+        className="mt-1"
+        aria-label={text}
       />
       <p className={`text-base leading-relaxed transition-all duration-300 ${
         isChecked ? 'line-through opacity-60' : ''
