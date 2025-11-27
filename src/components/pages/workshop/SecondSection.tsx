@@ -16,7 +16,7 @@ export const SecondSection = () => {
           </h2>
           <p className="fade-in text-lg md:text-xl mx-auto text-[#5a2a2a] max-w-6xl">
             Se você sonha em faturar com confeitaria mas não sabe por onde começar, este workshop foi feito para você. <br className="hidden xl:block" />
-            Em 2 dias, você vai descobrir o método validado que me levou do zero aos R$ 10.000/mês trabalhando de casa <br className="hidden xl:block" />
+            Em 2 dias, vou compartilhar minha estratégia que me levou do zero aos R$ 10.000/mês trabalhando de casa <br className="hidden xl:block" />
             - e como aplicar isso na sua realidade, mesmo sem experiência ou investimento alto.
           </p>
         </div>

@@ -1,6 +1,4 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
   "/style-guide/page": "app/style-guide/page.js",
-  "/calculadora/page": "app/calculadora/page.js",
   "/workshop/page": "app/workshop/page.js"
 }

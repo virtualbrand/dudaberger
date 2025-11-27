@@ -34,8 +34,8 @@ const PricingSection = () => {
       
       <div className="relative z-10">
         <div id="investimento" className="mx-auto max-w-5xl px-6 scroll-mt-24">
-          <div className="mx-auto max-w-2xl text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-white font-kumbh fade-in">
+          <div className="mx-auto max-w-4xl text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white fade-in">
               Quanto você vai investir para adquirir todo esse conhecimento?
             </h2>
           </div>

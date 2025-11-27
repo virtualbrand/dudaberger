@@ -86,7 +86,7 @@ export const ConteudoSection = () => {
                 <div className="flex-1 flex flex-col fade-in">
                   <h3 
                     id={`card-${modulo.id}-title`}
-                    className="text-xl lg:text-2xl font-bold mb-3 leading-tight"
+                    className="text-base md:text-lg lg:text-xl font-bold font-unbounded mb-3 leading-tight"
                     style={{ color: '#C9184A' }}
                   >
                     {modulo.title}

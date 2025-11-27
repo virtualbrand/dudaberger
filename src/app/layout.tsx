@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import NonCriticalCSS from '@/components/NonCriticalCSS';
-import './critical.css';
+import './globals.css';
 
 // Fonte para corpo de texto
 const kumbhSans = localFont({
@@ -104,7 +103,6 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
       </head>
       <body className={kumbhSans.className}>
-        <NonCriticalCSS />
         {children}
       </body>
     </html>

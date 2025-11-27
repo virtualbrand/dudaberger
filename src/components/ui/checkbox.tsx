@@ -29,19 +29,19 @@ const Checkbox = React.forwardRef<
       style={{
         width: '20px',
         height: '20px',
-        border: isChecked ? '2px solid var(--color-rose-500)' : '2px solid rgba(255, 255, 255, 0.7)',
+        border: isChecked ? '2px solid #D65B58' : '2px solid rgba(255, 255, 255, 0.7)',
         borderRadius: '50%',
         padding: '0',
         margin: '0',
-        backgroundColor: isChecked ? 'var(--color-rose-500)' : 'transparent',
+        backgroundColor: isChecked ? '#D65B58' : 'transparent',
         boxShadow: 'none',
         position: 'relative',
         top: '1px',
         color: isChecked ? 'white' : 'transparent'
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.backgroundColor = 'var(--color-rose-500)';
-        e.currentTarget.style.borderColor = 'var(--color-rose-500)';
+        e.currentTarget.style.backgroundColor = '#D65B58';
+        e.currentTarget.style.borderColor = '#D65B58';
         e.currentTarget.style.color = 'white';
       }}
       onMouseLeave={(e) => {
@@ -52,8 +52,8 @@ const Checkbox = React.forwardRef<
         }
       }}
       onFocus={(e) => {
-        e.currentTarget.style.backgroundColor = 'var(--color-rose-500)';
-        e.currentTarget.style.borderColor = 'var(--color-rose-500)';
+        e.currentTarget.style.backgroundColor = '#D65B58';
+        e.currentTarget.style.borderColor = '#D65B58';
         e.currentTarget.style.color = 'white';
       }}
       onBlur={(e) => {

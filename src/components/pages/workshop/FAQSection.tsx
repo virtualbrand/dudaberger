@@ -95,7 +95,7 @@ export const FAQSection = () => {
           >
             Não encontrou o que procura? Entre em contato com nosso{' '}
             <a
-              href="https://wa.link/n3h6vu"
+              href="https://wa.link/aoej6s"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary font-medium hover:underline cursor-pointer"

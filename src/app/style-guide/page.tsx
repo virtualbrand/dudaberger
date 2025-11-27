@@ -334,233 +334,353 @@ export default function StyleGuidePage() {
       <section className="space-y-6">
         <div>
           <h2 className="text-2xl font-bold mb-2" style={{ color: '#1C1C1D' }}>
-            Botões Primary (Lobster Pink)
+            Sistema de Botões
           </h2>
-          <p style={{ color: '#703535' }}>
-            Ações principais e de destaque
+          <p style={{ color: '#703535' }} className="mb-4">
+            Nomenclatura: <code className="px-2 py-1 bg-gray-100 rounded text-sm">btn-{'{variant}'}-{'{size}'}-{'{style}'}</code>
           </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm bg-gray-50 p-4 rounded-lg border" style={{ borderColor: '#d9d2c9' }}>
+            <div>
+              <strong>Variantes:</strong> primary, secondary, success, warning, danger
+            </div>
+            <div>
+              <strong>Tamanhos:</strong> xs, sm, md, lg
+            </div>
+            <div>
+              <strong>Estilos:</strong> filled (padrão), outline
+            </div>
+            <div>
+              <strong>Exemplo:</strong> <code className="px-2 py-1 bg-white rounded">btn-primary-md</code> ou <code className="px-2 py-1 bg-white rounded">btn-primary-xs-outline</code>
+            </div>
+          </div>
         </div>
 
+        {/* Primary Buttons */}
         <div className="bg-white rounded-xl shadow-sm p-8 border space-y-8" style={{ borderColor: '#d9d2c9' }}>
           <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Filled Normal - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-primary</span>
+            <h3 className="text-xl font-bold mb-1 text-[#1C1C1D]">
+              Primary (Lobster Pink)
             </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-6 py-3 rounded-full font-medium text-white transition-colors cursor-pointer font-unbounded"
-                style={{ backgroundColor: '#D65B58' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#703535'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#D65B58'}
-              >
-                Button Normal
-              </button>
-              <button
-                className="px-6 py-3 rounded-full font-medium text-white transition-colors opacity-50 cursor-not-allowed font-unbounded"
-                style={{ backgroundColor: '#D65B58' }}
-                disabled
-              >
-                Disabled
-              </button>
-            </div>
-          </div>
+            <p className="text-sm text-[#703535] mb-6">
+              Ações principais e de destaque - Cor: #D65B58
+            </p>
 
-          <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Filled XS - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-primary-xs</span>
-            </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium text-white transition-colors cursor-pointer font-unbounded"
-                style={{ backgroundColor: '#D65B58' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#703535'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#D65B58'}
-              >
-                Button XS
-              </button>
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium text-white transition-colors opacity-50 cursor-not-allowed font-unbounded"
-                style={{ backgroundColor: '#D65B58' }}
-                disabled
-              >
-                Disabled
-              </button>
+            {/* Filled Buttons */}
+            <div className="mb-6">
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Filled</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-xs</code></p>
+                  <button className="btn-primary-xs w-full">Button XS</button>
+                  <button className="btn-primary-xs w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-sm</code></p>
+                  <button className="btn-primary-sm w-full">Button SM</button>
+                  <button className="btn-primary-sm w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-md</code></p>
+                  <button className="btn-primary-md w-full">Button MD</button>
+                  <button className="btn-primary-md w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-lg</code></p>
+                  <button className="btn-primary-lg w-full">Button LG</button>
+                  <button className="btn-primary-lg w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Outline Normal - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-primary-outline</span>
-            </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-6 py-3 rounded-full font-medium border-2 transition-colors cursor-pointer font-unbounded"
-                style={{ color: '#D65B58', borderColor: '#D65B58', backgroundColor: 'transparent' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#D65B58';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#D65B58';
-                }}
-              >
-                Button Normal
-              </button>
-              <button
-                className="px-6 py-3 rounded-full font-medium border-2 opacity-50 cursor-not-allowed font-unbounded"
-                style={{ color: '#D65B58', borderColor: '#D65B58', backgroundColor: 'transparent' }}
-                disabled
-              >
-                Disabled
-              </button>
-            </div>
-          </div>
-
-          <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Outline XS - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-primary-outline-xs</span>
-            </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium border-2 transition-colors cursor-pointer font-unbounded"
-                style={{ color: '#D65B58', borderColor: '#D65B58', backgroundColor: 'transparent' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#D65B58';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#D65B58';
-                }}
-              >
-                Button XS
-              </button>
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium border-2 opacity-50 cursor-not-allowed font-unbounded"
-                style={{ color: '#D65B58', borderColor: '#D65B58', backgroundColor: 'transparent' }}
-                disabled
-              >
-                Disabled
-              </button>
+            {/* Outline Buttons */}
+            <div>
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Outline</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-xs-outline</code></p>
+                  <button className="btn-primary-xs-outline w-full">Button XS</button>
+                  <button className="btn-primary-xs-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-sm-outline</code></p>
+                  <button className="btn-primary-sm-outline w-full">Button SM</button>
+                  <button className="btn-primary-sm-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-md-outline</code></p>
+                  <button className="btn-primary-md-outline w-full">Button MD</button>
+                  <button className="btn-primary-md-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-primary-lg-outline</code></p>
+                  <button className="btn-primary-lg-outline w-full">Button LG</button>
+                  <button className="btn-primary-lg-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </section>
 
-      {/* Botões Secondary */}
-      <section className="space-y-6">
-        <div>
-          <h2 className="text-2xl font-bold mb-2" style={{ color: '#1C1C1D' }}>
-            Botões Secondary (Bitter Chocolate)
-          </h2>
-          <p style={{ color: '#703535' }}>
-            Ações secundárias e navegação
-          </p>
-        </div>
-
+        {/* Secondary Buttons */}
         <div className="bg-white rounded-xl shadow-sm p-8 border space-y-8" style={{ borderColor: '#d9d2c9' }}>
           <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Filled Normal - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-secondary</span>
+            <h3 className="text-xl font-bold mb-1 text-[#1C1C1D]">
+              Secondary (Bitter Chocolate)
             </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-6 py-3 rounded-full font-medium text-white transition-colors cursor-pointer font-unbounded"
-                style={{ backgroundColor: '#703535' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1C1C1D'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#703535'}
-              >
-                Button Normal
-              </button>
-              <button
-                className="px-6 py-3 rounded-full font-medium text-white transition-colors opacity-50 cursor-not-allowed font-unbounded"
-                style={{ backgroundColor: '#703535' }}
-                disabled
-              >
-                Disabled
-              </button>
+            <p className="text-sm text-[#703535] mb-6">
+              Ações secundárias e navegação - Cor: #703535
+            </p>
+
+            {/* Filled Buttons */}
+            <div className="mb-6">
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Filled</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-xs</code></p>
+                  <button className="btn-secondary-xs w-full">Button XS</button>
+                  <button className="btn-secondary-xs w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-sm</code></p>
+                  <button className="btn-secondary-sm w-full">Button SM</button>
+                  <button className="btn-secondary-sm w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-md</code></p>
+                  <button className="btn-secondary-md w-full">Button MD</button>
+                  <button className="btn-secondary-md w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-lg</code></p>
+                  <button className="btn-secondary-lg w-full">Button LG</button>
+                  <button className="btn-secondary-lg w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Outline Buttons */}
+            <div>
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Outline</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-xs-outline</code></p>
+                  <button className="btn-secondary-xs-outline w-full">Button XS</button>
+                  <button className="btn-secondary-xs-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-sm-outline</code></p>
+                  <button className="btn-secondary-sm-outline w-full">Button SM</button>
+                  <button className="btn-secondary-sm-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-md-outline</code></p>
+                  <button className="btn-secondary-md-outline w-full">Button MD</button>
+                  <button className="btn-secondary-md-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-secondary-lg-outline</code></p>
+                  <button className="btn-secondary-lg-outline w-full">Button LG</button>
+                  <button className="btn-secondary-lg-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
+        {/* Success Buttons */}
+        <div className="bg-white rounded-xl shadow-sm p-8 border space-y-8" style={{ borderColor: '#d9d2c9' }}>
           <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Filled XS - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-secondary-xs</span>
+            <h3 className="text-xl font-bold mb-1 text-[#1C1C1D]">
+              Success (Evergreen)
             </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium text-white transition-colors cursor-pointer font-unbounded"
-                style={{ backgroundColor: '#703535' }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#1C1C1D'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#703535'}
-              >
-                Button XS
-              </button>
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium text-white transition-colors opacity-50 cursor-not-allowed font-unbounded"
-                style={{ backgroundColor: '#703535' }}
-                disabled
-              >
-                Disabled
-              </button>
+            <p className="text-sm text-[#703535] mb-6">
+              Sucesso e confirmações - Cor: #183D32
+            </p>
+
+            {/* Filled Buttons */}
+            <div className="mb-6">
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Filled</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-xs</code></p>
+                  <button className="btn-success-xs w-full">Button XS</button>
+                  <button className="btn-success-xs w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-sm</code></p>
+                  <button className="btn-success-sm w-full">Button SM</button>
+                  <button className="btn-success-sm w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-md</code></p>
+                  <button className="btn-success-md w-full">Button MD</button>
+                  <button className="btn-success-md w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-lg</code></p>
+                  <button className="btn-success-lg w-full">Button LG</button>
+                  <button className="btn-success-lg w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Outline Buttons */}
+            <div>
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Outline</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-xs-outline</code></p>
+                  <button className="btn-success-xs-outline w-full">Button XS</button>
+                  <button className="btn-success-xs-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-sm-outline</code></p>
+                  <button className="btn-success-sm-outline w-full">Button SM</button>
+                  <button className="btn-success-sm-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-md-outline</code></p>
+                  <button className="btn-success-md-outline w-full">Button MD</button>
+                  <button className="btn-success-md-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-success-lg-outline</code></p>
+                  <button className="btn-success-lg-outline w-full">Button LG</button>
+                  <button className="btn-success-lg-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
+        {/* Warning Buttons */}
+        <div className="bg-white rounded-xl shadow-sm p-8 border space-y-8" style={{ borderColor: '#d9d2c9' }}>
           <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Outline Normal - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-secondary-outline</span>
+            <h3 className="text-xl font-bold mb-1 text-[#1C1C1D]">
+              Warning (Honey Bronze)
             </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-6 py-3 rounded-full font-medium border-2 transition-colors cursor-pointer font-unbounded"
-                style={{ color: '#703535', borderColor: '#703535', backgroundColor: 'transparent' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#703535';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#703535';
-                }}
-              >
-                Button Normal
-              </button>
-              <button
-                className="px-6 py-3 rounded-full font-medium border-2 opacity-50 cursor-not-allowed font-unbounded"
-                style={{ color: '#703535', borderColor: '#703535', backgroundColor: 'transparent' }}
-                disabled
-              >
-                Disabled
-              </button>
+            <p className="text-sm text-[#703535] mb-6">
+              Avisos e alertas importantes - Cor: #EAA93A
+            </p>
+
+            {/* Filled Buttons */}
+            <div className="mb-6">
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Filled</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-xs</code></p>
+                  <button className="btn-warning-xs w-full">Button XS</button>
+                  <button className="btn-warning-xs w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-sm</code></p>
+                  <button className="btn-warning-sm w-full">Button SM</button>
+                  <button className="btn-warning-sm w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-md</code></p>
+                  <button className="btn-warning-md w-full">Button MD</button>
+                  <button className="btn-warning-md w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-lg</code></p>
+                  <button className="btn-warning-lg w-full">Button LG</button>
+                  <button className="btn-warning-lg w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Outline Buttons */}
+            <div>
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Outline</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-xs-outline</code></p>
+                  <button className="btn-warning-xs-outline w-full">Button XS</button>
+                  <button className="btn-warning-xs-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-sm-outline</code></p>
+                  <button className="btn-warning-sm-outline w-full">Button SM</button>
+                  <button className="btn-warning-sm-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-md-outline</code></p>
+                  <button className="btn-warning-md-outline w-full">Button MD</button>
+                  <button className="btn-warning-md-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-warning-lg-outline</code></p>
+                  <button className="btn-warning-lg-outline w-full">Button LG</button>
+                  <button className="btn-warning-lg-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
 
+        {/* Danger Buttons */}
+        <div className="bg-white rounded-xl shadow-sm p-8 border space-y-8" style={{ borderColor: '#d9d2c9' }}>
           <div>
-            <h3 className="font-bold mb-4" style={{ color: '#1C1C1D' }}>
-              Outline XS - <span className="font-mono text-sm" style={{ color: '#703535' }}>btn-secondary-outline-xs</span>
+            <h3 className="text-xl font-bold mb-1 text-[#1C1C1D]">
+              Danger (Lobster Pink)
             </h3>
-            <div className="flex flex-wrap gap-4 items-center">
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium border-2 transition-colors cursor-pointer font-unbounded"
-                style={{ color: '#703535', borderColor: '#703535', backgroundColor: 'transparent' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#703535';
-                  e.currentTarget.style.color = '#ffffff';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#703535';
-                }}
-              >
-                Button XS
-              </button>
-              <button
-                className="px-4 py-2 text-sm rounded-full font-medium border-2 opacity-50 cursor-not-allowed font-unbounded"
-                style={{ color: '#703535', borderColor: '#703535', backgroundColor: 'transparent' }}
-                disabled
-              >
-                Disabled
-              </button>
+            <p className="text-sm text-[#703535] mb-6">
+              Ações destrutivas e erros - Cor: #D65B58
+            </p>
+
+            {/* Filled Buttons */}
+            <div className="mb-6">
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Filled</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-xs</code></p>
+                  <button className="btn-danger-xs w-full">Delete</button>
+                  <button className="btn-danger-xs w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-sm</code></p>
+                  <button className="btn-danger-sm w-full">Delete</button>
+                  <button className="btn-danger-sm w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-md</code></p>
+                  <button className="btn-danger-md w-full">Delete</button>
+                  <button className="btn-danger-md w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-lg</code></p>
+                  <button className="btn-danger-lg w-full">Delete</button>
+                  <button className="btn-danger-lg w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
+            </div>
+
+            {/* Outline Buttons */}
+            <div>
+              <h4 className="font-semibold mb-3 text-[#1C1C1D]">Outline</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">XS - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-xs-outline</code></p>
+                  <button className="btn-danger-xs-outline w-full">Delete</button>
+                  <button className="btn-danger-xs-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">SM - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-sm-outline</code></p>
+                  <button className="btn-danger-sm-outline w-full">Delete</button>
+                  <button className="btn-danger-sm-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">MD - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-md-outline</code></p>
+                  <button className="btn-danger-md-outline w-full">Delete</button>
+                  <button className="btn-danger-md-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+                <div>
+                  <p className="text-xs text-[#703535] mb-2">LG - <code className="bg-gray-100 px-1.5 py-0.5 rounded">btn-danger-lg-outline</code></p>
+                  <button className="btn-danger-lg-outline w-full">Delete</button>
+                  <button className="btn-danger-lg-outline w-full mt-2" disabled>Disabled</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -580,21 +700,21 @@ export default function StyleGuidePage() {
         <div className="bg-white rounded-xl shadow-sm p-8 border space-y-6" style={{ borderColor: '#d9d2c9' }}>
           <div>
             <p className="text-sm mb-2" style={{ color: '#703535' }}>Heading 1</p>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-kumbh" style={{ color: '#1C1C1D' }}>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-unbounded" style={{ color: '#1C1C1D' }}>
               The quick brown fox jumps
             </h1>
           </div>
           
           <div>
             <p className="text-sm mb-2" style={{ color: '#703535' }}>Heading 2</p>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold font-kumbh" style={{ color: '#1C1C1D' }}>
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold font-unbounded" style={{ color: '#1C1C1D' }}>
               The quick brown fox jumps
             </h2>
           </div>
           
           <div>
             <p className="text-sm mb-2" style={{ color: '#703535' }}>Heading 3</p>
-            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold font-kumbh" style={{ color: '#1C1C1D' }}>
+            <h3 className="text-xl md:text-2xl lg:text-3xl font-bold font-unbounded" style={{ color: '#1C1C1D' }}>
               The quick brown fox jumps
             </h3>
           </div>

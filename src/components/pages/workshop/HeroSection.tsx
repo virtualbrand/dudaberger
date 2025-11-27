@@ -9,10 +9,10 @@ import { useVantaEffect } from "@/hooks/useVantaEffect";
 
 export const HeroSection = () => {
   const { vantaRef } = useVantaEffect({
-    highlightColor: 0x800F2F,
-    midtoneColor: 0xFFB3C1,
-    lowlightColor: 0xA4133C,
-    baseColor: 0x23060E,
+    highlightColor: 0xD65B58,
+    midtoneColor: 0xD1A09C,
+    lowlightColor: 0x8f3835,
+    baseColor: 0x180b0b,
   });
 
   return (
@@ -22,10 +22,10 @@ export const HeroSection = () => {
     >
       {/* Fallback estático - sempre visível */}
       <VantaFallback 
-        highlightColor="#800F2F"
-        midtoneColor="#FFB3C1"
-        lowlightColor="#A4133C" 
-        baseColor="#23060E"
+        highlightColor="#D65B58"
+        midtoneColor="#D1A09C"
+        lowlightColor="#8f3835" 
+        baseColor="#180b0b"
         className="z-0"
       />
       
@@ -66,7 +66,7 @@ export const HeroSection = () => {
                     const el = document.getElementById('investimento');
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
-                  className="w-full group text-white text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2 font-unbounded cursor-pointer bg-[#E54E24] hover:bg-[#b73e1d]"
+                  className="btn-primary-md w-full group flex items-center justify-center gap-2"
                 >
                   <span>{getPrimaryButtonText()}</span>
                   <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />

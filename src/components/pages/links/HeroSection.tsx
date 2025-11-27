@@ -64,13 +64,13 @@ const HeroSection = () => {
       <div className="relative z-10 h-full w-full flex flex-col items-center justify-center px-4">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             Duda Berger
           </h1>
         </div>
 
         {/* Links Container */}
-        <div className="w-full max-w-md space-y-4">
+        <div className="w-full max-w-lg space-y-4">
           {links.map((link, index) => (
             <a
               key={index}
@@ -102,15 +102,15 @@ const HeroSection = () => {
                       />
                     )}
                   </div>
-                  <div className="flex-1">
-                    <h2 className="font-semibold !text-white text-xl drop-shadow-lg">
+                  <div className="flex-1 flex flex-col gap-1">
+                    <h2 className="font-semibold !text-white md:text-lg lg:text-xl drop-shadow-lg">
                       {link.title}
                     </h2>
                     <p className="text-white/90 text-base drop-shadow-md">
                       {link.description}
                     </p>
                   </div>
-                  <div className="text-white/70 group-hover:text-white transition-colors text-xl">
+                  <div className="text-white/70 group-hover:text-white transition-colors md:text-base lg:text-lg">
                     →
                   </div>
                 </div>

@@ -59,7 +59,7 @@ export function HowToSection() {
           <h2 className="fade-in text-2xl md:text-3xl lg:text-4xl font-bold mb-4 text-[#D65B58]">
             O que você vai aprender no Workshop
           </h2>
-          <p className="fade-in text-lg max-w-3xl mx-auto text-[#23060E]">
+          <p className="fade-in text-lg mx-auto text-[#23060E]">
             Tudo que você precisa saber sobre produto, precificação e vendas para faturar da sua cozinha
           </p>
         </div>
@@ -95,11 +95,11 @@ const HowToFeature = ({
       className={cn(
         "flex flex-col py-10 relative group/feature",
         // Bordas direitas: todos os itens
-        "border-r border-rose-200 dark:border-rose-500",
+        "border-r border-[#d4afaf]",
         // Bordas esquerdas: primeiro item de cada linha
-        "border-l border-rose-200 dark:border-rose-500 md:[&:nth-child(2n-1)]:border-l lg:[&:nth-child(3n-2)]:border-l",
+        "border-l border-[#d4afaf] md:[&:nth-child(2n-1)]:border-l lg:[&:nth-child(3n-2)]:border-l",
         // Bordas inferiores: todos exceto a última linha
-        "border-b border-rose-200 dark:border-rose-500",
+        "border-b border-[#d4afaf]",
         // Remove borda inferior da última linha no mobile
         "last:border-b-0",
         // Remove borda inferior da última linha no tablet (últimos 2 itens)
@@ -109,17 +109,17 @@ const HowToFeature = ({
       )}
     >
       {index < 3 && (
-        <div className="opacity-0 group-hover/feature:opacity-20 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-rose-500 to-transparent pointer-events-none" />
+        <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-[#e5d5c3] to-[#F6EEE1] pointer-events-none" />
       )}
       {index >= 3 && (
-        <div className="opacity-0 group-hover/feature:opacity-20 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-rose-500 to-transparent pointer-events-none" />
+        <div className="opacity-0 group-hover/feature:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-[#e5d5c3] to-[#F6EEE1] pointer-events-none" />
       )}
-      <div className="fade-in mb-4 relative z-10 px-12" style={{ color: '#C9184A' }}>
+      <div className="fade-in mb-4 relative z-10 px-12 text-[#b17878]">
         {icon}
       </div>
-      <div className="fade-in text-xl font-bold mb-2 relative z-10 px-12">
-        <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full group-hover/feature:bg-rose-500 transition-all duration-200 origin-center" style={{ backgroundColor: '#C9184A' }} />
-        <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block dark:text-neutral-100" style={{ color: '#C9184A' }}>
+      <div className="fade-in text-base md:text-lg lg:text-xl font-bold font-unbounded mb-2 relative z-10 px-12">
+        <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full group-hover/feature:bg-[#D65B58] transition-all duration-200 origin-center bg-[#D65B58]" />
+        <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block dark:text-neutral-100 font-unbounded !text-[#703535]">
           {title}
         </span>
       </div>
