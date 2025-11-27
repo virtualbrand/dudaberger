@@ -42,7 +42,7 @@ export const CronogramaSection = () => {
                 <h3 className="fade-in text-lg md:text-xl lg:text-2xl font-bold my-4 text-[#D65B58]">Domingo</h3>
                 <div className="space-y-4">
                   <div className="fade-in flex justify-between items-end border-b border-[#e8d4d4] pb-3 md:pb-4">
-                    <div className="text-md md:text-xl font-bold text-[#703535]">9h</div>
+                    <div className="text-md md:text-xl font-bold text-[#703535]">9h30</div>
                     <div className="text-md md:text-xl font-bold text-[#703535]">Início</div>
                   </div>
 

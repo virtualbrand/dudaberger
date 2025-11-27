@@ -44,14 +44,14 @@ const PricingSection = () => {
               {/* Box de preço */}
               <div className="text-center">
                 <span className="mb-6 mt-6 inline-block text-5xl font-bold">
-                  <span className="block text-sm md:text-base text-gray-700 line-through font-unbounded opacity-70">R$ {getCurrentLot().originalPrice}</span>
-                  <span className="block text-4xl md:text-5xl font-bold font-unbounded text-[#C9184A]">R$ {getCurrentLot().currentPrice}</span>
-                  <span className="block text-lg md:text-xl font-bold font-unbounded text-[#C9184A]">ou {getInstallmentPrice()}</span>
+                  <span className="block text-sm md:text-base text-[#8f645f] line-through font-unbounded opacity-70">R$ {getCurrentLot().originalPrice}</span>
+                  <span className="block text-4xl md:text-5xl font-bold font-unbounded text-[#b94946]">R$ {getCurrentLot().currentPrice}</span>
+                  <span className="block text-lg md:text-xl font-bold font-unbounded text-[#b94946]">ou {getInstallmentPrice()}</span>
                 </span>
                 <div className="flex flex-col gap-4 max-w-[360px] mx-auto">
                   <button
                     onClick={handleCheckout}
-                    className="w-full group text-white text-lg rounded-full p-4 shadow-lg transition-colors duration-300 flex items-center justify-center gap-2 font-unbounded cursor-pointer bg-[#E54E24] hover:bg-[#b73e1d]"
+                    className="btn-primary-md w-full group flex items-center justify-center gap-2"
                   >
                     <span>{getPrimaryButtonText()}</span>
                     <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
@@ -60,10 +60,10 @@ const PricingSection = () => {
                     <Progress
                       value={getCurrentLot().soldPercentage}
                       className="w-full h-2 bg-white/10 rounded-full"
-                      barClassName="bg-[#996b74] rounded-full transition-all"
+                      barClassName="bg-[#b8827d] rounded-full transition-all"
                       aria-label={`Progresso de vagas: ${getProgressText()}`}
                     />
-                    <span className="text-sm text-grey-700">{getProgressText()}</span>
+                    <span className="text-sm text-[#5a2a2a]">{getProgressText()}</span>
                   </div>
                 </div>
                 <div className="flex items-center justify-center pt-4">
