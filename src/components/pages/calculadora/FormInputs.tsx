@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { NumericFormat } from 'react-number-format';
-import { DollarSign, Percent } from 'lucide-react';
 
 interface CurrencyInputProps {
   value: number;
@@ -11,6 +10,7 @@ interface CurrencyInputProps {
   label?: string;
   required?: boolean;
   disabled?: boolean;
+  whiteBackground?: boolean;
 }
 
 export const CurrencyInput: React.FC<CurrencyInputProps> = ({
@@ -20,6 +20,7 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
   label,
   required = false,
   disabled = false,
+  whiteBackground = false,
 }) => {
   return (
     <div className="relative">
@@ -29,29 +30,25 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
           {required && <span className="ml-1" style={{ color: 'var(--lobster-pink-500)' }}>*</span>}
         </label>
       )}
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <DollarSign className="h-5 w-5" style={{ color: 'var(--carbon-black-600)' }} />
-        </div>
-        <NumericFormat
-          value={value || ''}
-          onValueChange={(values) => onChange(values.floatValue || 0)}
-          thousandSeparator="."
-          decimalSeparator=","
-          prefix="R$ "
-          decimalScale={2}
-          fixedDecimalScale
-          allowNegative={false}
-          placeholder={placeholder}
-          disabled={disabled}
-          style={{
-            backgroundColor: disabled ? 'var(--carbon-black-400)' : 'var(--old-lace-500)',
-            color: 'var(--carbon-black-900)',
-            borderColor: !value && required ? 'var(--lobster-pink-500)' : 'var(--rosy-taupe-400)'
-          }}
-          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:outline-none disabled:cursor-not-allowed transition-all"
-        />
-      </div>
+      <NumericFormat
+        value={value || ''}
+        onValueChange={(values) => onChange(values.floatValue || 0)}
+        thousandSeparator="."
+        decimalSeparator=","
+        prefix="R$ "
+        decimalScale={2}
+        fixedDecimalScale
+        allowNegative={false}
+        placeholder={placeholder}
+        disabled={disabled}
+        style={{
+          backgroundColor: disabled ? 'var(--carbon-black-400)' : whiteBackground ? 'white' : 'var(--old-lace-500)',
+          color: 'var(--carbon-black-900)',
+          borderColor: '#9a9a9b',
+          borderWidth: '0.5px'
+        }}
+        className="w-full px-4 py-2 rounded-lg focus:outline-none disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
+      />
     </div>
   );
 };
@@ -63,6 +60,7 @@ interface PercentageInputProps {
   label?: string;
   required?: boolean;
   disabled?: boolean;
+  whiteBackground?: boolean;
 }
 
 export const PercentageInput: React.FC<PercentageInputProps> = ({
@@ -72,6 +70,7 @@ export const PercentageInput: React.FC<PercentageInputProps> = ({
   label,
   required = false,
   disabled = false,
+  whiteBackground = false,
 }) => {
   return (
     <div className="relative">
@@ -81,28 +80,24 @@ export const PercentageInput: React.FC<PercentageInputProps> = ({
           {required && <span className="ml-1" style={{ color: 'var(--lobster-pink-500)' }}>*</span>}
         </label>
       )}
-      <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <Percent className="h-5 w-5" style={{ color: 'var(--carbon-black-600)' }} />
-        </div>
-        <NumericFormat
-          value={value || ''}
-          onValueChange={(values) => onChange(values.floatValue || 0)}
-          decimalSeparator=","
-          suffix="%"
-          decimalScale={2}
-          fixedDecimalScale
-          allowNegative={false}
-          placeholder={placeholder}
-          disabled={disabled}
-          style={{
-            backgroundColor: disabled ? 'var(--carbon-black-400)' : 'var(--old-lace-500)',
-            color: 'var(--carbon-black-900)',
-            borderColor: !value && required ? 'var(--lobster-pink-500)' : 'var(--rosy-taupe-400)'
-          }}
-          className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:outline-none disabled:cursor-not-allowed transition-all"
-        />
-      </div>
+      <NumericFormat
+        value={value || ''}
+        onValueChange={(values) => onChange(values.floatValue || 0)}
+        decimalSeparator=","
+        suffix="%"
+        decimalScale={2}
+        fixedDecimalScale
+        allowNegative={false}
+        placeholder={placeholder}
+        disabled={disabled}
+        style={{
+          backgroundColor: disabled ? 'var(--carbon-black-400)' : whiteBackground ? 'white' : 'var(--old-lace-500)',
+          color: 'var(--carbon-black-900)',
+          borderColor: '#9a9a9b',
+          borderWidth: '0.5px'
+        }}
+        className="w-full px-4 py-2 rounded-lg focus:outline-none disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
+      />
     </div>
   );
 };
@@ -114,6 +109,7 @@ interface TextInputProps {
   label?: string;
   required?: boolean;
   disabled?: boolean;
+  whiteBackground?: boolean;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -123,6 +119,7 @@ export const TextInput: React.FC<TextInputProps> = ({
   label,
   required = false,
   disabled = false,
+  whiteBackground = false,
 }) => {
   return (
     <div className="relative">
@@ -140,11 +137,12 @@ export const TextInput: React.FC<TextInputProps> = ({
         disabled={disabled}
         required={required}
         style={{
-          backgroundColor: disabled ? 'var(--carbon-black-400)' : 'var(--old-lace-500)',
+          backgroundColor: disabled ? 'var(--carbon-black-400)' : whiteBackground ? 'white' : 'var(--old-lace-500)',
           color: 'var(--carbon-black-900)',
-          borderColor: !value && required ? 'var(--lobster-pink-500)' : 'var(--rosy-taupe-400)'
+          borderColor: '#9a9a9b',
+          borderWidth: '0.5px'
         }}
-        className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none disabled:cursor-not-allowed transition-all"
+        className="w-full px-4 py-2 rounded-lg focus:outline-none disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
       />
     </div>
   );

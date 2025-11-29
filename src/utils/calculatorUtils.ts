@@ -91,9 +91,12 @@ export const calculateProductsWithPercentages = (
 };
 
 export const formatCurrency = (value: number): string => {
+  const isInteger = value % 1 === 0;
   return new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
+    minimumFractionDigits: isInteger ? 0 : 2,
+    maximumFractionDigits: 2,
   }).format(value);
 };
 

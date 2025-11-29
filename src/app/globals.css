@@ -117,9 +117,51 @@
     font-weight: 600 !important;
   }
 
+  /* Global focus styles */
+  *:focus,
+  *:focus-visible {
+    outline: 1px solid #D65B58 !important;
+    outline-offset: 2px;
+  }
+
+  /* Remove focus styles from Dialog components */
+  [role="dialog"]:focus,
+  [role="dialog"]:focus-visible,
+  [role="dialog"] *:focus,
+  [role="dialog"] *:focus-visible,
+  [data-radix-dialog-content]:focus,
+  [data-radix-dialog-content]:focus-visible,
+  [data-radix-dialog-content] *:focus,
+  [data-radix-dialog-content] *:focus-visible {
+    outline: none !important;
+  }
+
+  button[data-state]:focus,
+  button[data-state]:focus-visible {
+    outline: none !important;
+  }
+
   button:focus,
   button:focus-visible {
-    outline: none;
+    outline: 1px solid #D65B58 !important;
+    outline-offset: 2px;
+  }
+
+  /* Remove focus outline from button system */
+  [class*="btn-"]:focus,
+  [class*="btn-"]:focus-visible {
+    outline: none !important;
+  }
+
+  input:focus,
+  input:focus-visible,
+  textarea:focus,
+  textarea:focus-visible,
+  select:focus,
+  select:focus-visible {
+    outline: 1px solid #D65B58 !important;
+    outline-offset: 0px;
+    border-color: #D65B58 !important;
   }
 
   /* Utility class for Unbounded font */
@@ -145,6 +187,18 @@
     display: none;
   }
 }
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
 /* ================================
    BUTTON SYSTEM - PURE CSS
    No @apply directives - All explicit CSS
@@ -164,9 +218,20 @@
   font-family: 'Unbounded', system-ui, sans-serif !important;
 }
 
-[class*="btn-"]:hover:not(:disabled) {
-  transform: translateY(-1px);
+[class*="btn-"]:focus,
+[class*="btn-"]:focus-visible,
+[class*="btn-"]:focus-within,
+[class*="btn-"]:active {
+  outline: none !important;
+  outline-width: 0 !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  border-width: 2px !important;
 }
+
+/* [class*="btn-"]:hover:not(:disabled) {
+  transform: scale(1.02);
+} */
 
 [class*="btn-"]:disabled {
   opacity: 0.6;

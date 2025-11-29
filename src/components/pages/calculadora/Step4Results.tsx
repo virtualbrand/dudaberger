@@ -8,7 +8,8 @@ import {
   TrendingDown, 
   Target, 
   DollarSign, 
-  RotateCcw, 
+  RotateCcw,
+  ArrowLeft, 
   Download,
   ChevronDown,
   ChevronUp
@@ -71,7 +72,7 @@ export const Step4Results: React.FC = () => {
   );
 
   return (
-    <div className="max-w-7xl mx-auto">
+    <div className="max-w-[900px] mx-auto">
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--old-lace-500)' }}>
           Análise Financeira da sua Confeitaria
@@ -80,9 +81,8 @@ export const Step4Results: React.FC = () => {
       </div>
 
       {/* Card 1: Resumo Financeiro */}
-      <div className="border-2 rounded-xl p-6 mb-6 shadow-lg" style={{ 
-        backgroundColor: 'var(--old-lace-500)', 
-        borderColor: 'var(--honey-bronze-500)' 
+      <div className="rounded-xl p-6 mb-6 shadow-lg" style={{ 
+        backgroundColor: '#FFFFFF'
       }}>
         <h3 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--carbon-black-900)' }}>
           <DollarSign className="w-6 h-6" style={{ color: 'var(--honey-bronze-600)' }} />
@@ -135,9 +135,8 @@ export const Step4Results: React.FC = () => {
       </div>
 
       {/* Card 2: Ponto de Equilíbrio */}
-      <div className="rounded-xl p-6 mb-6 shadow-lg border-2" style={{ 
-        backgroundColor: 'var(--old-lace-500)', 
-        borderColor: 'var(--bronze-500)'
+      <div className="rounded-xl p-6 mb-6 shadow-lg" style={{ 
+        backgroundColor: '#FFFFFF'
       }}>
         <h3 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--carbon-black-900)' }}>
           <Target className="w-6 h-6" style={{ color: 'var(--bronze-600)' }} />
@@ -278,9 +277,8 @@ export const Step4Results: React.FC = () => {
       />
 
       {/* Card 5: Análise de Cenários */}
-      <div className="border-2 rounded-xl p-6 mb-6 shadow-lg" style={{ 
-        backgroundColor: 'var(--old-lace-500)', 
-        borderColor: 'var(--rosy-taupe-400)'
+      <div className="rounded-xl p-6 mb-6 shadow-lg" style={{ 
+        backgroundColor: '#FFFFFF'
       }}>
         <button
           onClick={() => setShowScenarios(!showScenarios)}
@@ -305,13 +303,10 @@ export const Step4Results: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-4 justify-between">
         <button
           onClick={handleBack}
-          className="px-8 py-3 font-semibold rounded-lg transition-all hover:opacity-90 cursor-pointer"
-          style={{ 
-            backgroundColor: 'var(--rosy-taupe-500)', 
-            color: 'var(--old-lace-500)'
-          }}
+          className="btn-secondary-sm-outline flex items-center gap-2"
         >
-          ← Voltar e Editar
+          <ArrowLeft className="w-4 h-4" />
+          <span>Voltar e Editar</span>
         </button>
 
         <div className="flex flex-col md:flex-row gap-4">

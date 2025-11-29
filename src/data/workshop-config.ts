@@ -36,7 +36,7 @@ export const workshopConfig: WorkshopConfig = {
       originalPrice: 147,
       currentPrice: 37,
       installmentPrice: "8 x de R$ 5,33",
-      soldPercentage: 63.7,
+      soldPercentage: 86.3,
       paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=kzn7moqq"
     },
     {

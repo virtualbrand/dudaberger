@@ -8,10 +8,18 @@ import { getPrimaryButtonText, getHoverButtonText, getProgressText, getCurrentLo
 import PresetAccessModal from "./PresetAccessModal";
 import { ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useVantaEffect } from "@/hooks/useVantaEffect";
 
 const PricingSection = () => {
   useScrollAnimation();
   const [showModal, setShowModal] = useState(false)
+  const { vantaRef } = useVantaEffect({
+    effect: 'fog',
+    highlightColor: 0xD65B58,
+    midtoneColor: 0xD1A09C,
+    lowlightColor: 0x8f3835,
+    baseColor: 0x180b0b,
+  });
 
   // Função que redireciona direto para o checkout
   const handleCheckout = () => {
@@ -24,6 +32,7 @@ const PricingSection = () => {
 
   return (
     <section 
+      ref={vantaRef}
       className="w-full py-16 md:py-24 relative overflow-hidden bg-[#703535]"
     >
       {/* Gradiente estático para performance */}
