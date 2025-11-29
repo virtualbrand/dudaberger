@@ -14,7 +14,6 @@ const PricingSection = () => {
   useScrollAnimation();
   const [showModal, setShowModal] = useState(false)
   const { vantaRef } = useVantaEffect({
-    effect: 'fog',
     highlightColor: 0xD65B58,
     midtoneColor: 0xD1A09C,
     lowlightColor: 0x8f3835,
