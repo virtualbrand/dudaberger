@@ -14,7 +14,7 @@ const workshopImages = [
 
 export const SecondSection = () => {
   return (
-    <section className="w-full bg-[#F6EEE1]">
+    <section className="w-full bg-[#F6EEE1] py-16 md:py-24 px-6 md:px-0">
       <ImmersiveScrollGallery images={workshopImages}>
         <div className="text-center">
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 text-[#D65B58] max-w-2xl mx-auto">

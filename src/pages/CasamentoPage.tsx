@@ -1,7 +1,15 @@
-import { CasamentoFormSection } from '@/components/pages/casamento'
+import { useState } from 'react'
+import { StartSection } from '@/components/pages/casamento'
+import CasamentoSection from '@/components/pages/casamento/CasamentoSection'
 import Seo from '@/components/Seo'
 
 const CasamentoPage = () => {
+  const [hasStarted, setHasStarted] = useState(false)
+
+  const handleStart = () => {
+    setHasStarted(true)
+  }
+
   return (
     <div className="w-full min-h-screen">
       <Seo
@@ -15,7 +23,11 @@ const CasamentoPage = () => {
           url: 'https://dudaberger.com.br/casamento',
         }}
       />
-      <CasamentoFormSection />
+      {!hasStarted ? (
+        <StartSection onStart={handleStart} />
+      ) : (
+        <CasamentoSection />
+      )}
     </div>
   )
 }

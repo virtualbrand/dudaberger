@@ -1,0 +1,9 @@
+export { default as PropostaHero } from './PropostaHero';
+export { default as PropostaGallery } from './PropostaGallery';
+export { default as PropostaStory } from './PropostaStory';
+export { default as PropostaOffer } from './PropostaOffer';
+export { default as PropostaSymbolism } from './PropostaSymbolism';
+export { default as PropostaDetails } from './PropostaDetails';
+export { default as PropostaNextSteps } from './PropostaNextSteps';
+export { default as PropostaPortfolio } from './PropostaPortfolio';
+export { default as PropostaFinal } from './PropostaFinal';

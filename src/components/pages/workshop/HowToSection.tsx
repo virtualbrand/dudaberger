@@ -35,13 +35,13 @@ export function HowToSection() {
     {
       title: "Seu espaço único",
       description:
-        "Como definir o seu diferencial único e ser valorizada como confeiteira em sua cidade",
+        "Como definir o seu diferencial único e ser valorizada como confeiteira na sua cidade",
       icon: <CheckSquare />,
     },
     {
       title: "De R$ 0 a R$ 10 mil/mês",
       description:
-        "A estratégia validada que me levou do zero absoluto a R$ 10.000 /mês trabalhando de casa.",
+        "A estratégia que me levou do zero a R$ 10.000 /mês trabalhando de casa.",
       icon: <TrendingUp />,
     },
     {

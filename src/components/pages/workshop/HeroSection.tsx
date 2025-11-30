@@ -83,8 +83,8 @@ export const HeroSection = () => {
 
   return (
     <div className="min-h-screen w-full relative overflow-hidden bg-[#d4c4b2]">
-      {/* Shadow Background Overlay */}
-      <div className="absolute inset-0 z-0 opacity-50">
+      {/* Shadow Background Overlay - Desktop */}
+      <div className="absolute inset-0 z-0 opacity-50 hidden lg:block">
         <Image
           src="/images/workshop/shadow-bg.webp"
           alt=""
@@ -94,8 +94,19 @@ export const HeroSection = () => {
         />
       </div>
       
-      {/* Header */}
-      <div className="absolute top-0 left-0 w-full z-10">
+      {/* Shadow Background Overlay - Mobile */}
+      <div className="absolute inset-0 z-0 opacity-30 lg:hidden">
+        <Image
+          src="/images/workshop/shadow-bg-mobile.webp"
+          alt=""
+          fill
+          className="object-cover"
+          priority={true}
+        />
+      </div>
+      
+      {/* Header - Absolute on desktop, relative on mobile */}
+      <div className="relative lg:absolute top-0 left-0 w-full z-30">
         <div className="px-6 md:px-8 lg:pl-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))]">
           <div className="flex items-center gap-3 pt-20">
             <OptimizedImage 
@@ -109,11 +120,11 @@ export const HeroSection = () => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative min-h-screen w-full flex items-center z-20">
+      <div className="relative lg:min-h-screen w-full lg:flex lg:items-center z-20">
         <div className="w-full">
-          <div className="grid lg:grid-cols-2 gap-0 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 lg:items-center">
             {/* Left Content - Alinhado com o logo */}
-            <div className="px-6 md:px-8 lg:pl-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))] space-y-6 max-w-5xl">
+            <div className="relative z-30 px-6 md:px-8 lg:pl-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))] space-y-6 max-w-5xl py-8 lg:py-0">
               <div className="inline-block px-6 py-2 rounded-full bg-[#b2a290] text-[#2e1515] text-sm mb-4">
                 13 E 14 DE DEZEMBRO | NO ZOOM | AO VIVO
               </div>
@@ -148,26 +159,26 @@ export const HeroSection = () => {
               </div>
             </div>
 
-            {/* Right Image Mosaic - Hidden on mobile, visible on desktop */}
-            <div className="hidden lg:flex items-center justify-center h-screen p-8">
-              <div className="grid grid-cols-2 gap-4 max-w-2xl w-full">
+            {/* Right Image Mosaic - Responsive */}
+            <div className="relative z-10 flex items-center justify-center p-4 md:p-6 lg:p-8 lg:h-screen min-h-[300px] md:min-h-[400px]">
+              <div className="grid grid-cols-2 gap-2 md:gap-3 lg:gap-4 max-w-2xl w-full">
                 {/* Imagem 1 - Top Left */}
-                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-xl">
+                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg md:rounded-xl">
                   <ImageSlot images={imageGroups[0]} position={1} />
                 </div>
                 
                 {/* Imagem 2 - Top Right (offset down) */}
-                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-xl mt-16">
+                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg md:rounded-xl mt-4 md:mt-8 lg:mt-16">
                   <ImageSlot images={imageGroups[1]} position={2} />
                 </div>
                 
                 {/* Imagem 3 - Bottom Left (offset up) */}
-                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-xl -mt-8">
+                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg md:rounded-xl -mt-2 md:-mt-4 lg:-mt-8">
                   <ImageSlot images={imageGroups[2]} position={3} />
                 </div>
                 
                 {/* Imagem 4 - Bottom Right */}
-                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-xl mt-8">
+                <div className="relative w-full aspect-[3/4] overflow-hidden rounded-lg md:rounded-xl mt-2 md:mt-4 lg:mt-8">
                   <ImageSlot images={imageGroups[3]} position={4} />
                 </div>
               </div>

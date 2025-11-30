@@ -164,6 +164,30 @@
     border-color: #D65B58 !important;
   }
 
+  /* Remove focus outline from radio buttons */
+  input[type="radio"]:focus,
+  input[type="radio"]:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Remove focus outline from checkboxes */
+  input[type="checkbox"]:focus,
+  input[type="checkbox"]:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Radio button accent color */
+  input[type="radio"] {
+    accent-color: #D65B58;
+  }
+
+  /* Checkbox accent color */
+  input[type="checkbox"] {
+    accent-color: #D65B58;
+  }
+
   /* Utility class for Unbounded font */
   .font-unbounded {
     font-family: 'Unbounded', system-ui, sans-serif !important;

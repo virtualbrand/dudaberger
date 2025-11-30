@@ -131,7 +131,7 @@ const ProgressIndicator = () => {
                             flex: isExpanded ? 1 : 'inherit',
                         }}
                         className={cn(
-                            "px-4 py-3 rounded-full text-white bg-[#006cff]   transition-colors flex-1 w-56",
+                            "btn-primary-sm transition-colors flex-1 w-56",
                             !isExpanded && 'w-44'
                         )}
                     >

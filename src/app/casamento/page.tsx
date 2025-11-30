@@ -1,20 +1,23 @@
-import { CasamentoFormSection } from '@/components/pages/casamento'
-import { Metadata } from 'next'
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Formulário de Casamento | Duda Berger',
-  description: 'Complete nosso formulário multistep para finalizar seu pedido de casamento.',
-  openGraph: {
-    title: 'Formulário de Casamento | Duda Berger',
-    description: 'Complete nosso formulário multistep para finalizar seu pedido de casamento.',
-    url: 'https://dudaberger.com.br/casamento',
-  },
-}
+import { useState } from 'react';
+import { StartSection } from '@/components/pages/casamento';
+import CasamentoSection from '@/components/pages/casamento/CasamentoSection';
 
 export default function CasamentoPage() {
+  const [hasStarted, setHasStarted] = useState(false);
+
+  const handleStart = () => {
+    setHasStarted(true);
+  };
+
   return (
     <div className="w-full min-h-screen">
-      <CasamentoFormSection />
+      {!hasStarted ? (
+        <StartSection onStart={handleStart} />
+      ) : (
+        <CasamentoSection />
+      )}
     </div>
-  )
+  );
 }
