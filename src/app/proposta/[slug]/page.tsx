@@ -1,6 +1,7 @@
 'use client';
 
 import { notFound } from 'next/navigation';
+import { use } from 'react';
 import { PropostaHero } from '@/components/pages/proposta';
 import { PropostaGallery } from '@/components/pages/proposta';
 import { PropostaStory } from '@/components/pages/proposta';
@@ -26,8 +27,9 @@ const getPropostaData = (slug: string) => {
   return proposals[slug as keyof typeof proposals] || null;
 };
 
-export default function PropostaPage({ params }: { params: { slug: string } }) {
-  const proposta = getPropostaData(params.slug);
+export default function PropostaPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = use(params);
+  const proposta = getPropostaData(slug);
 
   if (!proposta) {
     notFound();
