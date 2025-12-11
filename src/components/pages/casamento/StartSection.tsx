@@ -32,25 +32,27 @@ const StartSection = ({ onStart }: StartSectionProps) => {
         />
       </div>
 
-      <div className="w-full max-w-[745px] mx-auto relative z-10">
+      <div className="w-full max-w-[800px] mx-auto relative z-10">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-[#703535] mb-4">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold font-unbounded text-[#703535] mb-4">
             Formulário de Casamento
           </h1>
         </div>
         
         <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-          <p className="text-gray-700 text-lg leading-relaxed text-center mb-8">
+          <p className="text-gray-700 text-lg leading-relaxed text-center mb-4">
             Queridos noivos, todo nosso trabalho é pensado no seu grande dia. Queremos transformar em forma de bolo a personalidade e história do casal. Estas perguntas nos guiarão para criarmos um orçamento base conforme o que vocês sonham.
           </p>
           
-          <button 
-            onClick={onStart}
-            className="btn-primary-sm w-full flex items-center justify-center gap-2"
-          >
-            Começar
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          <div className="flex justify-center">
+            <button 
+              onClick={onStart}
+              className="btn-primary-sm flex items-center justify-center gap-2"
+            >
+              Começar
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

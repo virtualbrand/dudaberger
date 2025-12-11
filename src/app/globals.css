@@ -40,6 +40,15 @@
     --text-secondary: var(--bitter-chocolate);
     --bg-primary: var(--old-lace);
     --white: #FFFFFF;
+
+    /* shadcn/ui variables for kanban */
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-color-destructive-foreground: var(----color-destructive-foreground);
+    --destructive-foreground: oklch(1 0 0);
+  }
+
+  .dark {
+    --destructive-foreground: oklch(1 0 0);
   }
 }
 
@@ -120,8 +129,8 @@
   /* Global focus styles */
   *:focus,
   *:focus-visible {
-    outline: 1px solid #D65B58 !important;
-    outline-offset: 2px;
+    outline: none !important;
+    outline-offset: 0 !important;
   }
 
   /* Remove focus styles from Dialog components */
@@ -143,13 +152,25 @@
 
   button:focus,
   button:focus-visible {
-    outline: 1px solid #D65B58 !important;
-    outline-offset: 2px;
+    outline: none !important;
+    outline-offset: 0 !important;
   }
 
   /* Remove focus outline from button system */
   [class*="btn-"]:focus,
   [class*="btn-"]:focus-visible {
+    outline: none !important;
+  }
+
+  /* Remove focus outline from kanban components */
+  [data-slot="kanban"] button:focus,
+  [data-slot="kanban"] button:focus-visible,
+  [data-slot="kanban-column"]:focus,
+  [data-slot="kanban-column"]:focus-visible,
+  [data-slot="kanban-item"]:focus,
+  [data-slot="kanban-item"]:focus-visible,
+  [data-slot="kanban"] div:focus,
+  [data-slot="kanban"] div:focus-visible {
     outline: none !important;
   }
 
@@ -159,7 +180,7 @@
   textarea:focus-visible,
   select:focus,
   select:focus-visible {
-    outline: 1px solid #D65B58 !important;
+    outline: none !important;
     outline-offset: 0px;
     border-color: #D65B58 !important;
   }

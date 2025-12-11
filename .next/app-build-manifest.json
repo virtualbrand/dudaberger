@@ -6,30 +6,30 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/casamento/page": [
+    "/login/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/casamento/page.js"
+      "static/chunks/app/login/page.js"
     ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/style-guide/page": [
+    "/guirlanda-natal/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/style-guide/page.js"
+      "static/chunks/app/guirlanda-natal/page.js"
     ],
-    "/workshop/layout": [
+    "/guirlanda-natal/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/workshop/layout.js"
+      "static/chunks/app/guirlanda-natal/layout.js"
     ],
-    "/workshop/page": [
+    "/_not-found/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/workshop/page.js"
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }
