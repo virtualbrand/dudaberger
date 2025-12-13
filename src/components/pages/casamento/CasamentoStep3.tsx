@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import { useCasamento } from '@/contexts/CasamentoContext';
+import { useLeads } from '@/hooks/useLeads';
 
 export const CasamentoStep3: React.FC = () => {
   const { state, updateStep3, goToStep } = useCasamento();
+  const { updateLead, loading } = useLeads();
 
   const [numeroConvidados, setNumeroConvidados] = useState(state.step3Data.numeroConvidados || '');
   const [budgetPorConvidado, setBudgetPorConvidado] = useState(state.step3Data.budgetPorConvidado || '');
@@ -41,11 +43,35 @@ export const CasamentoStep3: React.FC = () => {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     updateStep3({
       numeroConvidados,
       budgetPorConvidado,
     });
+
+    // Atualiza o lead no Supabase
+    if (state.leadId) {
+      const numConvidados = parseInt(numeroConvidados.replace(/\./g, '')) || 0;
+      
+      // Extrai os valores min e max do orçamento
+      const selectedOption = budgetOptions.find(opt => opt.value === budgetPorConvidado);
+      const orcamentoMinimo = selectedOption ? numConvidados * selectedOption.min : null;
+      const orcamentoMaximo = selectedOption ? numConvidados * selectedOption.max : null;
+
+      await updateLead(state.leadId, {
+        numero_convidados: numConvidados,
+        orcamento_minimo: orcamentoMinimo,
+        orcamento_maximo: orcamentoMaximo,
+        dados_extras: {
+          ...state.step1Data,
+          ...state.step2Data,
+          ...state.step2_3Data,
+          ...state.step2_5Data,
+          budgetPorConvidado,
+        },
+      });
+    }
+
     goToStep(4);
   };
 

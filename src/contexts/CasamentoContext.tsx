@@ -4,6 +4,7 @@ import React, { createContext, useContext, useReducer, ReactNode } from 'react';
 
 export interface CasamentoState {
   currentStep: number;
+  leadId: string | null;
   step1Data: Record<string, any>;
   step2Data: Record<string, any>;
   step2_3Data: Record<string, any>;
@@ -15,6 +16,7 @@ export interface CasamentoState {
 
 export type CasamentoAction =
   | { type: 'SET_STEP'; payload: number }
+  | { type: 'SET_LEAD_ID'; payload: string }
   | { type: 'UPDATE_STEP1'; payload: Record<string, any> }
   | { type: 'UPDATE_STEP2'; payload: Record<string, any> }
   | { type: 'UPDATE_STEP2_3'; payload: Record<string, any> }
@@ -26,6 +28,7 @@ export type CasamentoAction =
 
 const initialState: CasamentoState = {
   currentStep: 1,
+  leadId: null,
   step1Data: {},
   step2Data: {},
   step2_3Data: {},
@@ -42,6 +45,9 @@ const casamentoReducer = (
   switch (action.type) {
     case 'SET_STEP':
       return { ...state, currentStep: action.payload };
+
+    case 'SET_LEAD_ID':
+      return { ...state, leadId: action.payload };
 
     case 'UPDATE_STEP1':
       return { ...state, step1Data: { ...state.step1Data, ...action.payload } };
@@ -76,6 +82,7 @@ interface CasamentoContextType {
   state: CasamentoState;
   dispatch: React.Dispatch<CasamentoAction>;
   goToStep: (step: number) => void;
+  setLeadId: (id: string) => void;
   updateStep1: (data: Record<string, any>) => void;
   updateStep2: (data: Record<string, any>) => void;
   updateStep2_3: (data: Record<string, any>) => void;
@@ -93,6 +100,10 @@ export const CasamentoProvider: React.FC<{ children: ReactNode }> = ({ children 
 
   const goToStep = (step: number) => {
     dispatch({ type: 'SET_STEP', payload: step });
+  };
+
+  const setLeadId = (id: string) => {
+    dispatch({ type: 'SET_LEAD_ID', payload: id });
   };
 
   const updateStep1 = (data: Record<string, any>) => {
@@ -133,6 +144,7 @@ export const CasamentoProvider: React.FC<{ children: ReactNode }> = ({ children 
         state,
         dispatch,
         goToStep,
+        setLeadId,
         updateStep1,
         updateStep2,
         updateStep2_3,

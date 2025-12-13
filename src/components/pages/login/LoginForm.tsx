@@ -1,24 +1,42 @@
 'use client';
 
 import { useState, FormEvent } from 'react';
+import { useRouter } from 'next/navigation';
 import { LogIn } from 'lucide-react';
+import { supabase } from '@/lib/supabase';
 
 const LoginForm = () => {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setError('');
     
-    // Aqui você pode adicionar a lógica de autenticação
-    console.log('Login attempt:', { email, password });
-    
-    // Simulação de chamada à API
-    setTimeout(() => {
+    try {
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (authError) {
+        throw authError;
+      }
+
+      if (data.session) {
+        // Redireciona para o dashboard após login bem-sucedido
+        router.push('/dashboard');
+        router.refresh();
+      }
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(err.message || 'Erro ao fazer login. Verifique suas credenciais.');
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -52,6 +70,12 @@ const LoginForm = () => {
           placeholder="••••••••"
         />
       </div>
+
+      {error && (
+        <div className="text-red-600 text-sm text-center">
+          {error}
+        </div>
+      )}
 
       <button
         type="submit"

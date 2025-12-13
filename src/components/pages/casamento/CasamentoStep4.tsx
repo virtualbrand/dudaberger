@@ -3,15 +3,31 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { useCasamento } from '@/contexts/CasamentoContext';
+import { useLeads } from '@/hooks/useLeads';
 
 export const CasamentoStep4: React.FC = () => {
   const { state, updateStep4, goToStep } = useCasamento();
+  const { updateLead, loading } = useLeads();
 
   const handleBack = () => {
     goToStep(3);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    // Atualiza o lead no Supabase
+    if (state.leadId) {
+      await updateLead(state.leadId, {
+        dados_extras: {
+          ...state.step1Data,
+          ...state.step2Data,
+          ...state.step2_3Data,
+          ...state.step2_5Data,
+          ...state.step3Data,
+          ...state.step4Data,
+        },
+      });
+    }
+
     goToStep(5);
   };
 
@@ -50,9 +66,10 @@ export const CasamentoStep4: React.FC = () => {
         </button>
         <button 
           onClick={handleNext}
-          className="btn-primary-sm"
+          disabled={loading}
+          className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Continuar
+          {loading ? 'Salvando...' : 'Continuar'}
         </button>
       </div>
     </div>

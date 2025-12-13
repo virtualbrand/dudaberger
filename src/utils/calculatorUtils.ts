@@ -110,8 +110,24 @@ export const getMarginColor = (percentage: number): string => {
   return 'text-red-600 bg-red-50';
 };
 
-export const getMarginBadge = (percentage: number): { text: string; color: string } => {
-  if (percentage >= 60) return { text: 'Excelente', color: 'bg-green-500' };
-  if (percentage >= 50) return { text: 'Bom', color: 'bg-yellow-500' };
-  return { text: 'Atenção', color: 'bg-red-500' };
+export const getMarginBadge = (percentage: number): { 
+  text: string; 
+  bgColor: string; 
+  textColor: string;
+} => {
+  if (percentage >= 60) return { 
+    text: 'Excelente', 
+    bgColor: '#10b981', // green-500
+    textColor: '#ffffff'
+  };
+  if (percentage >= 50) return { 
+    text: 'Bom', 
+    bgColor: '#f59e0b', // amber-500
+    textColor: '#ffffff'
+  };
+  return { 
+    text: 'Atenção', 
+    bgColor: '#ef4444', // red-500
+    textColor: '#ffffff'
+  };
 };

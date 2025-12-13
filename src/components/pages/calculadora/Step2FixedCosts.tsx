@@ -151,49 +151,49 @@ export const Step2FixedCosts: React.FC = () => {
             {(state.fixedCosts.length > 0 || isAddingNew) && (
               <thead>
                 <tr style={{ borderBottom: '2px solid var(--rosy-taupe-300)' }}>
-                  <th className="text-left px-4 py-1 font-semibold text-[var(--carbon-black-900)] font-unbounded" style={{ borderRight: '1px solid var(--rosy-taupe-300)' }}>Custos Fixos</th>
-                  <th className="text-left px-4 py-1 font-semibold text-[var(--carbon-black-900)] font-unbounded" style={{ borderRight: '1px solid var(--rosy-taupe-300)' }}>Valor Mensal</th>
-                  <th className="px-4 py-1"></th>
+                  <th className="text-left px-4 py-2 font-semibold text-[var(--carbon-black-900)] font-unbounded" style={{ borderRight: '1px solid var(--rosy-taupe-300)' }}>Custos Fixos</th>
+                  <th className="text-left px-4 py-2 font-semibold text-[var(--carbon-black-900)] font-unbounded" style={{ borderRight: '1px solid var(--rosy-taupe-300)' }}>Valor Mensal</th>
+                  <th className="px-4 py-2"></th>
                 </tr>
               </thead>
             )}
             <tbody>
-              {state.fixedCosts.map((cost) => (
-                <tr
-                  key={cost.id}
-                  className="hover:bg-gray-50 transition-colors"
-                  style={{ 
-                    borderBottom: '1px solid var(--rosy-taupe-300)'
-                  }}
-                >
-                  <td className="px-4 py-1">
-                    {editingId === cost.id ? (
-                      <TextInput
-                        value={cost.description}
-                        onChange={(value) => updateFixedCost(cost.id, { description: value })}
-                        placeholder="Descrição do custo"
-                        required
-                      />
-                    ) : (
-                      <p className="font-medium text-[var(--carbon-black-900)]">{cost.description}</p>
-                    )}
-                  </td>
+              {state.fixedCosts.map((cost, index) => (
+                <React.Fragment key={cost.id}>
+                  <tr
+                    className="hover:bg-gray-50 transition-colors"
+                    style={{ 
+                      borderBottom: '1px solid var(--rosy-taupe-300)'
+                    }}
+                  >
+                    <td className="px-4 py-2">
+                      {editingId === cost.id ? (
+                        <TextInput
+                          value={cost.description}
+                          onChange={(value) => updateFixedCost(cost.id, { description: value })}
+                          placeholder="Descrição do custo"
+                          required
+                        />
+                      ) : (
+                        <p className="font-medium text-[var(--carbon-black-900)]">{cost.description}</p>
+                      )}
+                    </td>
 
-                  <td className="px-4 py-1" style={{ width: '250px' }}>
-                    {editingId === cost.id ? (
-                      <CurrencyInput
-                        value={cost.value}
-                        onChange={(value) => updateFixedCost(cost.id, { value })}
-                        placeholder="R$ 0,00"
-                        required
-                      />
-                    ) : (
-                      <p className="font-medium text-[var(--carbon-black-900)]">{formatCurrency(cost.value)}</p>
-                    )}
-                  </td>
+                    <td className="px-4 py-2" style={{ width: '250px' }}>
+                      {editingId === cost.id ? (
+                        <CurrencyInput
+                          value={cost.value}
+                          onChange={(value) => updateFixedCost(cost.id, { value })}
+                          placeholder="R$ 0,00"
+                          required
+                        />
+                      ) : (
+                        <p className="font-medium text-[var(--carbon-black-900)]">{formatCurrency(cost.value)}</p>
+                      )}
+                    </td>
 
-                  <td className="px-4 py-1" style={{ width: '120px' }}>
-                    <div className="flex items-center justify-end gap-2">
+                    <td className="px-4 py-2" style={{ width: '120px' }}>
+                      <div className="flex items-center justify-end gap-2">
                       {editingId === cost.id ? (
                         <>
                           <Tooltip>
@@ -201,7 +201,8 @@ export const Step2FixedCosts: React.FC = () => {
                               <button
                                 onClick={handleSaveEditing}
                                 disabled={!cost.description || cost.value <= 0}
-                                className="p-2 rounded-lg transition-all hover:opacity-90 cursor-pointer bg-[#183D32] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="p-2 rounded-full transition-all hover:opacity-90 cursor-pointer bg-[#183D32] text-white disabled:opacity-50 disabled:cursor-not-allowed"
+                                style={{ border: '1px solid #183D32' }}
                               >
                                 <Check className="w-4 h-4" />
                               </button>
@@ -215,7 +216,8 @@ export const Step2FixedCosts: React.FC = () => {
                             <TooltipTrigger asChild>
                               <button
                                 onClick={handleCancelEditing}
-                                className="p-2 rounded-lg transition-all hover:shadow-md bg-white shadow-sm cursor-pointer text-[#9a9a9b]"
+                                className="p-2 rounded-full transition-all bg-white cursor-pointer text-[#9a9a9b]"
+                                style={{ border: '1px solid #b9b9ba' }}
                               >
                                 <X className="w-4 h-4" />
                               </button>
@@ -231,7 +233,10 @@ export const Step2FixedCosts: React.FC = () => {
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => handleStartEditing(cost)}
-                                className="p-2 rounded-lg transition-all hover:shadow-md bg-white shadow-sm cursor-pointer text-[#9a9a9b]"
+                                className="p-2 rounded-full transition-all bg-white cursor-pointer text-[#9a9a9b] hover:bg-[#b9b9ba] hover:text-white"
+                                style={{ border: '1px solid #b9b9ba' }}
+                                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#b9b9ba'}
+                                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#b9b9ba'}
                               >
                                 <Pencil className="w-4 h-4" />
                               </button>
@@ -245,7 +250,10 @@ export const Step2FixedCosts: React.FC = () => {
                             <TooltipTrigger asChild>
                               <button
                                 onClick={() => removeFixedCost(cost.id)}
-                                className="p-2 rounded-lg transition-all hover:shadow-md bg-white shadow-sm cursor-pointer text-[#D65B58]"
+                                className="p-2 rounded-full transition-all bg-white cursor-pointer text-[#D65B58] hover:bg-[#D65B58] hover:text-white"
+                                style={{ border: '1px solid #f0b0ae' }}
+                                onMouseEnter={(e) => e.currentTarget.style.borderColor = '#D65B58'}
+                                onMouseLeave={(e) => e.currentTarget.style.borderColor = '#f0b0ae'}
                               >
                                 <X className="w-4 h-4" />
                               </button>
@@ -259,6 +267,14 @@ export const Step2FixedCosts: React.FC = () => {
                     </div>
                   </td>
                 </tr>
+                {index < state.fixedCosts.length - 1 && (
+                  <tr>
+                    <td colSpan={3} className="px-4 py-0">
+                      <hr className="border-t border-[#e5d5c3]" />
+                    </td>
+                  </tr>
+                )}
+                </React.Fragment>
               ))}
               
               {/* Linha para adicionar novo custo */}
@@ -270,7 +286,7 @@ export const Step2FixedCosts: React.FC = () => {
                   }}
                   onKeyDown={handleKeyDown}
                 >
-                  <td className="px-4 py-1">
+                  <td className="px-4 py-2">
                     <TextInput
                       value={newCost.description}
                       onChange={(value) => setNewCost({ ...newCost, description: value })}
@@ -279,7 +295,7 @@ export const Step2FixedCosts: React.FC = () => {
                     />
                   </td>
 
-                  <td className="px-4 py-1">
+                  <td className="px-4 py-2">
                     <CurrencyInput
                       value={newCost.value}
                       onChange={(value) => setNewCost({ ...newCost, value })}
@@ -288,14 +304,15 @@ export const Step2FixedCosts: React.FC = () => {
                     />
                   </td>
 
-                  <td className="px-4 py-1">
+                  <td className="px-4 py-2">
                     <div className="flex items-center justify-end gap-2">
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <button
                             onClick={handleSaveCustomCost}
                             disabled={!newCost.description || newCost.value <= 0}
-                            className="p-2 rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-[#183D32] text-white"
+                            className="p-2 rounded-full transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer bg-[#183D32] text-white"
+                            style={{ border: '1px solid #183D32' }}
                           >
                             <Check className="w-4 h-4" />
                           </button>
@@ -309,7 +326,8 @@ export const Step2FixedCosts: React.FC = () => {
                         <TooltipTrigger asChild>
                           <button
                             onClick={handleCancelAdding}
-                            className="p-2 rounded-lg transition-all hover:shadow-md bg-white shadow-sm cursor-pointer text-[#D65B58]"
+                            className="p-2 rounded-full transition-all bg-white cursor-pointer text-[#D65B58]"
+                            style={{ border: '1px solid #b9b9ba' }}
                           >
                             <X className="w-4 h-4" />
                           </button>

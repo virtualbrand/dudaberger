@@ -3,17 +3,35 @@
 import React from 'react';
 import Image from 'next/image';
 import { useCasamento } from '@/contexts/CasamentoContext';
+import { useLeads } from '@/hooks/useLeads';
 
 export const CasamentoStep6: React.FC = () => {
   const { state, goToStep } = useCasamento();
+  const { updateLead, loading } = useLeads();
 
   const handleBack = () => {
     goToStep(5);
   };
 
-  const handleSendWhatsApp = () => {
+  const handleSendWhatsApp = async () => {
+    // Atualiza o status do lead para "proposta_enviada"
+    if (state.leadId) {
+      await updateLead(state.leadId, {
+        status: 'proposta_enviada',
+        dados_extras: {
+          ...state.step1Data,
+          ...state.step2Data,
+          ...state.step2_3Data,
+          ...state.step2_5Data,
+          ...state.step3Data,
+          ...state.step4Data,
+          ...state.step5Data,
+        },
+      });
+    }
+
     // Monta a mensagem com todos os dados do formulário
-    const { step1Data, step2Data, step2_3Data, step2_5Data, step3Data, step4Data, step5Data } = state;
+    const { step1Data, step2Data, step2_3Data, step2_5Data, step3Data, step4Data } = state;
     
     let message = `*Orçamento de Bolo de Casamento*\n\n`;
     
@@ -72,8 +90,8 @@ export const CasamentoStep6: React.FC = () => {
     message += `---\n`;
     message += `Aguardo referências de bolos que vocês adoram! 😊`;
     
-    // Pega o número de WhatsApp (remove formatação)
-    const whatsappNumber = (step5Data.whatsapp || '').replace(/[^\d]/g, '');
+    // Pega o número de WhatsApp do Step 2 (remove formatação)
+    const whatsappNumber = (step2Data.whatsapp || '').replace(/[^\d]/g, '');
     
     // Cria o link do WhatsApp
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -104,21 +122,29 @@ export const CasamentoStep6: React.FC = () => {
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"
+          disabled={loading}
         >
           Voltar
         </button>
         <button 
           onClick={handleSendWhatsApp}
-          className="btn-primary-sm flex items-center gap-3"
+          disabled={loading}
+          className="btn-primary-sm flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Image 
-            src="/icons/whatsapp-icon.svg" 
-            alt="WhatsApp" 
-            width={18} 
-            height={18}
-            className="brightness-0 invert"
-          />
-          Enviar no WhatsApp
+          {loading ? (
+            'Salvando...'
+          ) : (
+            <>
+              <Image 
+                src="/icons/whatsapp-icon.svg" 
+                alt="WhatsApp" 
+                width={18} 
+                height={18}
+                className="brightness-0 invert"
+              />
+              Enviar no WhatsApp
+            </>
+          )}
         </button>
       </div>
     </div>

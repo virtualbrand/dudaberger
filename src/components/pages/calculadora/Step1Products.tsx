@@ -6,7 +6,7 @@ import { Product } from '@/types/calculadora';
 import { generateId } from '@/data/calculator-defaults';
 import { calculateProductMetrics, formatCurrency, formatPercentage, getMarginBadge } from '@/utils/calculatorUtils';
 import { CurrencyInput, PercentageInput, TextInput } from './FormInputs';
-import { Plus, Trash2, AlertCircle, ArrowRight, Check } from 'lucide-react';
+import { Plus, Trash2, AlertCircle, ArrowRight, Check, X } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
 
 export const Step1Products: React.FC = () => {
@@ -18,6 +18,7 @@ export const Step1Products: React.FC = () => {
     ingredientCost: 0,
     packagingCost: 0,
     feePercentage: 3,
+    taxPercentage: 0,
     quantity: 0,
   });
 
@@ -39,6 +40,7 @@ export const Step1Products: React.FC = () => {
       ingredientCost: 0,
       packagingCost: 0,
       feePercentage: 3,
+      taxPercentage: 0,
       quantity: 0,
     });
     setIsModalOpen(false);
@@ -61,7 +63,7 @@ export const Step1Products: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold mb-2 text-[var(--old-lace-500)]">Cadastre seus Produtos</h2>
+        <h2 className="text-3xl font-bold mb-2" style={{ color: '#703535' }}>Cadastre seus Produtos</h2>
         <p className="text-[var(--rosy-taupe-300)]">Adicione os produtos que você vende e seus custos</p>
       </div>
 
@@ -69,7 +71,7 @@ export const Step1Products: React.FC = () => {
       {state.products.length > 0 && (
         <div className="mb-8 space-y-4">
           <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-semibold text-[var(--old-lace-500)]">
+            <h3 className="text-lg font-semibold" style={{ color: '#703535' }}>
               Produtos Cadastrados ({state.products.length}/15)
             </h3>
             <button
@@ -89,16 +91,16 @@ export const Step1Products: React.FC = () => {
             return (
               <div
                 key={product.id}
-                className="rounded-lg bg-[#FFFFFF] overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                className="py-6 px-4 rounded-lg bg-[#FFFFFF] overflow-hidden shadow-sm hover:shadow-md transition-shadow"
               >
                 {/* Header com nome e preço */}
                 <div className="flex items-center justify-between p-4 bg-[var(--old-lace-500)]">
                   <div className="flex-1">
-                    <h4 className="font-bold text-lg text-[var(--carbon-black-900)]">{product.name}</h4>
+                    <h4 className="font-bold text-lg" style={{ color: '#703535' }}>{product.name}</h4>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="text-right">
-                      <p className="text-2xl font-bold text-[var(--evergreen-600)]">
+                      <p className="text-lg font-bold font-unbounded text-[var(--evergreen-600)]">
                         {formatCurrency(product.salePrice)}
                       </p>
                     </div>
@@ -116,16 +118,28 @@ export const Step1Products: React.FC = () => {
                 <div className="p-4 space-y-2">
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-[var(--carbon-black-700)]">Custo Ingredientes:</span>
-                    <p className="font-semibold text-[var(--carbon-black-900)]">{formatCurrency(product.ingredientCost)}</p>
+                    <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.ingredientCost)}</p>
                   </div>
+                  <hr className="border-t border-[#e5d5c3]" />
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-[var(--carbon-black-700)]">Custo Embalagem:</span>
-                    <p className="font-semibold text-[var(--carbon-black-900)]">{formatCurrency(product.packagingCost)}</p>
+                    <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.packagingCost)}</p>
                   </div>
+                  <hr className="border-t border-[#e5d5c3]" />
                   <div className="flex justify-between items-center py-1">
                     <span className="text-sm text-[var(--carbon-black-700)]">Taxa:</span>
-                    <p className="font-semibold text-[var(--carbon-black-900)]">{product.feePercentage}%</p>
+                    <p className="font-semibold" style={{ color: '#703535' }}>{product.feePercentage}%</p>
                   </div>
+                  {(product.taxPercentage || 0) > 0 && (
+                    <>
+                      <hr className="border-t border-[#e5d5c3]" />
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-sm text-[var(--carbon-black-700)]">Imposto:</span>
+                        <p className="font-semibold" style={{ color: '#703535' }}>{(product.taxPercentage || 0).toFixed(1)}%</p>
+                      </div>
+                    </>
+                  )}
+                  <hr className="border-t border-[#e5d5c3]" />
                   <div className="flex justify-between items-center py-1 pt-2">
                     <span className="text-sm font-semibold text-[var(--honey-bronze-700)]">Custo Variável Total:</span>
                     <p className="font-bold text-[var(--honey-bronze-700)]">
@@ -135,24 +149,32 @@ export const Step1Products: React.FC = () => {
                 </div>
 
                 {/* Footer com margem de contribuição */}
-                <div className="px-4 py-3 bg-[var(--evergreen-50)] flex items-center justify-between">
-                  <div className="flex items-center gap-6">
-                    <div>
-                      <span className="text-xs text-[var(--evergreen-700)]">Margem de Contribuição:</span>
-                      <p className="font-bold text-xl text-[var(--evergreen-700)]">
+                <div className="px-4 py-4 bg-gradient-to-r from-[var(--evergreen-50)] to-[var(--evergreen-100)] border-t-2 border-[#e5d5c3]">
+                  <div className="flex items-center justify-between gap-4">
+                    {/* Métricas de Margem */}
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-unbounded text-[var(--evergreen-700)]">Margem de contribuição:</span>
+                      <p className="font-unbounded text-md font-bold text-[var(--evergreen-700)]">
                         {formatCurrency(calc.contributionMarginValue)}
                       </p>
-                    </div>
-                    <div>
-                      <span className="text-xs text-[var(--evergreen-700)]">MC %:</span>
-                      <p className="font-bold text-xl text-[var(--evergreen-700)]">
-                        {formatPercentage(calc.contributionMarginPercent)}
+                      <p className="font-unbounded text-xs font-bold text-[var(--evergreen-700)]">
+                        ({formatPercentage(calc.contributionMarginPercent)})
                       </p>
                     </div>
+                    
+                    {/* Badge de Status */}
+                    <div className="flex items-center gap-3">
+                      <span 
+                        className="px-5 py-1 rounded-full text-sm font-bold shadow-md"
+                        style={{
+                          backgroundColor: badge.bgColor,
+                          color: badge.textColor
+                        }}
+                      >
+                        {badge.text}
+                      </span>
+                    </div>
                   </div>
-                  <span className={`px-4 py-1.5 rounded-full text-sm font-bold text-white ${badge.color}`}>
-                    {badge.text}
-                  </span>
                 </div>
               </div>
             );
@@ -164,10 +186,20 @@ export const Step1Products: React.FC = () => {
       <Dialog.Root open={isModalOpen} onOpenChange={setIsModalOpen}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] gap-4 bg-[#fbf7ef] p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg outline-none focus:outline-none focus-visible:outline-none max-h-[90vh] overflow-y-auto">
-            <Dialog.Title className="text-xl font-bold text-[var(--carbon-black-900)]">
-              Novo Produto
-            </Dialog.Title>
+          <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 bg-[#fbf7ef] p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg outline-none focus:outline-none focus-visible:outline-none max-h-[90vh] overflow-y-auto" style={{ maxWidth: '500px' }}>
+            <div className="flex items-center justify-between">
+              <Dialog.Title className="text-xl font-bold" style={{ color: '#703535' }}>
+                Novo Produto
+              </Dialog.Title>
+              <Dialog.Close asChild>
+                <button 
+                  className="rounded-lg p-2 hover:bg-[var(--old-lace-300)] transition-colors cursor-pointer"
+                  aria-label="Fechar"
+                >
+                  <X className="w-5 h-5" style={{ color: '#703535' }} />
+                </button>
+              </Dialog.Close>
+            </div>
 
             {state.products.length >= 15 && (
               <div className="mb-4 p-3 rounded-lg flex items-center gap-2 shadow-sm" style={{
@@ -180,18 +212,16 @@ export const Step1Products: React.FC = () => {
               </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2">
-                <TextInput
-                  label="Nome do Produto"
-                  value={newProduct.name}
-                  onChange={(value) => setNewProduct({ ...newProduct, name: value })}
-                  placeholder="Ex: Bolo Decorado 1kg"
-                  required
-                  disabled={state.products.length >= 15}
-                  whiteBackground
-                />
-              </div>
+            <div className="grid grid-cols-1 gap-4">
+              <TextInput
+                label="Nome do Produto"
+                value={newProduct.name}
+                onChange={(value) => setNewProduct({ ...newProduct, name: value })}
+                placeholder="Ex: Bolo Decorado 1kg"
+                required
+                disabled={state.products.length >= 15}
+                whiteBackground
+              />
 
               <CurrencyInput
                 label="Preço de Venda"
@@ -232,14 +262,18 @@ export const Step1Products: React.FC = () => {
                 disabled={state.products.length >= 15}
                 whiteBackground
               />
+
+              <PercentageInput
+                label="Imposto (%)"
+                value={newProduct.taxPercentage || 0}
+                onChange={(value) => setNewProduct({ ...newProduct, taxPercentage: value })}
+                placeholder="0%"
+                disabled={state.products.length >= 15}
+                whiteBackground
+              />
             </div>
 
-            <div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 mt-6">
-              <Dialog.Close asChild>
-                <button className="btn-secondary-sm-outline mt-2 sm:mt-0">
-                  Cancelar
-                </button>
-              </Dialog.Close>
+            <div className="flex justify-end mt-6">
               <button
                 onClick={handleAddProduct}
                 disabled={state.products.length >= 15 || !newProduct.name || newProduct.salePrice <= 0}
@@ -256,7 +290,7 @@ export const Step1Products: React.FC = () => {
       {/* Formulário inicial quando não há produtos */}
       {state.products.length === 0 && (
         <div className="rounded-lg p-6 mb-6 shadow-sm bg-white">
-          <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--carbon-black-900)' }}>
+          <h3 className="text-lg font-semibold mb-4" style={{ color: '#703535' }}>
             Adicione seu primeiro produto
           </h3>
 

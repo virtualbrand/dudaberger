@@ -2,8 +2,35 @@
 
 import Image from 'next/image';
 import { LoginForm } from '@/components/pages/login';
+import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function LoginPage() {
+  const { isAuthenticated, loading } = useAuth();
+  const router = useRouter();
+
+  // Redireciona para dashboard se já estiver autenticado
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      router.push('/dashboard');
+    }
+  }, [loading, isAuthenticated, router]);
+
+  // Mostra loading enquanto verifica autenticação
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-[#d4c4b2] flex items-center justify-center">
+        <div className="text-[#703535] text-lg">Carregando...</div>
+      </section>
+    );
+  }
+
+  // Não renderiza se já estiver autenticado
+  if (isAuthenticated) {
+    return null;
+  }
+
   return (
     <section className="min-h-screen bg-[#d4c4b2] flex items-center justify-center px-4 py-8 relative overflow-hidden">
       {/* Shadow Background Overlay - Desktop */}

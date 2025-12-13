@@ -113,6 +113,10 @@ export const CalculatorProvider: React.FC<{ children: ReactNode }> = ({ children
   const [state, dispatch] = useReducer(calculatorReducer, initialState);
 
   const goToStep = (step: number) => {
+    // Se está indo para a etapa de resultados (4), recalcula o summary
+    if (step === 4) {
+      dispatch({ type: 'CALCULATE_SUMMARY' });
+    }
     dispatch({ type: 'SET_STEP', payload: step });
   };
 

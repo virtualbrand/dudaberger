@@ -89,7 +89,7 @@ export const Step3Sales: React.FC = () => {
           return (
             <div
               key={product.id}
-              className="rounded-lg p-4 hover:shadow-lg transition-shadow shadow-sm"
+              className="rounded-lg p-6 hover:shadow-lg transition-shadow shadow-sm"
               style={{
                 backgroundColor: '#FFFFFF', 
                 borderColor: 'var(--rosy-taupe-400)'
@@ -123,9 +123,12 @@ export const Step3Sales: React.FC = () => {
                     style={{
                       backgroundColor: 'var(--old-lace-500)',
                       color: 'var(--carbon-black-900)',
-                      borderColor: 'var(--rosy-taupe-400)'
+                      borderColor: '#9a9a9b',
+                      borderWidth: '0.5px',
+                      outline: 'none',
+                      boxShadow: 'none'
                     }}
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
                   />
                 </div>
 

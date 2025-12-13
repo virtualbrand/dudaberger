@@ -49,7 +49,10 @@ export const ProductsTable: React.FC<ProductsTableProps> = ({ calculations, tota
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-gray-900">{calc.name}</span>
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white ${badge.color}`}>
+                      <span 
+                        className="px-2 py-0.5 rounded-full text-xs font-semibold"
+                        style={{ backgroundColor: badge.bgColor, color: badge.textColor }}
+                      >
                         {badge.text}
                       </span>
                     </div>

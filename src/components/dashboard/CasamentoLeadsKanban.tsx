@@ -22,7 +22,7 @@ import { Calendar, Users, DollarSign, Mail, Phone, MessageSquare } from 'lucide-
 import { CasamentoLead } from '@/types/casamento-lead';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { mockLeads } from '@/data/mock-leads';
+import { supabase } from '@/lib/supabase';
 
 const COLUMN_TITLES: Record<string, string> = {
   leads: 'Leads',
@@ -162,10 +162,78 @@ function LeadColumn({ value, leads, isOverlay, onCardClick, ...props }: LeadColu
 }
 
 export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLeadsKanbanProps) {
-  const [columns, setColumns] = React.useState<Record<string, CasamentoLead[]>>(mockLeads);
+  const [columns, setColumns] = React.useState<Record<string, CasamentoLead[]>>({
+    leads: [],
+    proposta: [],
+    aceita: [],
+    encerrado: [],
+  });
+  const [loading, setLoading] = React.useState(true);
   const [isEncerradoOpen, setIsEncerradoOpen] = React.useState(false);
   const [selectedLead, setSelectedLead] = React.useState<CasamentoLead | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [editedLead, setEditedLead] = React.useState<CasamentoLead | null>(null);
+  const [saving, setSaving] = React.useState(false);
+
+  // Carregar leads do Supabase
+  React.useEffect(() => {
+    async function loadLeads() {
+      try {
+        const { data, error } = await supabase
+          .from('leads')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        // Organiza os leads por status
+        const organized: Record<string, CasamentoLead[]> = {
+          leads: [],
+          proposta: [],
+          aceita: [],
+          encerrado: [],
+        };
+
+        data?.forEach((lead) => {
+          const casamentoLead: CasamentoLead = {
+            id: lead.id,
+            nomeNoivo: lead.nome_noivo || '',
+            nomeNoiva: lead.nome_noiva || '',
+            email: lead.email || '',
+            telefone: lead.whatsapp || lead.telefone || '',
+            dataCasamento: lead.data_casamento || '',
+            numeroConvidados: lead.numero_convidados || 0,
+            orcamento: lead.orcamento_minimo && lead.orcamento_maximo 
+              ? `R$ ${lead.orcamento_minimo.toLocaleString('pt-BR')} - R$ ${lead.orcamento_maximo.toLocaleString('pt-BR')}` 
+              : 'A definir',
+            status: lead.status,
+            createdAt: lead.created_at,
+            observacoes: lead.observacoes || undefined,
+          };
+
+          // Mapeia os status do banco para as colunas do kanban
+          const statusMap: Record<string, string> = {
+            'lead': 'leads',
+            'proposta_enviada': 'proposta',
+            'proposta_aceita': 'aceita',
+            'encerrado': 'encerrado',
+          };
+
+          const columnKey = statusMap[lead.status] || 'leads';
+          organized[columnKey].push(casamentoLead);
+        });
+
+        setColumns(organized);
+      } catch (error) {
+        console.error('Erro ao carregar leads:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadLeads();
+  }, []);
 
   const visibleColumns = ['leads', 'proposta', 'aceita'];
 
@@ -191,28 +259,78 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
 
   const handleCardClick = (lead: CasamentoLead) => {
     setSelectedLead(lead);
+    setEditedLead(lead);
+    setIsEditing(false);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setTimeout(() => setSelectedLead(null), 200);
+    setIsEditing(false);
+    setTimeout(() => {
+      setSelectedLead(null);
+      setEditedLead(null);
+    }, 200);
+  };
+
+  const handleSave = async () => {
+    if (!editedLead || !selectedLead) return;
+
+    setSaving(true);
+    try {
+      // Atualiza no Supabase
+      const { error } = await supabase
+        .from('leads')
+        .update({
+          nome_noivo: editedLead.nomeNoivo,
+          nome_noiva: editedLead.nomeNoiva,
+          email: editedLead.email,
+          whatsapp: editedLead.telefone,
+          data_casamento: editedLead.dataCasamento,
+          numero_convidados: editedLead.numeroConvidados,
+          observacoes: editedLead.observacoes,
+        })
+        .eq('id', editedLead.id);
+
+      if (error) throw error;
+
+      // Atualiza o estado local
+      const updatedColumns = { ...columns };
+      Object.keys(updatedColumns).forEach(columnKey => {
+        updatedColumns[columnKey] = updatedColumns[columnKey].map(lead =>
+          lead.id === editedLead.id ? editedLead : lead
+        );
+      });
+      setColumns(updatedColumns);
+      setSelectedLead(editedLead);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Erro ao salvar lead:', error);
+      alert('Erro ao salvar alterações');
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
     <div className="w-full">
-      <Kanban value={filteredColumns} onValueChange={setColumns} getItemValue={(item) => item.id}>
-        <div className="flex gap-4">
-          {/* Grid principal com 3 colunas */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
-            {visibleColumns.map((columnValue) => (
-              <LeadColumn 
-                key={columnValue} 
-                value={columnValue} 
-                leads={filteredColumns[columnValue] || []} 
-                onCardClick={handleCardClick}
-              />
-            ))}
+      {loading ? (
+        <div className="flex items-center justify-center h-64">
+          <div className="text-[#703535]">Carregando leads...</div>
+        </div>
+      ) : (
+        <Kanban value={filteredColumns} onValueChange={setColumns} getItemValue={(item) => item.id}>
+          <div className="flex gap-4">
+            {/* Grid principal com 3 colunas */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
+              {visibleColumns.map((columnValue) => (
+                <LeadColumn 
+                  key={columnValue} 
+                  value={columnValue} 
+                  leads={filteredColumns[columnValue] || []} 
+                  onCardClick={handleCardClick}
+                />
+              ))}
           </div>
 
           {/* Coluna Encerrado - Versão Expandida OU Colapsada */}
@@ -294,22 +412,75 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
         <KanbanOverlay>
           <div className="rounded-lg bg-gray-200/80 size-full" />
         </KanbanOverlay>
-      </Kanban>
+        </Kanban>
+      )}
 
       {/* Modal de Detalhes do Lead */}
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+      <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#F6EEE1]">
-          {selectedLead && (
+          {selectedLead && editedLead && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl font-unbounded text-[#703535] flex items-center gap-3">
-                  <Avatar className="size-12">
-                    <AvatarFallback className="bg-[#d4c4b2] text-[#703535] text-lg font-semibold">
-                      {selectedLead.nomeNoivo.charAt(0)}{selectedLead.nomeNoiva.charAt(0)}
-                    </AvatarFallback>
-                  </Avatar>
-                  {selectedLead.nomeNoivo} & {selectedLead.nomeNoiva}
-                </DialogTitle>
+                <div className="flex items-center justify-between">
+                  <DialogTitle className="text-2xl font-unbounded text-[#703535] flex items-center gap-3">
+                    <Avatar className="size-12">
+                      <AvatarFallback className="bg-[#d4c4b2] text-[#703535] text-lg font-semibold">
+                        {editedLead.nomeNoivo.charAt(0)}{editedLead.nomeNoiva.charAt(0)}
+                      </AvatarFallback>
+                    </Avatar>
+                    {isEditing ? (
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          value={editedLead.nomeNoivo}
+                          onChange={(e) => setEditedLead({ ...editedLead, nomeNoivo: e.target.value })}
+                          className="px-3 py-1 border rounded text-lg font-unbounded"
+                          placeholder="Nome Noivo"
+                        />
+                        <span>&</span>
+                        <input
+                          type="text"
+                          value={editedLead.nomeNoiva}
+                          onChange={(e) => setEditedLead({ ...editedLead, nomeNoiva: e.target.value })}
+                          className="px-3 py-1 border rounded text-lg font-unbounded"
+                          placeholder="Nome Noiva"
+                        />
+                      </div>
+                    ) : (
+                      `${editedLead.nomeNoivo} & ${editedLead.nomeNoiva}`
+                    )}
+                  </DialogTitle>
+                  <div className="flex gap-2">
+                    {isEditing ? (
+                      <>
+                        <button
+                          onClick={() => {
+                            setEditedLead(selectedLead);
+                            setIsEditing(false);
+                          }}
+                          className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100"
+                          disabled={saving}
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          onClick={handleSave}
+                          className="px-3 py-1 text-sm bg-[#703535] text-white rounded hover:bg-[#8B4545] disabled:opacity-50"
+                          disabled={saving}
+                        >
+                          {saving ? 'Salvando...' : 'Salvar'}
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="px-3 py-1 text-sm bg-[#703535] text-white rounded hover:bg-[#8B4545]"
+                      >
+                        Editar
+                      </button>
+                    )}
+                  </div>
+                </div>
               </DialogHeader>
 
               <div className="space-y-6 mt-4">
@@ -319,25 +490,43 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                   
                   <div className="flex items-center gap-3 text-sm">
                     <Calendar className="size-5 text-[#703535]" />
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium text-gray-700">Data do Casamento</p>
-                      <p className="text-gray-600">{format(new Date(selectedLead.dataCasamento), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</p>
+                      {isEditing ? (
+                        <input
+                          type="date"
+                          value={editedLead.dataCasamento}
+                          onChange={(e) => setEditedLead({ ...editedLead, dataCasamento: e.target.value })}
+                          className="px-2 py-1 border rounded text-sm w-full"
+                        />
+                      ) : (
+                        <p className="text-gray-600">{format(new Date(editedLead.dataCasamento), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</p>
+                      )}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 text-sm">
                     <Users className="size-5 text-[#703535]" />
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium text-gray-700">Número de Convidados</p>
-                      <p className="text-gray-600">{selectedLead.numeroConvidados} convidados</p>
+                      {isEditing ? (
+                        <input
+                          type="number"
+                          value={editedLead.numeroConvidados}
+                          onChange={(e) => setEditedLead({ ...editedLead, numeroConvidados: parseInt(e.target.value) || 0 })}
+                          className="px-2 py-1 border rounded text-sm w-full"
+                        />
+                      ) : (
+                        <p className="text-gray-600">{editedLead.numeroConvidados} convidados</p>
+                      )}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 text-sm">
                     <DollarSign className="size-5 text-[#703535]" />
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium text-gray-700">Orçamento</p>
-                      <p className="text-gray-600">{selectedLead.orcamento}</p>
+                      <p className="text-gray-600">{editedLead.orcamento}</p>
                     </div>
                   </div>
                 </div>
@@ -348,31 +537,56 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                   
                   <div className="flex items-center gap-3 text-sm">
                     <Mail className="size-5 text-[#703535]" />
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium text-gray-700">E-mail</p>
-                      <p className="text-gray-600">{selectedLead.email}</p>
+                      {isEditing ? (
+                        <input
+                          type="email"
+                          value={editedLead.email}
+                          onChange={(e) => setEditedLead({ ...editedLead, email: e.target.value })}
+                          className="px-2 py-1 border rounded text-sm w-full"
+                        />
+                      ) : (
+                        <p className="text-gray-600">{editedLead.email}</p>
+                      )}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 text-sm">
                     <Phone className="size-5 text-[#703535]" />
-                    <div>
+                    <div className="flex-1">
                       <p className="font-medium text-gray-700">Telefone</p>
-                      <p className="text-gray-600">{selectedLead.telefone}</p>
+                      {isEditing ? (
+                        <input
+                          type="tel"
+                          value={editedLead.telefone}
+                          onChange={(e) => setEditedLead({ ...editedLead, telefone: e.target.value })}
+                          className="px-2 py-1 border rounded text-sm w-full"
+                        />
+                      ) : (
+                        <p className="text-gray-600">{editedLead.telefone}</p>
+                      )}
                     </div>
                   </div>
                 </div>
 
-                {/* Mensagem */}
-                {selectedLead.observacoes && (
-                  <div className="bg-white rounded-lg p-4 space-y-3">
-                    <h3 className="font-unbounded text-sm text-[#703535] mb-3 flex items-center gap-2">
-                      <MessageSquare className="size-5" />
-                      Observações
-                    </h3>
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap">{selectedLead.observacoes}</p>
-                  </div>
-                )}
+                {/* Observações */}
+                <div className="bg-white rounded-lg p-4 space-y-3">
+                  <h3 className="font-unbounded text-sm text-[#703535] mb-3 flex items-center gap-2">
+                    <MessageSquare className="size-5" />
+                    Observações
+                  </h3>
+                  {isEditing ? (
+                    <textarea
+                      value={editedLead.observacoes || ''}
+                      onChange={(e) => setEditedLead({ ...editedLead, observacoes: e.target.value })}
+                      className="px-3 py-2 border rounded text-sm w-full min-h-[100px]"
+                      placeholder="Adicione observações sobre este lead..."
+                    />
+                  ) : (
+                    <p className="text-sm text-gray-600 whitespace-pre-wrap">{editedLead.observacoes || 'Sem observações'}</p>
+                  )}
+                </div>
 
                 {/* Status e Data de Criação */}
                 <div className="bg-white rounded-lg p-4 space-y-2">

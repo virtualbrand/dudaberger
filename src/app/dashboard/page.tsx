@@ -1,21 +1,45 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import CasamentoLeadsKanban from '@/components/dashboard/CasamentoLeadsKanban';
 import PropostasTable from '@/components/dashboard/PropostasTable';
 import { LogOut, Search } from 'lucide-react';
 import { Button } from '@/components/ui/button-1';
+import { useAuth } from '@/hooks/useAuth';
 
 type ActiveTab = 'leads' | 'propostas' | 'contratos';
 
 export default function DashboardPage() {
+  const router = useRouter();
+  const { signOut, loading, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = React.useState<ActiveTab>('leads');
   const [searchQuery, setSearchQuery] = React.useState('');
 
-  const handleLogout = () => {
-    // Lógica de logout aqui
-    console.log('Logout');
+  // Redireciona para login se não estiver autenticado
+  React.useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push('/login');
+    }
+  }, [loading, isAuthenticated, router]);
+
+  const handleLogout = async () => {
+    await signOut();
   };
+
+  // Mostra loading enquanto verifica autenticação
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F6EEE1] flex items-center justify-center">
+        <div className="text-[#703535] text-lg">Carregando...</div>
+      </div>
+    );
+  }
+
+  // Não renderiza o conteúdo se não estiver autenticado
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-[#F6EEE1]">

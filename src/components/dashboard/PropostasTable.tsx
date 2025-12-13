@@ -6,7 +6,7 @@ import { mockPropostas } from '@/data/mock-propostas';
 import { Badge } from '@/components/ui/badge-2';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Plus, Edit, Eye, Search } from 'lucide-react';
+import { Plus, Edit, Eye, Search, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button-1';
 import {
   Dialog,
@@ -283,20 +283,13 @@ export default function PropostasTable() {
                 {/* Botões de Ação */}
                 {isEditing && (
                   <div className="flex items-center justify-end gap-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleCloseModal}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button
-                      variant="primary"
-                      size="sm"
+                    <button
                       onClick={handleSaveProposta}
+                      className="btn-primary-xs flex items-center gap-2"
                     >
-                      Salvar Proposta
-                    </Button>
+                      <Check className="w-4 h-4" />
+                      Atualizar Proposta
+                    </button>
                   </div>
                 )}
               </div>

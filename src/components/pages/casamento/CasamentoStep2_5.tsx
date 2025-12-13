@@ -2,9 +2,11 @@
 
 import React, { useState } from 'react';
 import { useCasamento } from '@/contexts/CasamentoContext';
+import { useLeads } from '@/hooks/useLeads';
 
 export const CasamentoStep2_5: React.FC = () => {
   const { state, updateStep2_5, goToStep } = useCasamento();
+  const { updateLead, loading } = useLeads();
 
   const [selectedDoces, setSelectedDoces] = useState<string[]>(state.step2_5Data?.doces || []);
 
@@ -25,10 +27,23 @@ export const CasamentoStep2_5: React.FC = () => {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     updateStep2_5({
       doces: selectedDoces,
     });
+
+    // Atualiza o lead no Supabase
+    if (state.leadId) {
+      await updateLead(state.leadId, {
+        dados_extras: {
+          ...state.step1Data,
+          ...state.step2Data,
+          ...state.step2_3Data,
+          doces: selectedDoces,
+        },
+      });
+    }
+
     goToStep(2.7);
   };
 
@@ -86,10 +101,10 @@ export const CasamentoStep2_5: React.FC = () => {
         </button>
         <button 
           onClick={handleNext}
-          disabled={!isFormValid}
+          disabled={!isFormValid || loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Próximo
+          {loading ? 'Salvando...' : 'Próximo'}
         </button>
       </div>
     </div>

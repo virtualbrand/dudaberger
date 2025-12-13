@@ -47,7 +47,7 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({ summary })
             <input
               type="range"
               min="0"
-              max="50"
+              max="100"
               step="1"
               value={priceIncrease}
               onChange={(e) => setPriceIncrease(parseFloat(e.target.value))}
@@ -97,7 +97,7 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({ summary })
             <input
               type="range"
               min="0"
-              max="50"
+              max="100"
               step="1"
               value={costReduction}
               onChange={(e) => setCostReduction(parseFloat(e.target.value))}
@@ -144,8 +144,8 @@ export const ScenarioSimulator: React.FC<ScenarioSimulatorProps> = ({ summary })
             <input
               type="range"
               min="0"
-              max="200"
-              step="10"
+              max="100"
+              step="1"
               value={salesIncrease}
               onChange={(e) => setSalesIncrease(parseFloat(e.target.value))}
               className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer accent-purple-600"

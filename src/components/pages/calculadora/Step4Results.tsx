@@ -81,162 +81,146 @@ export const Step4Results: React.FC = () => {
       </div>
 
       {/* Card 1: Resumo Financeiro */}
-      <div className="rounded-xl p-6 mb-6 shadow-lg" style={{ 
-        backgroundColor: '#FFFFFF'
-      }}>
-        <h3 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--carbon-black-900)' }}>
-          <DollarSign className="w-6 h-6" style={{ color: 'var(--honey-bronze-600)' }} />
-          Resumo Financeiro
-        </h3>
+      <div className="py-6 px-4 rounded-lg bg-[#FFFFFF] overflow-hidden shadow-sm hover:shadow-md transition-shadow mb-6">
+        <div className="flex items-center justify-between p-4 bg-[var(--old-lace-500)]">
+          <div className="flex items-center gap-2">
+            <DollarSign className="w-6 h-6" style={{ color: 'var(--honey-bronze-600)' }} />
+            <h3 className="text-xl font-bold" style={{ color: '#703535' }}>
+              Resumo Financeiro
+            </h3>
+          </div>
+        </div>
 
-        <div className="space-y-4">
-          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '1px solid var(--rosy-taupe-300)' }}>
-            <span style={{ color: 'var(--carbon-black-800)' }}>Faturamento Total Mensal</span>
-            <span className="text-xl font-bold" style={{ color: 'var(--evergreen-600)' }}>
+        <div className="p-4 space-y-2">
+          <div className="flex justify-between items-center py-1">
+            <span className="text-sm text-[var(--carbon-black-700)]">Faturamento Total Mensal</span>
+            <p className="font-semibold">
               {formatCurrency(summary.totalRevenue)}
-            </span>
+            </p>
           </div>
+          <hr className="border-t border-[#e5d5c3]" />
 
-          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '1px solid var(--rosy-taupe-300)' }}>
-            <span style={{ color: 'var(--carbon-black-800)' }}>(-) Custos Variáveis Totais</span>
-            <span className="text-xl font-semibold" style={{ color: 'var(--honey-bronze-600)' }}>
+          <div className="flex justify-between items-center py-1">
+            <span className="text-sm text-[var(--carbon-black-700)]">(-) Custos Variáveis Totais</span>
+            <p className="font-semibold">
               {formatCurrency(summary.totalVariableCosts)}
-            </span>
+            </p>
           </div>
+          <hr className="border-t border-[#e5d5c3]" />
 
-          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '2px solid var(--carbon-black-700)' }}>
-            <span className="font-medium" style={{ color: 'var(--carbon-black-800)' }}>(=) Margem de Contribuição Total</span>
-            <span className="text-xl font-bold" style={{ color: 'var(--bronze-600)' }}>
-              {formatCurrency(summary.totalContributionMargin)}
-              <span className="text-sm ml-2">
-                ({formatPercentage(summary.averageContributionMarginPercent)})
+          <div className="flex justify-between items-center py-1">
+            <span className="text-sm font-semibold text-[var(--honey-bronze-700)]">(=) Margem de Contribuição Total</span>
+            <p className="font-bold text-[var(--honey-bronze-700)]">
+              <span className="text-sm mr-3">
+                ({formatPercentage(summary.averageContributionMarginPercent)}) 
               </span>
-            </span>
+              {formatCurrency(summary.totalContributionMargin)}
+            </p>
           </div>
+          <hr className="border-t border-[#e5d5c3]" />
 
-          <div className="flex justify-between items-center pb-2" style={{ borderBottom: '1px solid var(--rosy-taupe-300)' }}>
-            <span style={{ color: 'var(--carbon-black-800)' }}>(-) Custos Fixos</span>
-            <span className="text-xl font-semibold" style={{ color: 'var(--lobster-pink-600)' }}>
+          <div className="flex justify-between items-center py-1">
+            <span className="text-sm text-[var(--carbon-black-700)]">(-) Custos Fixos</span>
+            <p className="font-semibold">
               {formatCurrency(summary.totalFixedCosts)}
-            </span>
+            </p>
           </div>
+          <hr className="border-t border-[#e5d5c3]" />
 
-          <div className="flex justify-between items-center p-4 rounded-lg" style={{
-            backgroundColor: isProfitable ? 'var(--frosted-mint-500)' : 'var(--lobster-pink-100)'
-          }}>
-            <span className="text-lg font-bold" style={{ color: 'var(--carbon-black-900)' }}>(=) Lucro/Prejuízo</span>
-            <span className="text-3xl font-bold" style={{
-              color: isProfitable ? 'var(--evergreen-700)' : 'var(--lobster-pink-700)'
+          <div className="flex justify-between items-center py-1 pt-2">
+            <span className="text-sm font-unbounded font-bold text-[var(--carbon-black-800)]">(=) Lucro/Prejuízo</span>
+            <p className="font-unbounded font-bold text-md" style={{
+              color: isProfitable ? '#2E745F' : '#D65B58'
             }}>
               {formatCurrency(summary.profitOrLoss)}
-            </span>
+            </p>
           </div>
         </div>
       </div>
 
       {/* Card 2: Ponto de Equilíbrio */}
-      <div className="rounded-xl p-6 mb-6 shadow-lg" style={{ 
-        backgroundColor: '#FFFFFF'
-      }}>
-        <h3 className="text-xl font-bold mb-6 flex items-center gap-2" style={{ color: 'var(--carbon-black-900)' }}>
-          <Target className="w-6 h-6" style={{ color: 'var(--bronze-600)' }} />
-          Ponto de Equilíbrio
-        </h3>
-
-        <div className="space-y-4">
-          <div>
-            <p className="text-sm mb-1" style={{ color: 'var(--carbon-black-700)' }}>PE em Faturamento</p>
-            <p className="text-3xl font-bold" style={{ color: 'var(--bronze-600)' }}>
-              {formatCurrency(summary.breakEvenPoint)}<span className="text-lg">/mês</span>
-            </p>
+      <div className="py-6 px-4 rounded-lg bg-[#FFFFFF] overflow-hidden shadow-sm hover:shadow-md transition-shadow mb-6">
+        <div className="flex items-center justify-between p-4 bg-[var(--old-lace-500)]">
+          <div className="flex items-center gap-2">
+            <Target className="w-6 h-6" style={{ color: 'var(--bronze-600)' }} />
+            <h3 className="text-xl font-bold" style={{ color: '#703535' }}>
+              Ponto de Equilíbrio
+            </h3>
           </div>
-
-          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--rosy-taupe-200)' }}>
-            <p className="text-sm mb-1" style={{ color: 'var(--carbon-black-700)' }}>Você precisa faturar</p>
-            <p className="text-2xl font-bold text-gray-900">
-              {formatCurrency(summary.breakEvenPointDaily)}<span className="text-base">/dia</span>
-            </p>
-            <p className="text-xs text-gray-500 mt-1">(considerando 30 dias)</p>
-          </div>
-
-          {hasRevenue ? (
-            <div
-              className={`p-4 rounded-lg ${
-                summary.isAboveBreakEven
-                  ? 'bg-green-100 border-2 border-green-300'
-                  : 'bg-red-100 border-2 border-red-300'
-              }`}
-            >
-              {summary.isAboveBreakEven ? (
-                <>
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="w-6 h-6 text-green-600" />
-                    <p className="text-lg font-bold text-green-800">
-                      Você está acima do ponto de equilíbrio!
-                    </p>
-                  </div>
-                  <p className="text-green-700">
-                    Você está{' '}
-                    <span className="font-bold">
-                      {Math.abs(summary.distanceFromBreakEvenPercent).toFixed(1)}%
-                    </span>{' '}
-                    acima do PE (
-                    <span className="font-bold">
-                      {formatCurrency(Math.abs(summary.distanceFromBreakEven))}
-                    </span>
-                    )
-                  </p>
-                </>
-              ) : (
-                <>
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingDown className="w-6 h-6 text-red-600" />
-                    <p className="text-lg font-bold text-red-800">
-                      Você está abaixo do ponto de equilíbrio
-                    </p>
-                  </div>
-                  <p className="text-red-700">
-                    Falta{' '}
-                    <span className="font-bold">
-                      {formatCurrency(Math.abs(summary.distanceFromBreakEven))}
-                    </span>{' '}
-                    para atingir o equilíbrio
-                  </p>
-                </>
-              )}
-            </div>
-          ) : (
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <p className="text-sm text-blue-800">
-                💡 Volte ao passo anterior e simule suas vendas para ver se você atinge o PE
-              </p>
-            </div>
-          )}
-
-          {/* Barra de Progresso */}
-          {hasRevenue && (
-            <div className="mt-4">
-              <div className="flex justify-between text-sm text-gray-600 mb-2">
-                <span>R$ 0</span>
-                <span>Ponto de Equilíbrio</span>
-                <span>Faturamento Atual</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                <div
-                  className={`h-full transition-all duration-500 ${
-                    summary.isAboveBreakEven ? 'bg-green-500' : 'bg-red-500'
-                  }`}
-                  style={{
-                    width: `${Math.min(
-                      (summary.totalRevenue / summary.breakEvenPoint) * 100,
-                      100
-                    )}%`,
-                  }}
-                />
-              </div>
-            </div>
-          )}
         </div>
+
+        <div className="p-4 space-y-3">
+          <div className="flex justify-between items-center py-2">
+            <span className="text-sm text-[var(--carbon-black-700)]">PE em Faturamento</span>
+            <p className="font-unbounded font-bold text-lg" style={{ color: '#703535' }}>
+              {formatCurrency(summary.breakEvenPoint)}
+              <span className="text-xs font-normal ml-1">/mês</span>
+            </p>
+          </div>
+
+          <div className="flex justify-between items-center py-2">
+            <span className="text-sm text-[var(--carbon-black-700)]">Você precisa faturar</span>
+            <p className="font-unbounded font-bold text-lg" style={{ color: '#703535' }}>
+              {formatCurrency(summary.breakEvenPointDaily)}
+              <span className="text-xs font-normal ml-1">/dia</span>
+            </p>
+          </div>
+          <p className="text-xs text-gray-500 text-right">(considerando 30 dias)</p>
+        </div>
+
+        {hasRevenue && (
+          <div className={`px-4 py-4 border-t-2 ${
+            summary.isAboveBreakEven 
+              ? 'bg-green-100 border-green-300' 
+              : 'bg-red-100 border-red-300'
+          }`}>
+            {summary.isAboveBreakEven ? (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-6 h-6 text-green-600" />
+                  <p className="text-lg font-bold text-green-800">
+                    Você está acima do ponto de equilíbrio!
+                  </p>
+                </div>
+                <p className="text-green-700">
+                  Você está{' '}
+                  <span className="font-bold">
+                    {Math.abs(summary.distanceFromBreakEvenPercent).toFixed(1)}%
+                  </span>{' '}
+                  acima do PE (
+                  <span className="font-bold">
+                    {formatCurrency(Math.abs(summary.distanceFromBreakEven))}
+                  </span>
+                  )
+                </p>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <TrendingDown className="w-6 h-6 text-red-600" />
+                  <p className="text-lg font-bold text-red-800">
+                    Você está abaixo do ponto de equilíbrio
+                  </p>
+                </div>
+                <p className="text-red-700">
+                  Falta{' '}
+                  <span className="font-bold">
+                    {formatCurrency(Math.abs(summary.distanceFromBreakEven))}
+                  </span>{' '}
+                  para atingir o equilíbrio
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {!hasRevenue && (
+          <div className="px-4 py-3 bg-blue-50 border-t-2 border-blue-200">
+            <p className="text-sm text-blue-800">
+              💡 Volte ao passo anterior e simule suas vendas para ver se você atinge o PE
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Card 3: Análise por Produto */}

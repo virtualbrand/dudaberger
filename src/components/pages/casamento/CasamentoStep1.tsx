@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDownIcon } from 'lucide-react';
 import { useCasamento } from '@/contexts/CasamentoContext';
+import { useLeads } from '@/hooks/useLeads';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Label } from '@/components/ui/label';
@@ -13,7 +14,8 @@ import {
 } from '@/components/ui/popover';
 
 export const CasamentoStep1: React.FC = () => {
-  const { state, updateStep1, goToStep } = useCasamento();
+  const { state, updateStep1, goToStep, setLeadId } = useCasamento();
+  const { createLead, loading } = useLeads();
   
   const [nomeCasal, setNomeCasal] = useState(state.step1Data.nomeCasal || '');
   const [dataCerimonia, setDataCerimonia] = useState(state.step1Data.dataCerimonia || '');
@@ -25,12 +27,34 @@ export const CasamentoStep1: React.FC = () => {
 
   const isFormValid = nomeCasal.trim() !== '' && dataCerimonia !== '' && localFesta.trim() !== '';
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    // Salva os dados no contexto
     updateStep1({
       nomeCasal,
       dataCerimonia,
       localFesta,
     });
+
+    // Cria o lead no Supabase
+    if (!state.leadId) {
+      // Separa os nomes do casal
+      const nomes = nomeCasal.split('&').map(n => n.trim());
+      const nomeNoivo = nomes[0] || '';
+      const nomeNoiva = nomes[1] || '';
+
+      const lead = await createLead({
+        nome_noivo: nomeNoivo,
+        nome_noiva: nomeNoiva,
+        data_casamento: dataCerimonia,
+        local_evento: localFesta,
+        status: 'lead',
+      });
+
+      if (lead) {
+        setLeadId(lead.id);
+      }
+    }
+
     goToStep(2);
   };
 
@@ -227,10 +251,10 @@ export const CasamentoStep1: React.FC = () => {
       <div className="mt-8 flex justify-end">
         <button 
           onClick={handleNext}
-          disabled={!isFormValid}
+          disabled={!isFormValid || loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Próximo
+          {loading ? 'Salvando...' : 'Próximo'}
         </button>
       </div>
     </div>

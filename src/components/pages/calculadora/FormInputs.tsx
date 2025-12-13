@@ -45,9 +45,11 @@ export const CurrencyInput: React.FC<CurrencyInputProps> = ({
           backgroundColor: disabled ? 'var(--carbon-black-400)' : whiteBackground ? 'white' : 'var(--old-lace-500)',
           color: 'var(--carbon-black-900)',
           borderColor: '#9a9a9b',
-          borderWidth: '0.5px'
+          borderWidth: '0.5px',
+          outline: 'none',
+          boxShadow: 'none'
         }}
-        className="w-full px-4 py-2 rounded-lg focus:outline-none disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
+        className="w-full px-4 py-3 rounded-lg disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
       />
     </div>
   );
@@ -94,9 +96,11 @@ export const PercentageInput: React.FC<PercentageInputProps> = ({
           backgroundColor: disabled ? 'var(--carbon-black-400)' : whiteBackground ? 'white' : 'var(--old-lace-500)',
           color: 'var(--carbon-black-900)',
           borderColor: '#9a9a9b',
-          borderWidth: '0.5px'
+          borderWidth: '0.5px',
+          outline: 'none',
+          boxShadow: 'none'
         }}
-        className="w-full px-4 py-2 rounded-lg focus:outline-none disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
+        className="w-full px-4 py-3 rounded-lg disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
       />
     </div>
   );
@@ -140,9 +144,11 @@ export const TextInput: React.FC<TextInputProps> = ({
           backgroundColor: disabled ? 'var(--carbon-black-400)' : whiteBackground ? 'white' : 'var(--old-lace-500)',
           color: 'var(--carbon-black-900)',
           borderColor: '#9a9a9b',
-          borderWidth: '0.5px'
+          borderWidth: '0.5px',
+          outline: 'none',
+          boxShadow: 'none'
         }}
-        className="w-full px-4 py-2 rounded-lg focus:outline-none disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
+        className="w-full px-4 py-3 rounded-lg disabled:cursor-not-allowed transition-all focus:border-[#D65B58] active:border-[#D65B58]"
       />
     </div>
   );

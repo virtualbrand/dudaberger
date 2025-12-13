@@ -2,16 +2,30 @@
 
 import React, { useState } from 'react';
 import { useCasamento } from '@/contexts/CasamentoContext';
+import { useLeads } from '@/hooks/useLeads';
 
 export const CasamentoStep2_3: React.FC = () => {
   const { state, updateStep2_3, goToStep } = useCasamento();
+  const { updateLead, loading } = useLeads();
 
   const [motivacaoBolo, setMotivacaoBolo] = useState(state.step2_3Data?.motivacaoBolo || '');
 
-  const handleNext = () => {
+  const handleNext = async () => {
     updateStep2_3({
       motivacaoBolo,
     });
+
+    // Atualiza o lead no Supabase
+    if (state.leadId) {
+      await updateLead(state.leadId, {
+        dados_extras: {
+          ...state.step1Data,
+          ...state.step2Data,
+          motivacaoBolo,
+        },
+      });
+    }
+
     goToStep(2.5);
   };
 
@@ -53,9 +67,10 @@ export const CasamentoStep2_3: React.FC = () => {
         </button>
         <button 
           onClick={handleNext}
-          className="btn-primary-sm"
+          disabled={loading}
+          className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Próximo
+          {loading ? 'Salvando...' : 'Próximo'}
         </button>
       </div>
     </div>

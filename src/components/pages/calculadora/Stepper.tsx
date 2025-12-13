@@ -67,8 +67,11 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, steps }) => {
                 </div>
                 <span
                   className={`text-xs md:text-sm lg:text-base font-bold font-unbounded mt-2 text-center hidden md:block ${
-                    isActive ? 'text-[var(--honey-bronze-500)]' : 'text-[var(--rosy-taupe-400)]'
-                  } ${isClickable ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                    isClickable ? 'cursor-pointer' : 'cursor-not-allowed'
+                  }`}
+                  style={{
+                    color: isActive ? '#D65B58' : '#9e8378'
+                  }}
                 >
                   {step}
                 </span>

@@ -5,6 +5,7 @@ export interface Product {
   ingredientCost: number;
   packagingCost: number;
   feePercentage: number;
+  taxPercentage?: number;
   quantity?: number;
 }
 
