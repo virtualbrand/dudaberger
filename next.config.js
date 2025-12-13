@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   
+  // Desabilitar Turbopack e usar Webpack
+  turbopack: {},
+  
   // Otimizações de imagem
   images: {
     remotePatterns: [
