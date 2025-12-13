@@ -9,6 +9,11 @@ async function createAdminUser() {
   const email = 'admin@dudaberger.com'; // Altere para o email desejado
   const password = 'SenhaSegura123!'; // Altere para uma senha segura
 
+  if (!supabase) {
+    console.error('❌ Supabase client não disponível');
+    return;
+  }
+
   try {
     console.log('Criando usuário administrador...');
     
