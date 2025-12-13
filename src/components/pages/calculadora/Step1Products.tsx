@@ -166,39 +166,51 @@ export const Step1Products: React.FC = () => {
 
                 {/* Detalhes dos custos */}
                 <div className="p-4 space-y-2">
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-[var(--carbon-black-700)]">Custo Ingredientes:</span>
-                    <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.ingredientCost)}</p>
-                  </div>
-                  <hr className="border-t border-[#e5d5c3]" />
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-[var(--carbon-black-700)]">Custo Embalagem:</span>
-                    <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.packagingCost)}</p>
-                  </div>
-                  <hr className="border-t border-[#e5d5c3]" />
-                  <div className="flex justify-between items-center py-1">
-                    <span className="text-sm text-[var(--carbon-black-700)]">Taxa:</span>
-                    <p className="font-semibold" style={{ color: '#703535' }}>{product.feePercentage}%</p>
-                  </div>
+                  {product.ingredientCost > 0 && (
+                    <>
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-sm text-[var(--carbon-black-700)]">Custo Ingredientes:</span>
+                        <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.ingredientCost)}</p>
+                      </div>
+                      <hr className="border-t border-[#e5d5c3]" />
+                    </>
+                  )}
+                  {product.packagingCost > 0 && (
+                    <>
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-sm text-[var(--carbon-black-700)]">Custo Embalagem:</span>
+                        <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.packagingCost)}</p>
+                      </div>
+                      <hr className="border-t border-[#e5d5c3]" />
+                    </>
+                  )}
+                  {product.feePercentage > 0 && (
+                    <>
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-sm text-[var(--carbon-black-700)]">Taxa:</span>
+                        <p className="font-semibold" style={{ color: '#703535' }}>{product.feePercentage}%</p>
+                      </div>
+                      <hr className="border-t border-[#e5d5c3]" />
+                    </>
+                  )}
                   {(product.taxAmount || 0) > 0 && (
                     <>
-                      <hr className="border-t border-[#e5d5c3]" />
                       <div className="flex justify-between items-center py-1">
                         <span className="text-sm text-[var(--carbon-black-700)]">Imposto:</span>
                         <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.taxAmount || 0)}</p>
                       </div>
+                      <hr className="border-t border-[#e5d5c3]" />
                     </>
                   )}
                   {(product.otherVariableCostsPercentage || 0) > 0 && (
                     <>
-                      <hr className="border-t border-[#e5d5c3]" />
                       <div className="flex justify-between items-center py-1">
                         <span className="text-sm text-[var(--carbon-black-700)]">Outros Custos Variáveis:</span>
                         <p className="font-semibold" style={{ color: '#703535' }}>{product.otherVariableCostsPercentage}%</p>
                       </div>
+                      <hr className="border-t border-[#e5d5c3]" />
                     </>
                   )}
-                  <hr className="border-t border-[#e5d5c3]" />
                   <div className="flex justify-between items-center py-1 pt-2">
                     <span className="text-sm font-semibold text-[var(--honey-bronze-700)]">Custo Variável Total:</span>
                     <p className="font-bold text-[var(--honey-bronze-700)]">
@@ -317,7 +329,7 @@ export const Step1Products: React.FC = () => {
                 label="Taxa (%) - Cartão/Delivery"
                 value={newProduct.feePercentage}
                 onChange={(value) => handleInputChange('feePercentage', value)}
-                placeholder="3%"
+                placeholder="0,00%"
                 required
                 disabled={state.products.length >= 15}
                 whiteBackground
