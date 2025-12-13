@@ -21,7 +21,7 @@ export function useLeads() {
     setError(null);
 
     try {
-      const { data: lead, error: err } = await supabase
+      const { data: lead, error: err } = await (supabase as any)
         .from('leads')
         .insert(data)
         .select()
@@ -53,7 +53,7 @@ export function useLeads() {
     setError(null);
 
     try {
-      const { data: lead, error: err } = await supabase
+      const { data: lead, error: err } = await (supabase as any)
         .from('leads')
         .update(data)
         .eq('id', id)
@@ -86,7 +86,7 @@ export function useLeads() {
     setError(null);
 
     try {
-      const { data: lead, error: err } = await supabase
+      const { data: lead, error: err } = await (supabase as any)
         .from('leads')
         .select('*')
         .eq('id', id)
@@ -122,7 +122,7 @@ export function useLeads() {
     setError(null);
 
     try {
-      let query = supabase
+      let query = (supabase as any)
         .from('leads')
         .select('*')
         .order('created_at', { ascending: false });
@@ -167,7 +167,7 @@ export function useLeads() {
     setError(null);
 
     try {
-      const { error: err } = await supabase
+      const { error: err } = await (supabase as any)
         .from('leads')
         .delete()
         .eq('id', id);
