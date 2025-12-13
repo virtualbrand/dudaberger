@@ -51,7 +51,7 @@ export const Step1Products: React.FC = () => {
       packagingCost: 0,
       feePercentage: 3,
       taxAmount: 0,
-      otherVariableCosts: 0,
+      otherVariableCostsPercentage: 0,
       quantity: 0,
     });
     setHasChanges(false);
@@ -67,7 +67,7 @@ export const Step1Products: React.FC = () => {
       packagingCost: product.packagingCost,
       feePercentage: product.feePercentage,
       taxAmount: product.taxAmount || 0,
-      otherVariableCosts: product.otherVariableCosts || 0,
+      otherVariableCostsPercentage: product.otherVariableCostsPercentage || 0,
       quantity: product.quantity || 0,
     });
     setHasChanges(false);
@@ -83,7 +83,7 @@ export const Step1Products: React.FC = () => {
       packagingCost: 0,
       feePercentage: 3,
       taxAmount: 0,
-      otherVariableCosts: 0,
+      otherVariableCostsPercentage: 0,
       quantity: 0,
     });
     setHasChanges(false);

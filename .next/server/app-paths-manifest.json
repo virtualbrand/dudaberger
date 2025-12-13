@@ -1,4 +1,13 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/casamento/page": "app/casamento/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/proposta/[slug]/page": "app/proposta/[slug]/page.js",
   "/style-guide/page": "app/style-guide/page.js",
-  "/calculadora/page": "app/calculadora/page.js"
+  "/login/page": "app/login/page.js",
+  "/calculadora/page": "app/calculadora/page.js",
+  "/page": "app/page.js",
+  "/guirlanda-natal/page": "app/guirlanda-natal/page.js",
+  "/workshop/page": "app/workshop/page.js"
 }

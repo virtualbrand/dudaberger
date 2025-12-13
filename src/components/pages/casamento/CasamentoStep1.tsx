@@ -38,7 +38,7 @@ export const CasamentoStep1: React.FC = () => {
     // Cria o lead no Supabase
     if (!state.leadId) {
       // Separa os nomes do casal
-      const nomes = nomeCasal.split('&').map(n => n.trim());
+      const nomes = nomeCasal.split('&').map((n: string) => n.trim());
       const nomeNoivo = nomes[0] || '';
       const nomeNoiva = nomes[1] || '';
 
