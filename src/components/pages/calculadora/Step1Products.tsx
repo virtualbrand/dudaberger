@@ -6,13 +6,24 @@ import { Product } from '@/types/calculadora';
 import { generateId } from '@/data/calculator-defaults';
 import { calculateProductMetrics, formatCurrency, formatPercentage, getMarginBadge } from '@/utils/calculatorUtils';
 import { CurrencyInput, PercentageInput, TextInput } from './FormInputs';
-import { Plus, Trash2, AlertCircle, ArrowRight, ArrowLeft, Check, X, Pencil } from 'lucide-react';
+import { Plus, Trash2, AlertCircle, ArrowRight, ArrowLeft, Check, X, Pencil, CircleAlert } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 export const Step1Products: React.FC = () => {
   const { state, addProduct, updateProduct, removeProduct, goToStep } = useCalculator();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     salePrice: 0,
@@ -357,12 +368,7 @@ export const Step1Products: React.FC = () => {
             <div className="flex justify-end items-center gap-3 mt-6">
               {editingProduct && (
                 <button
-                  onClick={() => {
-                    if (confirm('Tem certeza que deseja excluir este produto?')) {
-                      removeProduct(editingProduct.id);
-                      handleCancelEdit();
-                    }
-                  }}
+                  onClick={() => setIsDeleteDialogOpen(true)}
                   className="btn-danger-sm-outline flex items-center gap-2"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -378,6 +384,40 @@ export const Step1Products: React.FC = () => {
                 {editingProduct ? 'Atualizar Produto' : 'Salvar Produto'}
               </button>
             </div>
+
+            {/* AlertDialog para confirmação de exclusão */}
+            <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+              <AlertDialogContent className="bg-[#F6EEE1]">
+                <div className="flex flex-col gap-2 max-sm:items-center sm:flex-row sm:gap-4">
+                  <div
+                    className="flex size-9 shrink-0 items-center justify-center rounded-full border border-red-200 bg-red-50"
+                    aria-hidden="true"
+                  >
+                    <CircleAlert className="text-red-600" size={16} strokeWidth={2} />
+                  </div>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle className="text-[#703535]">Excluir produto?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Tem certeza que deseja excluir <strong>{editingProduct?.name}</strong>? Esta ação não pode ser desfeita.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                </div>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className="btn-secondary-sm-outline">Cancelar</AlertDialogCancel>
+                  <AlertDialogAction
+                    className="btn-danger-sm"
+                    onClick={() => {
+                      if (editingProduct) {
+                        removeProduct(editingProduct.id);
+                        handleCancelEdit();
+                      }
+                    }}
+                  >
+                    Excluir
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
