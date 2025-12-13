@@ -200,7 +200,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
           encerrado: [],
         };
 
-        data?.forEach((lead) => {
+        data?.forEach((lead: any) => {
           const casamentoLead: CasamentoLead = {
             id: lead.id,
             nomeNoivo: lead.nome_noivo || '',
