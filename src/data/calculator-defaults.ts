@@ -6,7 +6,8 @@ export const EXAMPLE_PRODUCTS: Omit<Product, 'id'>[] = [
     salePrice: 280,
     ingredientCost: 88.20,
     packagingCost: 0,
-    feePercentage: 8,
+    feePercentage: 0,
+    taxAmount: 22.40,
     quantity: 0,
   },
 ];
