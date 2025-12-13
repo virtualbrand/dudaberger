@@ -17,6 +17,12 @@ const LoginForm = () => {
     setIsLoading(true);
     setError('');
     
+    if (!supabase) {
+      setError('Sistema temporariamente indisponível');
+      setIsLoading(false);
+      return;
+    }
+    
     try {
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
