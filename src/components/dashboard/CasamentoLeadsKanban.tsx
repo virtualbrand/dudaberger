@@ -179,6 +179,11 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   // Carregar leads do Supabase
   React.useEffect(() => {
     async function loadLeads() {
+      if (!supabase) {
+        console.warn('Supabase client not available');
+        return;
+      }
+      
       try {
         const { data, error } = await supabase
           .from('leads')
@@ -274,7 +279,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   };
 
   const handleSave = async () => {
-    if (!editedLead || !selectedLead) return;
+    if (!editedLead || !selectedLead || !supabase) return;
 
     setSaving(true);
     try {
