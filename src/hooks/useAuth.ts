@@ -10,6 +10,11 @@ export function useAuth() {
   const router = useRouter();
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     // Obtém a sessão inicial
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -30,6 +35,7 @@ export function useAuth() {
   }, []);
 
   const signOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     router.push('/login');
     router.refresh();
