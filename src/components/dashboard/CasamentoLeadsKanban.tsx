@@ -185,7 +185,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       }
       
       try {
-        const { data, error } = await supabase
+        const { data, error } = await (supabase as any)
           .from('leads')
           .select('*')
           .order('created_at', { ascending: false });
@@ -284,7 +284,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
     setSaving(true);
     try {
       // Atualiza no Supabase
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('leads')
         .update({
           nome_noivo: editedLead.nomeNoivo,
