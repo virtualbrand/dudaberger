@@ -12,6 +12,11 @@ export function useLeads() {
    * Cria um novo lead
    */
   const createLead = async (data: LeadInsert): Promise<Lead | null> => {
+    if (!supabase) {
+      setError('Sistema temporariamente indisponível');
+      return null;
+    }
+    
     setLoading(true);
     setError(null);
 
@@ -39,6 +44,11 @@ export function useLeads() {
    * Atualiza um lead existente
    */
   const updateLead = async (id: string, data: LeadUpdate): Promise<Lead | null> => {
+    if (!supabase) {
+      setError('Sistema temporariamente indisponível');
+      return null;
+    }
+    
     setLoading(true);
     setError(null);
 
@@ -67,6 +77,11 @@ export function useLeads() {
    * Busca um lead por ID
    */
   const getLead = async (id: string): Promise<Lead | null> => {
+    if (!supabase) {
+      setError('Sistema temporariamente indisponível');
+      return null;
+    }
+    
     setLoading(true);
     setError(null);
 
@@ -98,6 +113,11 @@ export function useLeads() {
     limit?: number;
     offset?: number;
   }): Promise<Lead[]> => {
+    if (!supabase) {
+      setError('Sistema temporariamente indisponível');
+      return [];
+    }
+    
     setLoading(true);
     setError(null);
 
@@ -138,6 +158,11 @@ export function useLeads() {
    * Deleta um lead
    */
   const deleteLead = async (id: string): Promise<boolean> => {
+    if (!supabase) {
+      setError('Sistema temporariamente indisponível');
+      return false;
+    }
+    
     setLoading(true);
     setError(null);
 
