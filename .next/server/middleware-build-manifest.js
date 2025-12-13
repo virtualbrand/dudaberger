@@ -1,1 +1,33 @@
-globalThis.__BUILD_MANIFEST={polyfillFiles:["static/chunks/polyfills-42372ed130431b0a.js"],devFiles:[],ampDevFiles:[],lowPriorityFiles:[],rootMainFiles:["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/4bd1b696-100b9d70ed4e49c1.js","static/chunks/1255-f04e7a26e145c577.js","static/chunks/main-app-bf23dbe4d63e7b41.js"],rootMainFilesTree:{},pages:{"/CalculadoraPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/0bd2f4cc-b999a3526d8d5c6f.js","static/chunks/643144ee-be225c564ea5438c.js","static/chunks/1771-2e01f56916edfb11.js","static/chunks/8642-00ce052c288e86c8.js","static/chunks/2817-3be68b18d15d3e28.js","static/chunks/pages/CalculadoraPage-969e0e34c34000a8.js"],"/CasamentoPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/1771-2e01f56916edfb11.js","static/chunks/4587-96f24f8ccb937aae.js","static/chunks/8642-00ce052c288e86c8.js","static/chunks/4694-209e21c992d593b0.js","static/chunks/pages/CasamentoPage-1a707cc16c1bbc69.js"],"/EfeitoAguaNaBocaPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/1771-2e01f56916edfb11.js","static/chunks/3719-a3e7e52a0d56e7f3.js","static/chunks/253-a46b0608e468b1f1.js","static/chunks/pages/EfeitoAguaNaBocaPage-a1c955d83f7c44ca.js"],"/GuirlandaNatalPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/pages/GuirlandaNatalPage-63563e12e6b429ad.js"],"/HomePage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/pages/HomePage-8241d7a280f6646d.js"],"/LinksPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/4587-96f24f8ccb937aae.js","static/chunks/pages/LinksPage-c0c16753644f938a.js"],"/ProductPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/3719-a3e7e52a0d56e7f3.js","static/chunks/8230-50ab02359d650f34.js","static/chunks/pages/ProductPage-14da60677f866238.js"],"/WorkshopPage":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/1771-2e01f56916edfb11.js","static/chunks/3719-a3e7e52a0d56e7f3.js","static/chunks/4587-96f24f8ccb937aae.js","static/chunks/253-a46b0608e468b1f1.js","static/chunks/3921-818236642dd7e2f8.js","static/chunks/pages/WorkshopPage-37a5e0e858a5c972.js"],"/_app":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/pages/_app-4b3fb5e477a0267f.js"],"/_error":["static/chunks/webpack-93d5b121b458f3c3.js","static/chunks/framework-157ba15cb60a57ac.js","static/chunks/main-80a73f5e112dce09.js","static/chunks/pages/_error-c970d8b55ace1b48.js"]},ampFirstPages:[]},globalThis.__BUILD_MANIFEST.lowPriorityFiles=["/static/"+process.env.__NEXT_BUILD_ID+"/_buildManifest.js",,"/static/"+process.env.__NEXT_BUILD_ID+"/_ssgManifest.js"];
+globalThis.__BUILD_MANIFEST = {
+  "polyfillFiles": [
+    "static/chunks/polyfills.js"
+  ],
+  "devFiles": [
+    "static/chunks/react-refresh.js"
+  ],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [],
+  "rootMainFiles": [
+    "static/chunks/webpack.js",
+    "static/chunks/main-app.js"
+  ],
+  "rootMainFilesTree": {},
+  "pages": {
+    "/_app": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_app.js"
+    ],
+    "/_error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
+    ]
+  },
+  "ampFirstPages": []
+};
+globalThis.__BUILD_MANIFEST.lowPriorityFiles = [
+"/static/" + process.env.__NEXT_BUILD_ID + "/_buildManifest.js",
+,"/static/" + process.env.__NEXT_BUILD_ID + "/_ssgManifest.js",
+
+];

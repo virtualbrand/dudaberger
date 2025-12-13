@@ -1,151 +1,21 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/_not-found/page-770de0f66438d7c8.js"
-    ],
     "/layout": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/css/89d0c9c9f6195b9b.css",
-      "static/css/d8a14d0a2c9ec2f3.css",
-      "static/chunks/app/layout-881d15860f3c4022.js"
-    ],
-    "/robots.txt/route": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/robots.txt/route-80521ebfaa4337bc.js"
-    ],
-    "/casamento/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/6248-6e020a451e70ae36.js",
-      "static/chunks/1356-513652f73909a339.js",
-      "static/chunks/6537-40fee4d9fd7b18f9.js",
-      "static/chunks/259-35b5ce8220aa4be5.js",
-      "static/chunks/6347-8ee1b46ab53256d7.js",
-      "static/chunks/797-023fc6303b5f6d1a.js",
-      "static/chunks/7790-d34d8e42d9cef143.js",
-      "static/chunks/8851-29cbb25ec079181f.js",
-      "static/chunks/9279-9901b95ba5e2ce04.js",
-      "static/chunks/app/casamento/page-4c90dbb97f35a93e.js"
-    ],
-    "/dashboard/error": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/6248-6e020a451e70ae36.js",
-      "static/chunks/app/dashboard/error-5cbbab60b2ca13a1.js"
-    ],
-    "/dashboard/loading": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/dashboard/loading-80521ebfaa4337bc.js"
-    ],
-    "/dashboard/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/6248-6e020a451e70ae36.js",
-      "static/chunks/6537-40fee4d9fd7b18f9.js",
-      "static/chunks/259-35b5ce8220aa4be5.js",
-      "static/chunks/6347-8ee1b46ab53256d7.js",
-      "static/chunks/797-023fc6303b5f6d1a.js",
-      "static/chunks/7790-d34d8e42d9cef143.js",
-      "static/chunks/7588-e3be4cb1b4882369.js",
-      "static/chunks/7673-0f901ae25cc5dcbe.js",
-      "static/chunks/app/dashboard/page-0539a0712ac86d69.js"
-    ],
-    "/proposta/[slug]/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/1356-513652f73909a339.js",
-      "static/chunks/app/proposta/[slug]/page-f732c1a1c32b349b.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ],
     "/style-guide/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/style-guide/page-0f219745bf5918a6.js"
-    ],
-    "/login/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/1356-513652f73909a339.js",
-      "static/chunks/6537-40fee4d9fd7b18f9.js",
-      "static/chunks/6347-8ee1b46ab53256d7.js",
-      "static/chunks/app/login/page-7aa8a8304efb399f.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/style-guide/page.js"
     ],
     "/calculadora/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/css/2ccf7f1e5aafa309.css",
-      "static/chunks/2f0b94e8-3186a98eb4c9012b.js",
-      "static/chunks/164f4fb6-3c485cfd18b55484.js",
-      "static/chunks/6248-6e020a451e70ae36.js",
-      "static/chunks/6537-40fee4d9fd7b18f9.js",
-      "static/chunks/259-35b5ce8220aa4be5.js",
-      "static/chunks/797-023fc6303b5f6d1a.js",
-      "static/chunks/8851-29cbb25ec079181f.js",
-      "static/chunks/7588-e3be4cb1b4882369.js",
-      "static/chunks/7956-271f3cd561f44b02.js",
-      "static/chunks/app/calculadora/page-70299837aaf4844b.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/1356-513652f73909a339.js",
-      "static/chunks/app/page-1d89a21031bdd154.js"
-    ],
-    "/guirlanda-natal/layout": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/guirlanda-natal/layout-80521ebfaa4337bc.js"
-    ],
-    "/guirlanda-natal/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/guirlanda-natal/page-72552dc86f946bc4.js"
-    ],
-    "/workshop/layout": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/workshop/layout-80521ebfaa4337bc.js"
-    ],
-    "/workshop/page": [
-      "static/chunks/webpack-93d5b121b458f3c3.js",
-      "static/chunks/4bd1b696-100b9d70ed4e49c1.js",
-      "static/chunks/1255-f04e7a26e145c577.js",
-      "static/chunks/main-app-bf23dbe4d63e7b41.js",
-      "static/chunks/app/workshop/page-cc83ac69306f053c.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/calculadora/page.css",
+      "static/chunks/app/calculadora/page.js"
     ]
   }
 }

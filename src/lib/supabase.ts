@@ -4,23 +4,26 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Missing Supabase environment variables');
+// Só joga erro se estiver tentando usar o cliente no runtime (não durante build)
+let supabase: ReturnType<typeof createClient> | null = null;
+
+if (supabaseUrl && supabaseAnonKey) {
+  supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+    },
+  });
 }
 
-// Cria o cliente Supabase para uso no client-side
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-  },
-});
+// Exporta o cliente (pode ser null durante build)
+export { supabase };
 
 // Função helper para criar cliente com service role (apenas para uso server-side)
 export const getServiceRoleClient = () => {
   const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
   
-  if (!serviceRoleKey) {
+  if (!serviceRoleKey || !supabaseUrl) {
     throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY');
   }
 
