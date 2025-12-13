@@ -20,7 +20,7 @@ export const Step1Products: React.FC = () => {
     packagingCost: 0,
     feePercentage: 3,
     taxAmount: 0,
-    otherVariableCosts: 0,
+    otherVariableCostsPercentage: 0,
     quantity: 0,
   });
   const [hasChanges, setHasChanges] = useState(false);
