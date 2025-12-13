@@ -6,21 +6,24 @@ import { Product } from '@/types/calculadora';
 import { generateId } from '@/data/calculator-defaults';
 import { calculateProductMetrics, formatCurrency, formatPercentage, getMarginBadge } from '@/utils/calculatorUtils';
 import { CurrencyInput, PercentageInput, TextInput } from './FormInputs';
-import { Plus, Trash2, AlertCircle, ArrowRight, Check, X } from 'lucide-react';
+import { Plus, Trash2, AlertCircle, ArrowRight, ArrowLeft, Check, X, Pencil } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
 
 export const Step1Products: React.FC = () => {
   const { state, addProduct, updateProduct, removeProduct, goToStep } = useCalculator();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     salePrice: 0,
     ingredientCost: 0,
     packagingCost: 0,
     feePercentage: 3,
-    taxPercentage: 0,
+    taxAmount: 0,
+    otherVariableCosts: 0,
     quantity: 0,
   });
+  const [hasChanges, setHasChanges] = useState(false);
 
   const handleAddProduct = () => {
     if (!newProduct.name || newProduct.salePrice <= 0) {
@@ -28,22 +31,68 @@ export const Step1Products: React.FC = () => {
       return;
     }
 
-    const product: Product = {
-      ...newProduct,
-      id: generateId(),
-    };
+    if (editingProduct) {
+      // Atualizar produto existente
+      updateProduct(editingProduct.id, newProduct);
+      setEditingProduct(null);
+    } else {
+      // Adicionar novo produto
+      const product: Product = {
+        ...newProduct,
+        id: generateId(),
+      };
+      addProduct(product);
+    }
 
-    addProduct(product);
     setNewProduct({
       name: '',
       salePrice: 0,
       ingredientCost: 0,
       packagingCost: 0,
       feePercentage: 3,
-      taxPercentage: 0,
+      taxAmount: 0,
+      otherVariableCosts: 0,
       quantity: 0,
     });
+    setHasChanges(false);
     setIsModalOpen(false);
+  };
+
+  const handleEditProduct = (product: Product) => {
+    setEditingProduct(product);
+    setNewProduct({
+      name: product.name,
+      salePrice: product.salePrice,
+      ingredientCost: product.ingredientCost,
+      packagingCost: product.packagingCost,
+      feePercentage: product.feePercentage,
+      taxAmount: product.taxAmount || 0,
+      otherVariableCosts: product.otherVariableCosts || 0,
+      quantity: product.quantity || 0,
+    });
+    setHasChanges(false);
+    setIsModalOpen(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingProduct(null);
+    setNewProduct({
+      name: '',
+      salePrice: 0,
+      ingredientCost: 0,
+      packagingCost: 0,
+      feePercentage: 3,
+      taxAmount: 0,
+      otherVariableCosts: 0,
+      quantity: 0,
+    });
+    setHasChanges(false);
+    setIsModalOpen(false);
+  };
+
+  const handleInputChange = (field: keyof Omit<Product, 'id'>, value: any) => {
+    setNewProduct(prev => ({ ...prev, [field]: value }));
+    setHasChanges(true);
   };
 
   const handleClearAll = () => {
@@ -56,7 +105,7 @@ export const Step1Products: React.FC = () => {
 
   const handleNext = () => {
     if (canProceed) {
-      goToStep(2);
+      goToStep(3);
     }
   };
 
@@ -105,11 +154,12 @@ export const Step1Products: React.FC = () => {
                       </p>
                     </div>
                     <button
-                      onClick={() => removeProduct(product.id)}
-                      className="p-2 rounded-lg transition-all hover:bg-[var(--lobster-pink-100)] text-[var(--lobster-pink-600)] cursor-pointer"
-                      title="Remover produto"
+                      onClick={() => handleEditProduct(product)}
+                      className="p-2 rounded-full transition-all bg-white cursor-pointer text-[#9a9a9b] hover:bg-[#b9b9ba] hover:text-white"
+                      style={{ border: '1px solid #b9b9ba' }}
+                      title="Editar produto"
                     >
-                      <Trash2 className="w-5 h-5" />
+                      <Pencil className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
@@ -130,12 +180,21 @@ export const Step1Products: React.FC = () => {
                     <span className="text-sm text-[var(--carbon-black-700)]">Taxa:</span>
                     <p className="font-semibold" style={{ color: '#703535' }}>{product.feePercentage}%</p>
                   </div>
-                  {(product.taxPercentage || 0) > 0 && (
+                  {(product.taxAmount || 0) > 0 && (
                     <>
                       <hr className="border-t border-[#e5d5c3]" />
                       <div className="flex justify-between items-center py-1">
                         <span className="text-sm text-[var(--carbon-black-700)]">Imposto:</span>
-                        <p className="font-semibold" style={{ color: '#703535' }}>{(product.taxPercentage || 0).toFixed(1)}%</p>
+                        <p className="font-semibold" style={{ color: '#703535' }}>{formatCurrency(product.taxAmount || 0)}</p>
+                      </div>
+                    </>
+                  )}
+                  {(product.otherVariableCostsPercentage || 0) > 0 && (
+                    <>
+                      <hr className="border-t border-[#e5d5c3]" />
+                      <div className="flex justify-between items-center py-1">
+                        <span className="text-sm text-[var(--carbon-black-700)]">Outros Custos Variáveis:</span>
+                        <p className="font-semibold" style={{ color: '#703535' }}>{product.otherVariableCostsPercentage}%</p>
                       </div>
                     </>
                   )}
@@ -189,12 +248,13 @@ export const Step1Products: React.FC = () => {
           <Dialog.Content className="fixed left-[50%] top-[50%] z-50 grid w-full translate-x-[-50%] translate-y-[-50%] gap-4 bg-[#fbf7ef] p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg outline-none focus:outline-none focus-visible:outline-none max-h-[90vh] overflow-y-auto" style={{ maxWidth: '500px' }}>
             <div className="flex items-center justify-between">
               <Dialog.Title className="text-xl font-bold" style={{ color: '#703535' }}>
-                Novo Produto
+                {editingProduct ? 'Editar Produto' : 'Novo Produto'}
               </Dialog.Title>
               <Dialog.Close asChild>
                 <button 
                   className="rounded-lg p-2 hover:bg-[var(--old-lace-300)] transition-colors cursor-pointer"
                   aria-label="Fechar"
+                  onClick={handleCancelEdit}
                 >
                   <X className="w-5 h-5" style={{ color: '#703535' }} />
                 </button>
@@ -216,7 +276,7 @@ export const Step1Products: React.FC = () => {
               <TextInput
                 label="Nome do Produto"
                 value={newProduct.name}
-                onChange={(value) => setNewProduct({ ...newProduct, name: value })}
+                onChange={(value) => handleInputChange('name', value)}
                 placeholder="Ex: Bolo Decorado 1kg"
                 required
                 disabled={state.products.length >= 15}
@@ -226,7 +286,7 @@ export const Step1Products: React.FC = () => {
               <CurrencyInput
                 label="Preço de Venda"
                 value={newProduct.salePrice}
-                onChange={(value) => setNewProduct({ ...newProduct, salePrice: value })}
+                onChange={(value) => handleInputChange('salePrice', value)}
                 placeholder="R$ 0,00"
                 required
                 disabled={state.products.length >= 15}
@@ -236,7 +296,7 @@ export const Step1Products: React.FC = () => {
               <CurrencyInput
                 label="Custo de Ingredientes"
                 value={newProduct.ingredientCost}
-                onChange={(value) => setNewProduct({ ...newProduct, ingredientCost: value })}
+                onChange={(value) => handleInputChange('ingredientCost', value)}
                 placeholder="R$ 0,00"
                 required
                 disabled={state.products.length >= 15}
@@ -246,7 +306,7 @@ export const Step1Products: React.FC = () => {
               <CurrencyInput
                 label="Custo de Embalagem"
                 value={newProduct.packagingCost}
-                onChange={(value) => setNewProduct({ ...newProduct, packagingCost: value })}
+                onChange={(value) => handleInputChange('packagingCost', value)}
                 placeholder="R$ 0,00"
                 required
                 disabled={state.products.length >= 15}
@@ -256,31 +316,54 @@ export const Step1Products: React.FC = () => {
               <PercentageInput
                 label="Taxa (%) - Cartão/Delivery"
                 value={newProduct.feePercentage}
-                onChange={(value) => setNewProduct({ ...newProduct, feePercentage: value })}
+                onChange={(value) => handleInputChange('feePercentage', value)}
                 placeholder="3%"
                 required
                 disabled={state.products.length >= 15}
                 whiteBackground
               />
 
+              <CurrencyInput
+                label="Imposto"
+                value={newProduct.taxAmount || 0}
+                onChange={(value) => handleInputChange('taxAmount', value)}
+                placeholder="R$ 0,00"
+                disabled={state.products.length >= 15}
+                whiteBackground
+              />
+
               <PercentageInput
-                label="Imposto (%)"
-                value={newProduct.taxPercentage || 0}
-                onChange={(value) => setNewProduct({ ...newProduct, taxPercentage: value })}
-                placeholder="0%"
+                label="Outros Custos Variáveis (%)"
+                value={newProduct.otherVariableCostsPercentage || 0}
+                onChange={(value) => handleInputChange('otherVariableCostsPercentage', value)}
+                placeholder="0,00%"
                 disabled={state.products.length >= 15}
                 whiteBackground
               />
             </div>
 
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-end items-center gap-3 mt-6">
+              {editingProduct && (
+                <button
+                  onClick={() => {
+                    if (confirm('Tem certeza que deseja excluir este produto?')) {
+                      removeProduct(editingProduct.id);
+                      handleCancelEdit();
+                    }
+                  }}
+                  className="btn-danger-sm-outline flex items-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Excluir
+                </button>
+              )}
               <button
                 onClick={handleAddProduct}
                 disabled={state.products.length >= 15 || !newProduct.name || newProduct.salePrice <= 0}
                 className="btn-success-sm flex items-center gap-2"
               >
                 <Check className="w-4 h-4" />
-                Salvar Produto
+                {editingProduct ? 'Atualizar Produto' : 'Salvar Produto'}
               </button>
             </div>
           </Dialog.Content>
@@ -352,13 +435,20 @@ export const Step1Products: React.FC = () => {
       )}
 
       {/* Navegação */}
-      <div className="flex justify-end">
+      <div className="flex justify-between">
+        <button
+          onClick={() => goToStep(1)}
+          className="btn-secondary-sm-outline flex items-center gap-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Custos Fixos</span>
+        </button>
         <button
           onClick={handleNext}
           disabled={!canProceed}
-          className="btn-secondary-sm-outline flex items-center gap-2"
+          className="btn-secondary-sm flex items-center gap-2"
         >
-          <span>Custos Fixos</span>
+          <span>Volume de Vendas</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>

@@ -58,7 +58,7 @@ export const ResultsCharts: React.FC<ResultsChartsProps> = ({ calculations, fixe
         {fixedCostsData.length > 0 && (
           <div>
             <h4 className="text-lg font-semibold text-gray-800 mb-4">Composição dos Custos Fixos</h4>
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={400}>
               <PieChart>
                 <Pie
                   data={fixedCostsData}
@@ -66,14 +66,30 @@ export const ResultsCharts: React.FC<ResultsChartsProps> = ({ calculations, fixe
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={100}
-                  label={(entry) => `${entry.name}: ${formatCurrency(entry.value)}`}
+                  outerRadius={120}
+                  labelLine={true}
+                  label={(entry) => {
+                    const percentage = ((entry.value / summary.totalFixedCosts) * 100).toFixed(1);
+                    return `${entry.name}: ${formatCurrency(entry.value)}`;
+                  }}
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
                 >
                   {fixedCostsData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value: number) => formatCurrency(value)} />
+                <Tooltip 
+                  formatter={(value: number) => formatCurrency(value)}
+                  contentStyle={{
+                    backgroundColor: 'white',
+                    border: '1px solid #e5e7eb',
+                    borderRadius: '8px',
+                    padding: '8px 12px',
+                  }}
+                />
               </PieChart>
             </ResponsiveContainer>
           </div>

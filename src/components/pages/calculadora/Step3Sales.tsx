@@ -154,7 +154,7 @@ export const Step3Sales: React.FC = () => {
           className="btn-secondary-sm-outline flex items-center gap-2"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Custos Fixos</span>
+          <span>Produtos</span>
         </button>
         <button
           onClick={handleNext}

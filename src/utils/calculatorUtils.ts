@@ -1,11 +1,12 @@
 import { Product, ProductCalculation, FinancialSummary, FixedCost } from '@/types/calculadora';
 
 export const calculateProductMetrics = (product: Product): ProductCalculation => {
-  const { salePrice, ingredientCost, packagingCost, feePercentage, quantity = 0 } = product;
+  const { salePrice, ingredientCost, packagingCost, feePercentage, taxAmount = 0, otherVariableCostsPercentage = 0, quantity = 0 } = product;
   
   // Custo variável total unitário
   const feeAmount = salePrice * (feePercentage / 100);
-  const totalVariableCost = ingredientCost + packagingCost + feeAmount;
+  const otherVariableCostsAmount = salePrice * (otherVariableCostsPercentage / 100);
+  const totalVariableCost = ingredientCost + packagingCost + feeAmount + taxAmount + otherVariableCostsAmount;
   
   // Margem de contribuição unitária
   const contributionMarginValue = salePrice - totalVariableCost;

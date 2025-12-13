@@ -9,7 +9,7 @@ interface StepperProps {
   steps: string[];
 }
 
-const STEP_ICONS = [CakeSlice, HandCoins, CircleDollarSign, ChartNoAxesCombined];
+const STEP_ICONS = [HandCoins, CakeSlice, CircleDollarSign, ChartNoAxesCombined];
 
 export const Stepper: React.FC<StepperProps> = ({ currentStep, steps }) => {
   const { goToStep, state } = useCalculator();
@@ -19,8 +19,8 @@ export const Stepper: React.FC<StepperProps> = ({ currentStep, steps }) => {
     if (stepNumber <= currentStep) return true; // Sempre pode acessar etapas anteriores ou atual
     
     switch (stepNumber) {
-      case 2: // Custos Fixos - precisa ter pelo menos 1 produto
-        return state.products.length > 0;
+      case 2: // Produtos - precisa ter pelo menos 1 custo fixo
+        return state.fixedCosts.length > 0;
       case 3: // Vendas - precisa ter pelo menos 1 produto e 1 custo fixo
         return state.products.length > 0 && state.fixedCosts.length > 0;
       case 4: // Resultados - precisa ter pelo menos 1 produto com quantidade > 0

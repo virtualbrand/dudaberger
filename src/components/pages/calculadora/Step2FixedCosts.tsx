@@ -107,7 +107,7 @@ export const Step2FixedCosts: React.FC = () => {
   };
 
   const handleNext = () => {
-    goToStep(3);
+    goToStep(2);
   };
 
   const handleBack = () => {
@@ -358,19 +358,12 @@ export const Step2FixedCosts: React.FC = () => {
       </div>
 
       {/* Botões de Navegação */}
-      <div className="flex justify-between">
-        <button
-          onClick={handleBack}
-          className="btn-secondary-sm-outline flex items-center gap-2"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          <span>Produtos</span>
-        </button>
+      <div className="flex justify-end">
         <button
           onClick={handleNext}
           className="btn-secondary-sm flex items-center gap-2"
         >
-          <span>Volume de Vendas</span>
+          <span>Produtos</span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </div>
