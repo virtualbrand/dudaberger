@@ -20,7 +20,7 @@ interface WorkshopConfig {
 export const workshopConfig: WorkshopConfig = {
   currentLotNumber: 2, // Altere apenas este número para mudar o lote ativo
   event: {
-    date: "13 E 14 DE DEZEMBRO | NO ZOOM | AO VIVO"
+    date: "17 E 18 DE JANEIRO | NO ZOOM | AO VIVO"
   },
   lots: [
     {
@@ -36,7 +36,7 @@ export const workshopConfig: WorkshopConfig = {
       originalPrice: 147,
       currentPrice: 37,
       installmentPrice: "8 x de R$ 5,33",
-      soldPercentage: 86.3,
+      soldPercentage: 67.3,
       paymentLink: "https://pay.hotmart.com/U102307449V?checkoutMode=10&off=kzn7moqq"
     },
     {
