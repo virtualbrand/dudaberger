@@ -110,7 +110,7 @@ export const HeroSection = () => {
         <div className="px-6 md:px-8 lg:pl-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))]">
           <div className="flex items-center gap-3 pt-20">
             <OptimizedImage 
-              src="/images/workshop/logo.webp" 
+              src="/images/workshop/logo.webp?v=20250114" 
               alt="Workshop Duda Berger" 
               priority={true}
               className="w-[280px] [filter:brightness(0)_saturate(100%)_invert(28%)_sepia(15%)_saturate(1520%)_hue-rotate(313deg)_brightness(92%)_contrast(89%)]"
