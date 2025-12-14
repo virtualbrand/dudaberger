@@ -9,6 +9,12 @@ const HeroSection = dynamic(() => import('@/components/pages/workshop').then(mod
   ssr: true
 });
 
+// Lazy load da CalculatorSection (logo após hero)
+const CalculatorSection = dynamic(() => import('@/components/pages/workshop').then(mod => ({ default: mod.CalculatorSection })), {
+  loading: () => <div className="min-h-[400px]" />,
+  ssr: false
+});
+
 // Lazy load sem SSR para seções abaixo da dobra
 const SecondSection = dynamic(() => import('@/components/pages/workshop').then(mod => ({ default: mod.SecondSection })), {
   loading: () => <div className="min-h-[400px]" />,
@@ -100,6 +106,10 @@ export default function WorkshopPage() {
       
       <SectionErrorBoundary sectionName="Hero">
         <HeroSection />
+      </SectionErrorBoundary>
+      
+      <SectionErrorBoundary sectionName="Calculadora">
+        <CalculatorSection />
       </SectionErrorBoundary>
       
       <SectionErrorBoundary sectionName="Apresentação">

@@ -50,11 +50,6 @@ const PainSection = () => {
           Se você marcar pelo menos 3 dessas situações, <br className="hidden xl:block" />
            o que falta é estratégia clara.
         </h2>
-        <p className="fade-in text-lg text-center text-white mb-8 max-w-6xl mx-auto">
-           Comecei do zero no meio da pandemia, numa cidade pequena onde não conhecia ninguém, <br className="hidden xl:block" />
-           e cheguei a R$ 10 mil/mês no primeiro ano porque fui direto ao que funciona. <br className="hidden xl:block" />
-           E é o meu método validado que você vai aprender neste workshop.
-        </p>
         
         <div className="fade-in max-w-[903px] mx-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 border border-white/20 shadow-2xl text-left">
           <div className="space-y-6">

@@ -2,6 +2,14 @@
 const nextConfig = {
   reactStrictMode: true,
   
+  // Desabilitar cache em desenvolvimento
+  ...(process.env.NODE_ENV === 'development' && {
+    onDemandEntries: {
+      maxInactiveAge: 0,
+      pagesBufferLength: 0,
+    },
+  }),
+  
   // Desabilitar Turbopack e usar Webpack
   turbopack: {},
   
@@ -38,24 +46,49 @@ const nextConfig = {
   },
   async headers() {
     return [
-      // Security headers para todas as páginas
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          },
-        ],
-      },
+      // Desabilitar cache em desenvolvimento
+      ...(process.env.NODE_ENV === 'development' ? [
+        {
+          source: '/:path*',
+          headers: [
+            {
+              key: 'Cache-Control',
+              value: 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0'
+            },
+            {
+              key: 'X-DNS-Prefetch-Control',
+              value: 'on'
+            },
+            {
+              key: 'X-Frame-Options',
+              value: 'SAMEORIGIN'
+            },
+            {
+              key: 'X-Content-Type-Options',
+              value: 'nosniff'
+            },
+          ],
+        },
+      ] : [
+        // Security headers para todas as páginas (produção)
+        {
+          source: '/:path*',
+          headers: [
+            {
+              key: 'X-DNS-Prefetch-Control',
+              value: 'on'
+            },
+            {
+              key: 'X-Frame-Options',
+              value: 'SAMEORIGIN'
+            },
+            {
+              key: 'X-Content-Type-Options',
+              value: 'nosniff'
+            },
+          ],
+        },
+      ]),
       // Cache longo para fontes (1 ano)
       {
         source: '/fonts/:path*',

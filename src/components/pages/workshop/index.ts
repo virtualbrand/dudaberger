@@ -1,4 +1,5 @@
 export { default as HeroSection } from './HeroSection'
+export { default as CalculatorSection } from './CalculatorSection'
 export { HowToSection } from './HowToSection'
 export { default as PainSection } from './PainSection'
 export { default as PricingSection } from './PricingSection'
