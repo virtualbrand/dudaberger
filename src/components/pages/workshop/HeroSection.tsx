@@ -3,7 +3,7 @@
 import { Progress } from "@/components/ui/progress";
 import { ArrowRight } from "lucide-react";
 import { OptimizedImage } from "@/components/ui/optimized-image";
-import { getPrimaryButtonText, getProgressText, getCurrentLot } from "@/data/workshop-config";
+import { getPrimaryButtonText, getProgressText, getCurrentLot, workshopConfig } from "@/data/workshop-config";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
@@ -126,7 +126,7 @@ export const HeroSection = () => {
             {/* Left Content - Alinhado com o logo */}
             <div className="relative z-30 px-6 md:px-8 lg:pl-[max(1.5rem,calc((100vw-1280px)/2+1.5rem))] space-y-6 max-w-5xl py-8 lg:py-0">
               <div className="inline-block px-6 py-2 rounded-full bg-[#b2a290] text-[#2e1515] text-sm mb-4">
-                13 E 14 DE DEZEMBRO | NO ZOOM | AO VIVO
+                {workshopConfig.event.date}
               </div>
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#703535] mb-6 leading-tight">
                 R$ 10.000 /mês trabalhando de casa com Confeitaria

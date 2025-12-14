@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'R$ 10.000/mês trabalhando de casa com Confeitaria | Workshop Ao Vivo',
-  description: '2 dias ao vivo para faturar R$ 10.000/mês com confeitaria trabalhando de casa. Aprenda produto, precificação e vendas que realmente funcionam. 13 e 14 de dezembro no Zoom.',
+  description: '2 dias ao vivo para faturar R$ 10.000/mês com confeitaria trabalhando de casa. Aprenda produto, precificação e vendas que realmente funcionam. 17 e 18 de janeiro no Zoom.',
   keywords: [
     'workshop confeitaria',
     'curso de bolos',
