@@ -14,12 +14,12 @@ const HeroSection = () => {
    url: "https://wa.link/91yirq",
    image: "/images/links/whatsapp.webp"
     },
-    {
-      title: "Guirlanda de Natal",
-      description: "Receita completa + técnica de montagem do produto que me faz faturar até 6 mil a mais todo Natal",
-      url: "/guirlanda-natal",
-      image: "/images/links/guirlanda-cover.webp"
-    },
+    // {
+    //   title: "Guirlanda de Natal",
+    //   description: "Receita completa + técnica de montagem do produto que me faz faturar até 6 mil a mais todo Natal",
+    //   url: "/guirlanda-natal",
+    //   image: "/images/links/guirlanda-cover.webp"
+    // },
     // {
     //   title: "Efeito Água na Boca",
     //   description: "Presets para fotografia",
