@@ -11,18 +11,25 @@ import { Spinner } from '@/components/ui/spinner';
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { loading, isAuthenticated } = useAuth();
+  const { loading, isAuthenticated, user } = useAuth();
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [mounted, setMounted] = React.useState(false);
+
+  // Marca como montado apenas no cliente
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Redireciona para login se não estiver autenticado
   React.useEffect(() => {
     if (!loading && !isAuthenticated) {
+      console.log('Dashboard: Não autenticado, redirecionando para login');
       router.push('/login');
     }
   }, [loading, isAuthenticated, router]);
 
-  // Mostra loading enquanto verifica autenticação
-  if (loading) {
+  // Mostra loading enquanto verifica autenticação ou enquanto não montou
+  if (!mounted || loading) {
     return (
       <div className="min-h-screen bg-[#F6EEE1] flex items-center justify-center">
         <Spinner size="lg" />
@@ -32,8 +39,11 @@ export default function DashboardPage() {
 
   // Não renderiza o conteúdo se não estiver autenticado
   if (!isAuthenticated) {
+    console.log('Dashboard: Usuário não autenticado');
     return null;
   }
+
+  console.log('Dashboard: Renderizando com usuário:', user?.email);
 
   return (
     <ToastProvider>

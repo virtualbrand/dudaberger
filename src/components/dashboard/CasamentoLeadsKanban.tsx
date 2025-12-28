@@ -206,6 +206,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
     encerrado: [],
   });
   const [loading, setLoading] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
   const [isEncerradoOpen, setIsEncerradoOpen] = React.useState(false);
   const [selectedLead, setSelectedLead] = React.useState<CasamentoLead | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
@@ -217,16 +218,22 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   const loadLeads = React.useCallback(async () => {
     if (!supabase) {
       console.warn('Supabase client not available');
+      setError('Cliente Supabase não está disponível');
+      setLoading(false);
       return;
     }
     
     try {
-      const { data, error } = await (supabase as any)
+      console.log('🔄 Carregando leads do Supabase...');
+      const { data, error: fetchError } = await (supabase as any)
         .from('leads')
         .select('*')
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (fetchError) {
+        console.error('Erro ao buscar leads:', fetchError);
+        throw fetchError;
+      }
 
       console.log('Leads carregados do banco:', data?.length || 0);
 
@@ -267,12 +274,20 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       });
 
       setColumns(organized);
-    } catch (error) {
-      console.error('Erro ao carregar leads:', error);
+      setError(null);
+      console.log('✅ Leads carregados com sucesso');
+    } catch (error: any) {
+      console.error('❌ Erro ao carregar leads:', error);
+      setError(error.message || 'Erro ao carregar leads');
+      showToast({
+        title: 'Erro',
+        description: 'Não foi possível carregar os leads. Tente novamente.',
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [showToast]);
 
   // Carregar leads do Supabase
   React.useEffect(() => {
@@ -346,6 +361,37 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
     
     return filtered;
   }, [columns, searchQuery]);
+
+  // Mostra estado de erro se houver
+  if (error && !loading) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 px-4">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md text-center">
+          <h3 className="text-lg font-semibold text-red-900 mb-2">Erro ao carregar leads</h3>
+          <p className="text-sm text-red-700 mb-4">{error}</p>
+          <button
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              loadLeads();
+            }}
+            className="px-4 py-2 bg-[#703535] text-white rounded-lg hover:bg-[#5a2a2a] transition-colors"
+          >
+            Tentar novamente
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Mostra loading
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#703535]"></div>
+      </div>
+    );
+  }
 
   const handleCardClick = (lead: CasamentoLead) => {
     setSelectedLead(lead);

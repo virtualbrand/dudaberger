@@ -35,10 +35,10 @@ const LoginForm = () => {
 
       if (data.session) {
         // Aguarda um momento para garantir que o cookie foi setado
-        await new Promise(resolve => setTimeout(resolve, 500));
+        await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Força reload da página para atualizar o estado de autenticação
-        window.location.href = '/dashboard';
+        // Usa replace para evitar voltar para login com o botão voltar
+        window.location.replace('/dashboard');
       } else {
         setError('Erro ao fazer login. Tente novamente.');
         setIsLoading(false);
