@@ -34,9 +34,14 @@ const LoginForm = () => {
       }
 
       if (data.session) {
-        // Redireciona para o dashboard após login bem-sucedido
-        router.push('/dashboard');
-        router.refresh();
+        // Aguarda um momento para garantir que o cookie foi setado
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Força reload da página para atualizar o estado de autenticação
+        window.location.href = '/dashboard';
+      } else {
+        setError('Erro ao fazer login. Tente novamente.');
+        setIsLoading(false);
       }
     } catch (err: any) {
       console.error('Login error:', err);
