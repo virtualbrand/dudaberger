@@ -279,11 +279,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
     } catch (error: any) {
       console.error('❌ Erro ao carregar leads:', error);
       setError(error.message || 'Erro ao carregar leads');
-      showToast({
-        title: 'Erro',
-        description: 'Não foi possível carregar os leads. Tente novamente.',
-        variant: 'destructive',
-      });
+      showToast('Não foi possível carregar os leads. Tente novamente.', 'error');
     } finally {
       setLoading(false);
     }
