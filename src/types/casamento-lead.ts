@@ -2,7 +2,6 @@ export interface CasamentoLead {
   id: string;
   nomeNoivo: string;
   nomeNoiva: string;
-  email: string;
   telefone: string;
   dataCasamento: string;
   numeroConvidados: number;

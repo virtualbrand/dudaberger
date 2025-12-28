@@ -15,7 +15,7 @@ import {
 
 export const CasamentoStep1: React.FC = () => {
   const { state, updateStep1, goToStep, setLeadId } = useCasamento();
-  const { createLead, loading } = useLeads();
+  const { createLead, updateLead, loading } = useLeads();
   
   const [nomeCasal, setNomeCasal] = useState(state.step1Data.nomeCasal || '');
   const [dataCerimonia, setDataCerimonia] = useState(state.step1Data.dataCerimonia || '');
@@ -35,22 +35,42 @@ export const CasamentoStep1: React.FC = () => {
       localFesta,
     });
 
-    // Cria o lead no Supabase
-    if (!state.leadId) {
-      // Separa os nomes do casal
-      const nomes = nomeCasal.split('&').map((n: string) => n.trim());
-      const nomeNoivo = nomes[0] || '';
-      const nomeNoiva = nomes[1] || '';
+    // Separa os nomes do casal - aceita "e" ou "&"
+    const nomes = nomeCasal.split(/\s+e\s+|\s+&\s+/i).map((n: string) => n.trim());
+    const nomeNoivo = nomes[0] || '';
+    const nomeNoiva = nomes[1] || '';
 
+    console.log('💾 Salvando lead:', { 
+      leadId: state.leadId,
+      nomeNoivo, 
+      nomeNoiva,
+      dataCerimonia,
+      localFesta,
+      whatsapp: state.step1Data.whatsapp
+    });
+
+    // Se o lead já existe, atualiza; senão, cria novo
+    if (state.leadId) {
+      const result = await updateLead(state.leadId, {
+        nome_noivo: nomeNoivo,
+        nome_noiva: nomeNoiva,
+        data_casamento: dataCerimonia,
+        local_evento: localFesta,
+        whatsapp: state.step1Data.whatsapp?.replace(/[^\d+]/g, ''),
+      });
+      console.log('✅ Lead atualizado:', result);
+    } else {
       const lead = await createLead({
         nome_noivo: nomeNoivo,
         nome_noiva: nomeNoiva,
         data_casamento: dataCerimonia,
         local_evento: localFesta,
+        whatsapp: state.step1Data.whatsapp?.replace(/[^\d+]/g, ''),
         status: 'lead',
       });
 
       if (lead) {
+        console.log('✅ Lead criado:', lead);
         setLeadId(lead.id);
       }
     }
@@ -76,7 +96,7 @@ export const CasamentoStep1: React.FC = () => {
       <div className="space-y-6">
         <div>
           <label htmlFor="nomeCasal" className="block text-sm font-medium text-gray-700 mb-1">
-            Nome do casal <span className="text-red-500">*</span>
+            Nome dos noivos *
           </label>
           <input
             type="text"
@@ -84,7 +104,7 @@ export const CasamentoStep1: React.FC = () => {
             value={nomeCasal}
             onChange={(e) => setNomeCasal(e.target.value)}
             className="w-full px-4 py-3 border rounded-lg transition-all"
-            placeholder="Ex: Maria & João"
+            placeholder="Ex: Maria e João"
             required
           />
         </div>
@@ -92,7 +112,7 @@ export const CasamentoStep1: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
           <div className="md:col-span-1">
             <Label htmlFor="dataCerimonia" className="block text-sm font-medium text-gray-700 mb-1">
-              Data da cerimônia <span className="text-red-500">*</span>
+              Data da cerimônia *
             </Label>
             <Popover open={openDatePicker} onOpenChange={setOpenDatePicker}>
               <PopoverTrigger asChild>
@@ -233,7 +253,7 @@ export const CasamentoStep1: React.FC = () => {
 
           <div className="md:col-span-2">
             <label htmlFor="localFesta" className="block text-sm font-medium text-gray-700 mb-1 ">
-              Local da festa <span className="text-red-500">*</span>
+              Local da festa *
             </label>
             <input
               type="text"
@@ -248,7 +268,13 @@ export const CasamentoStep1: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-end">
+      <div className="mt-8 flex justify-between">
+        <button 
+          onClick={() => goToStep(0.5)}
+          className="btn-secondary-sm-outline"
+        >
+          Voltar
+        </button>
         <button 
           onClick={handleNext}
           disabled={!isFormValid || loading}

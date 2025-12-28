@@ -52,6 +52,8 @@ export function useLeads() {
     setLoading(true);
     setError(null);
 
+    console.log('🔧 useLeads.updateLead chamado:', { id, data });
+
     try {
       const { data: lead, error: err } = await (supabase as any)
         .from('leads')
@@ -60,13 +62,17 @@ export function useLeads() {
         .select()
         .single();
 
-      if (err) throw err;
+      if (err) {
+        console.error('❌ Erro no Supabase ao atualizar lead:', err);
+        throw err;
+      }
 
+      console.log('✅ Lead atualizado com sucesso no banco:', lead);
       return lead;
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Erro ao atualizar lead';
       setError(message);
-      console.error('Erro ao atualizar lead:', err);
+      console.error('❌ Erro ao atualizar lead:', err);
       return null;
     } finally {
       setLoading(false);

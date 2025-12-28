@@ -109,7 +109,7 @@ export const CasamentoStep3: React.FC = () => {
       <div className="space-y-6">
         <div>
           <label htmlFor="numeroConvidados" className="block text-sm font-medium text-gray-700 mb-1">
-            Número de convidados <span className="text-red-500">*</span>
+            Número de convidados *
           </label>
           <input
             type="text"
@@ -124,7 +124,7 @@ export const CasamentoStep3: React.FC = () => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3">
-            Qual budget por convidado vocês tem preferência para investir no bolo da cerimônia? <span className="text-red-500">*</span>
+            Qual budget por convidado vocês tem preferência para investir no bolo da cerimônia? *
           </label>
           <p className="text-xs text-gray-500 mb-3">Opções por convidado</p>
           <div className="space-y-3">

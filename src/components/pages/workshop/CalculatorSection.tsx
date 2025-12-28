@@ -3,12 +3,15 @@
 import { useState } from "react";
 
 const CalculatorSection = () => {
-  const [cakePrice, setCakePrice] = useState(200);
+  const [cakesPerWeek, setCakesPerWeek] = useState(3);
+  const [selectedPrice, setSelectedPrice] = useState(200);
+
+  // Opções de preço
+  const priceOptions = [200, 250, 300];
 
   // Cálculos
-  const monthlyGoal = 10000;
-  const cakesPerMonth = Math.ceil(monthlyGoal / cakePrice);
-  const cakesPerWeek = Math.ceil(cakesPerMonth / 4);
+  const cakesPerMonth = cakesPerWeek * 4;
+  const monthlyRevenue = cakesPerMonth * selectedPrice;
 
   // Formatador de moeda
   const formatCurrency = (value: number) => {
@@ -27,13 +30,10 @@ const CalculatorSection = () => {
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#b2a290]/20 rounded-full filter blur-3xl" />
       
       <div className="relative z-10 container mx-auto px-6 md:px-8">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#703535] mb-4">
-            Descubra quantos bolos você precisa vender
+        <div className="max-w-4xl mx-auto text-center mb-6">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-[#D65B58] mx-auto">
+            Descubra quanto você poderia estar faturando
           </h2>
-          <p className="text-lg md:text-xl text-[#8f645f]">
-            Arraste o controle e veja quantos bolos por semana você precisa para faturar R$ 10.000/mês
-          </p>
         </div>
 
         <div className="max-w-5xl mx-auto">
@@ -41,25 +41,22 @@ const CalculatorSection = () => {
           <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 border border-[#d4c4b2]/30">
             {/* Slider Section */}
             <div className="mb-12">
-              <div className="flex justify-between items-center mb-6">
-                <label className="text-lg md:text-xl font-semibold text-[#703535]">
-                  Se seu bolo custa:
+              <div className="flex flex-col items-center mb-6">
+                <label className="text-lg md:text-xl font-semibold text-[#703535] mb-3 text-center">
+                  Quantos bolos você faz por semana?
                 </label>
-                <div className="text-3xl md:text-4xl font-bold text-[#b94946]">
-                  {formatCurrency(cakePrice)}
-                </div>
               </div>
               
               <input
                 type="range"
-                min={100}
-                max={400}
-                step={10}
-                value={cakePrice}
-                onChange={(e) => setCakePrice(Number(e.target.value))}
+                min={1}
+                max={50}
+                step={1}
+                value={cakesPerWeek}
+                onChange={(e) => setCakesPerWeek(Number(e.target.value))}
                 className="w-full h-3 bg-[#d4c4b2] rounded-lg appearance-none cursor-pointer slider-range"
                 style={{
-                  background: `linear-gradient(to right, #b94946 0%, #b94946 ${((cakePrice - 100) / 300) * 100}%, #d4c4b2 ${((cakePrice - 100) / 300) * 100}%, #d4c4b2 100%)`
+                  background: `linear-gradient(to right, #b94946 0%, #b94946 ${((cakesPerWeek - 1) / 49) * 100}%, #d4c4b2 ${((cakesPerWeek - 1) / 49) * 100}%, #d4c4b2 100%)`
                 }}
               />
               <style jsx>{`
@@ -92,32 +89,42 @@ const CalculatorSection = () => {
                   box-shadow: 0 4px 12px rgba(185, 73, 70, 0.6);
                 }
               `}</style>
-              
-              <div className="flex justify-between mt-3 text-sm text-[#8f645f]">
-                <span>R$ 100</span>
-                <span>R$ 400</span>
+            </div>
+
+            {/* Price Selection */}
+            <div className="mb-12">
+              <div className="text-center mb-6">
+                <label className="text-lg md:text-xl font-semibold text-[#703535]">
+                  Preço médio do seu bolo:
+                </label>
+              </div>
+              <div className="flex gap-4 justify-center flex-wrap">
+                {priceOptions.map((price) => (
+                  <button
+                    key={price}
+                    onClick={() => setSelectedPrice(price)}
+                    className={selectedPrice === price ? "btn-primary-xs" : "btn-primary-xs-outline"}
+                  >
+                    {formatCurrency(price)}
+                  </button>
+                ))}
               </div>
             </div>
 
             {/* Results Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-              {/* Card 1 - Bolos/mês */}
-              <div className="bg-gradient-to-br from-[#fbf7ef] to-[#f5ede0] rounded-2xl p-6 md:p-8 text-center border border-[#d4c4b2]/30">
-                <div className="text-5xl md:text-6xl font-bold text-[#b94946] mb-2">
-                  {formatCurrency(monthlyGoal)} ÷ {formatCurrency(cakePrice)} = {cakesPerMonth} bolos/mês
+            <div className="grid grid-cols-1 gap-6 md:gap-8">
+              {/* Card - Faturamento mensal */}
+              <div className="bg-gradient-to-br from-[#fbf7ef] to-[#f5ede0] rounded-2xl p-8 md:p-12 text-center border border-[#d4c4b2]/30">
+                <div className="mb-4">
+                  <div className="text-lg md:text-xl text-[#8f645f] mb-2">
+                    {cakesPerWeek} {cakesPerWeek === 1 ? 'bolo' : 'bolos'}/semana × 4 semanas × {formatCurrency(selectedPrice)}
+                  </div>
+                  <div className="text-3xl md:text-4xl lg:text-5xl font-bold font-unbounded text-[#b94946]">
+                    {formatCurrency(monthlyRevenue)}/mês
+                  </div>
                 </div>
-                <div className="text-xl md:text-2xl font-bold text-[#703535] mt-4">
-                  = {cakesPerWeek} bolos /semana
-                </div>
-              </div>
-
-              {/* Card 2 - Bolos/semana */}
-              <div className="bg-gradient-to-br from-[#fbf7ef] to-[#f5ede0] rounded-2xl p-6 md:p-8 text-center border border-[#d4c4b2]/30">
-                <div className="text-5xl md:text-6xl font-bold text-[#b94946] mb-2">
-                  {formatCurrency(monthlyGoal)} ÷ {formatCurrency(cakePrice)} = {Math.ceil(monthlyGoal / cakePrice / 4 * 10)} bolos/mês
-                </div>
-                <div className="text-xl md:text-2xl font-bold text-[#703535] mt-4">
-                  = {Math.ceil(monthlyGoal / cakePrice / 4 * 10 / 4)} bolos /semana
+                <div className="text-base md:text-lg text-[#703535] mt-6">
+                  ({cakesPerMonth} {cakesPerMonth === 1 ? 'bolo' : 'bolos'} por mês)
                 </div>
               </div>
             </div>
@@ -125,12 +132,12 @@ const CalculatorSection = () => {
             {/* CTA Message */}
             <div className="mt-10 text-center">
               <p className="text-lg md:text-xl text-[#703535] font-semibold">
-                {cakesPerWeek <= 3 ? (
-                  <>É totalmente possível! Você só precisa da estratégia certa.</>
-                ) : cakesPerWeek <= 6 ? (
-                  <>Desafiador, mas alcançável com organização e vendas estratégicas.</>
+                {monthlyRevenue >= 10000 ? (
+                  <>Você está no caminho certo! No workshop, vamos te ensinar a manter essa consistência e crescer ainda mais.</>
+                ) : monthlyRevenue >= 5000 ? (
+                  <>Você está perto! No workshop, vamos te mostrar como chegar nos R$ 10.000/mês com estratégias que funcionam.</>
                 ) : (
-                  <>Parece muito? No workshop você aprende a precificar melhor e vender mais caro!</>
+                  <>Imagina dobrar ou triplicar esse valor? No workshop você aprende a precificar melhor, vender mais e conquistar mais clientes!</>
                 )}
               </p>
             </div>

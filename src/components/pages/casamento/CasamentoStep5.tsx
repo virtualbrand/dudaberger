@@ -36,10 +36,10 @@ export const CasamentoStep5: React.FC = () => {
             <p><strong>Orçamento por Convidado:</strong> {state.step3Data.budgetPorConvidado}</p>
           </div>
 
-          {state.step2Data.whatsapp && (
+          {state.step1Data.whatsapp && (
             <div>
               <h3 className="font-bold text-[#703535] mb-2">📱 Contato</h3>
-              <p><strong>WhatsApp:</strong> {state.step2Data.whatsapp}</p>
+              <p><strong>WhatsApp:</strong> {state.step1Data.whatsapp}</p>
             </div>
           )}
 

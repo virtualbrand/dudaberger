@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { CasamentoProvider, useCasamento } from '@/contexts/CasamentoContext';
 import { CasamentoStepper } from './CasamentoStepper';
+import { CasamentoStep0_5 } from './CasamentoStep0_5';
 import { CasamentoStep1 } from './CasamentoStep1';
 import { CasamentoStep2 } from './CasamentoStep2';
 import { CasamentoStep2_3 } from './CasamentoStep2_3';
@@ -87,6 +88,7 @@ const CasamentoContent: React.FC = () => {
       `}</style>
       <div className="mx-auto max-w-[900px] w-full relative z-10">
         <div className={isTransitioning ? 'step-exit' : 'step-enter'}>
+          {displayStep === 0.5 && <CasamentoStep0_5 />}
           {displayStep === 1 && <CasamentoStep1 />}
           {displayStep === 2 && <CasamentoStep2 />}
           {displayStep === 2.3 && <CasamentoStep2_3 />}

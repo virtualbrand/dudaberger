@@ -2,12 +2,12 @@ import NextImage from "next/image";
 
 const HeroSection = () => {
   const links = [
-    {
-      title: "Workshop de Confeitaria",
-      description: "R$ 10.000 /mês trabalhando de casa com Confeitaria",
-      url: "/workshop",
-      image: "/images/links/workshop-cover.webp"
-    },
+    // {
+    //   title: "Workshop de Confeitaria",
+    //   description: "R$ 10.000 /mês trabalhando de casa com Confeitaria",
+    //   url: "/workshop",
+    //   image: "/images/links/workshop-cover.webp"
+    // },
     {
    title: "WhatsApp",
    description: "Faça sua encomenda personalizada ou tire suas dúvidas",

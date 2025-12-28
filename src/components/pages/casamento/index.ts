@@ -1,5 +1,6 @@
 export { default as StartSection } from './StartSection'
 export { default as CasamentoSection } from './CasamentoSection'
+export { CasamentoStep0_5 } from './CasamentoStep0_5'
 export { CasamentoStep1 } from './CasamentoStep1'
 export { CasamentoStep2 } from './CasamentoStep2'
 export { CasamentoStep2_3 } from './CasamentoStep2_3'

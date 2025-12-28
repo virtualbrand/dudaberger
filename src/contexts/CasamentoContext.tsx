@@ -27,7 +27,7 @@ export type CasamentoAction =
   | { type: 'RESET' };
 
 const initialState: CasamentoState = {
-  currentStep: 1,
+  currentStep: 0.5,
   leadId: null,
   step1Data: {},
   step2Data: {},

@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS propostas (
   -- Detalhes da proposta
   titulo VARCHAR(255) NOT NULL,
   descricao TEXT,
+  slug VARCHAR(255) UNIQUE, -- URL amigável para página pública (ex: casal-joao-maria)
   
   -- Valores
   valor_total DECIMAL(10,2) NOT NULL,
@@ -122,6 +123,7 @@ CREATE INDEX IF NOT EXISTS idx_leads_created_at ON leads(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_leads_email ON leads(email);
 CREATE INDEX IF NOT EXISTS idx_propostas_lead_id ON propostas(lead_id);
 CREATE INDEX IF NOT EXISTS idx_propostas_status ON propostas(status);
+CREATE INDEX IF NOT EXISTS idx_propostas_slug ON propostas(slug);
 CREATE INDEX IF NOT EXISTS idx_contratos_lead_id ON contratos(lead_id);
 CREATE INDEX IF NOT EXISTS idx_contratos_proposta_id ON contratos(proposta_id);
 CREATE INDEX IF NOT EXISTS idx_contratos_numero ON contratos(numero_contrato);
@@ -157,14 +159,38 @@ ALTER TABLE propostas ENABLE ROW LEVEL SECURITY;
 ALTER TABLE contratos ENABLE ROW LEVEL SECURITY;
 
 -- Criar políticas de acesso (permitir tudo para usuários autenticados)
-CREATE POLICY "Permitir tudo para usuários autenticados" ON leads
-  FOR ALL USING (auth.role() = 'authenticated');
+-- Políticas para leads
+DROP POLICY IF EXISTS "Permitir tudo para usuários autenticados" ON leads;
+CREATE POLICY "Usuários autenticados podem ver todos os leads" ON leads
+  FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem inserir leads" ON leads
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem atualizar leads" ON leads
+  FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem deletar leads" ON leads
+  FOR DELETE USING (auth.role() = 'authenticated');
 
-CREATE POLICY "Permitir tudo para usuários autenticados" ON propostas
-  FOR ALL USING (auth.role() = 'authenticated');
+-- Políticas para propostas
+DROP POLICY IF EXISTS "Permitir tudo para usuários autenticados" ON propostas;
+CREATE POLICY "Usuários autenticados podem ver todas as propostas" ON propostas
+  FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem inserir propostas" ON propostas
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem atualizar propostas" ON propostas
+  FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem deletar propostas" ON propostas
+  FOR DELETE USING (auth.role() = 'authenticated');
 
-CREATE POLICY "Permitir tudo para usuários autenticados" ON contratos
-  FOR ALL USING (auth.role() = 'authenticated');
+-- Políticas para contratos
+DROP POLICY IF EXISTS "Permitir tudo para usuários autenticados" ON contratos;
+CREATE POLICY "Usuários autenticados podem ver todos os contratos" ON contratos
+  FOR SELECT USING (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem inserir contratos" ON contratos
+  FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem atualizar contratos" ON contratos
+  FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Usuários autenticados podem deletar contratos" ON contratos
+  FOR DELETE USING (auth.role() = 'authenticated');
 
 -- Comentários nas tabelas
 COMMENT ON TABLE leads IS 'Tabela de leads/clientes potenciais';

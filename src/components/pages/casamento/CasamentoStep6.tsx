@@ -14,10 +14,10 @@ export const CasamentoStep6: React.FC = () => {
   };
 
   const handleSendWhatsApp = async () => {
-    // Atualiza o status do lead para "proposta_enviada"
+    // Atualiza os dados do lead, mantendo o status como "lead"
     if (state.leadId) {
       await updateLead(state.leadId, {
-        status: 'proposta_enviada',
+        status: 'lead',
         dados_extras: {
           ...state.step1Data,
           ...state.step2Data,
@@ -90,8 +90,8 @@ export const CasamentoStep6: React.FC = () => {
     message += `---\n`;
     message += `Aguardo referências de bolos que vocês adoram! 😊`;
     
-    // Pega o número de WhatsApp do Step 2 (remove formatação)
-    const whatsappNumber = (step2Data.whatsapp || '').replace(/[^\d]/g, '');
+    // Pega o número de WhatsApp do Step 1 (remove formatação)
+    const whatsappNumber = (state.step1Data.whatsapp || '').replace(/[^\d]/g, '');
     
     // Cria o link do WhatsApp
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;

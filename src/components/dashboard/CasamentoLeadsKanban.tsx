@@ -18,11 +18,13 @@ import {
   KanbanItemHandle,
   KanbanOverlay,
 } from '@/components/ui/kanban';
-import { Calendar, Users, DollarSign, Mail, Phone, MessageSquare } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Calendar, Users, DollarSign, Phone, MessageSquare } from 'lucide-react';
 import { CasamentoLead } from '@/types/casamento-lead';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { supabase } from '@/lib/supabase';
+import { useToast } from '@/components/ui/toast-1';
 
 const COLUMN_TITLES: Record<string, string> = {
   leads: 'Leads',
@@ -71,7 +73,7 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
             </Avatar>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-sm text-[#703535] break-words">
-                {lead.nomeNoivo} & {lead.nomeNoiva}
+                {lead.nomeNoiva ? `${lead.nomeNoivo} e ${lead.nomeNoiva}` : lead.nomeNoivo}
               </h3>
             </div>
           </div>
@@ -81,7 +83,7 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
         <div className="flex flex-col gap-2 text-xs text-gray-600">
           <div className="flex items-center gap-1.5">
             <Calendar className="size-3.5 text-[#703535] flex-shrink-0" />
-            <span className="break-words">{format(new Date(lead.dataCasamento), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</span>
+            <span className="break-words">{format(new Date(lead.dataCasamento), "dd/MM/yy", { locale: ptBR })}</span>
           </div>
           
           <div className="flex items-center gap-1.5">
@@ -97,10 +99,6 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
 
         {/* Contact */}
         <div className="flex flex-col gap-1.5 pt-2 border-t">
-          <div className="flex items-center gap-1.5 text-xs min-w-0">
-            <Mail className="size-3 text-gray-400 flex-shrink-0" />
-            <span className="text-gray-600 break-all">{lead.email}</span>
-          </div>
           <div className="flex items-center gap-1.5 text-xs">
             <Phone className="size-3 text-gray-400 flex-shrink-0" />
             <span className="text-gray-600 break-words">{lead.telefone}</span>
@@ -161,7 +159,46 @@ function LeadColumn({ value, leads, isOverlay, onCardClick, ...props }: LeadColu
   );
 }
 
+// Função de formatação do WhatsApp (mesmo formato do Step0_5)
+const formatWhatsApp = (value: string) => {
+  let cleaned = value.replace(/[^\d+]/g, '');
+  
+  if (!cleaned.startsWith('+')) {
+    if (cleaned.length > 0) {
+      cleaned = '+' + cleaned;
+    } else {
+      return '';
+    }
+  }
+  
+  const digitsOnly = cleaned.slice(1);
+  
+  if (digitsOnly.startsWith('55')) {
+    const countryCode = '+55';
+    const restOfNumber = digitsOnly.slice(2);
+    
+    if (restOfNumber.length === 0) return countryCode;
+    if (restOfNumber.length <= 2) return `${countryCode} (${restOfNumber}`;
+    if (restOfNumber.length <= 7) return `${countryCode} (${restOfNumber.slice(0, 2)}) ${restOfNumber.slice(2)}`;
+    return `${countryCode} (${restOfNumber.slice(0, 2)}) ${restOfNumber.slice(2, 7)}-${restOfNumber.slice(7, 11)}`;
+  }
+  
+  const match = digitsOnly.match(/^(\d{1,2})/);
+  if (match) {
+    const countryCode = '+' + match[1];
+    const restOfNumber = digitsOnly.slice(match[1].length);
+    
+    if (restOfNumber.length > 0) {
+      return `${countryCode} ${restOfNumber}`;
+    }
+    return countryCode;
+  }
+  
+  return cleaned;
+};
+
 export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLeadsKanbanProps) {
+  const { showToast } = useToast();
   const [columns, setColumns] = React.useState<Record<string, CasamentoLead[]>>({
     leads: [],
     proposta: [],
@@ -176,69 +213,118 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   const [editedLead, setEditedLead] = React.useState<CasamentoLead | null>(null);
   const [saving, setSaving] = React.useState(false);
 
-  // Carregar leads do Supabase
-  React.useEffect(() => {
-    async function loadLeads() {
-      if (!supabase) {
-        console.warn('Supabase client not available');
-        return;
-      }
-      
-      try {
-        const { data, error } = await (supabase as any)
-          .from('leads')
-          .select('*')
-          .order('created_at', { ascending: false });
+  // Função para carregar leads - usando useCallback para estabilizar a referência
+  const loadLeads = React.useCallback(async () => {
+    if (!supabase) {
+      console.warn('Supabase client not available');
+      return;
+    }
+    
+    try {
+      const { data, error } = await (supabase as any)
+        .from('leads')
+        .select('*')
+        .order('created_at', { ascending: false });
 
-        if (error) throw error;
+      if (error) throw error;
 
-        // Organiza os leads por status
-        const organized: Record<string, CasamentoLead[]> = {
-          leads: [],
-          proposta: [],
-          aceita: [],
-          encerrado: [],
-        };
+      console.log('Leads carregados do banco:', data?.length || 0);
+
+      // Organiza os leads por status
+      const organized: Record<string, CasamentoLead[]> = {
+        leads: [],
+        proposta: [],
+        aceita: [],
+        encerrado: [],
+      };
 
         data?.forEach((lead: any) => {
           const casamentoLead: CasamentoLead = {
             id: lead.id,
             nomeNoivo: lead.nome_noivo || '',
             nomeNoiva: lead.nome_noiva || '',
-            email: lead.email || '',
             telefone: lead.whatsapp || lead.telefone || '',
             dataCasamento: lead.data_casamento || '',
             numeroConvidados: lead.numero_convidados || 0,
-            orcamento: lead.orcamento_minimo && lead.orcamento_maximo 
-              ? `R$ ${lead.orcamento_minimo.toLocaleString('pt-BR')} - R$ ${lead.orcamento_maximo.toLocaleString('pt-BR')}` 
-              : 'A definir',
-            status: lead.status,
-            createdAt: lead.created_at,
-            observacoes: lead.observacoes || undefined,
-          };
+            orcamento: lead.orcamento_minimo && lead.orcamento_maximo
+            ? `R$ ${lead.orcamento_minimo.toLocaleString('pt-BR')} - R$ ${lead.orcamento_maximo.toLocaleString('pt-BR')}` 
+            : 'A definir',
+          status: lead.status,
+          createdAt: lead.created_at,
+          observacoes: lead.observacoes || undefined,
+        };
 
-          // Mapeia os status do banco para as colunas do kanban
-          const statusMap: Record<string, string> = {
-            'lead': 'leads',
-            'proposta_enviada': 'proposta',
-            'proposta_aceita': 'aceita',
-            'encerrado': 'encerrado',
-          };
+        // Mapeia os status do banco para as colunas do kanban
+        const statusMap: Record<string, string> = {
+          'lead': 'leads',
+          'proposta_enviada': 'proposta',
+          'proposta_aceita': 'aceita',
+          'encerrado': 'encerrado',
+        };
 
-          const columnKey = statusMap[lead.status] || 'leads';
-          organized[columnKey].push(casamentoLead);
-        });
+        const columnKey = statusMap[lead.status] || 'leads';
+        organized[columnKey].push(casamentoLead);
+      });
 
-        setColumns(organized);
-      } catch (error) {
-        console.error('Erro ao carregar leads:', error);
-      } finally {
-        setLoading(false);
-      }
+      setColumns(organized);
+    } catch (error) {
+      console.error('Erro ao carregar leads:', error);
+    } finally {
+      setLoading(false);
     }
-
-    loadLeads();
   }, []);
+
+  // Carregar leads do Supabase
+  React.useEffect(() => {
+    loadLeads();
+
+    // Configura listener para atualizações em tempo real
+    if (!supabase) return;
+
+    console.log('Configurando Supabase Realtime para leads...');
+
+    const channel = (supabase as any)
+      .channel('leads-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // INSERT, UPDATE, DELETE
+          schema: 'public',
+          table: 'leads'
+        },
+        (payload: any) => {
+          console.log('🔄 Realtime: Lead atualizado!', {
+            evento: payload.eventType,
+            lead: payload.new || payload.old
+          });
+          // Recarrega os leads quando houver mudança
+          loadLeads();
+        }
+      )
+      .subscribe((status: string) => {
+        console.log('📡 Status do Realtime:', status);
+      });
+
+    // Cleanup: remove o listener quando o componente desmontar
+    return () => {
+      console.log('Removendo listener do Realtime...');
+      (supabase as any).removeChannel(channel);
+    };
+  }, [loadLeads]);
+
+  // Recarrega leads quando a janela recebe foco (usuário volta para a aba)
+  React.useEffect(() => {
+    const handleFocus = () => {
+      console.log('👀 Janela recebeu foco - recarregando leads...');
+      loadLeads();
+    };
+
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+    };
+  }, [loadLeads]);
 
   const visibleColumns = ['leads', 'proposta', 'aceita'];
 
@@ -253,7 +339,6 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       filtered[columnKey] = columns[columnKey].filter(lead =>
         lead.nomeNoivo.toLowerCase().includes(query) ||
         lead.nomeNoiva.toLowerCase().includes(query) ||
-        lead.email.toLowerCase().includes(query) ||
         lead.telefone.includes(query) ||
         lead.orcamento.toLowerCase().includes(query)
       );
@@ -289,7 +374,6 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
         .update({
           nome_noivo: editedLead.nomeNoivo,
           nome_noiva: editedLead.nomeNoiva,
-          email: editedLead.email,
           whatsapp: editedLead.telefone,
           data_casamento: editedLead.dataCasamento,
           numero_convidados: editedLead.numeroConvidados,
@@ -317,6 +401,63 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
     }
   };
 
+  const handleColumnsChange = async (newColumns: Record<string, CasamentoLead[]>) => {
+    if (!supabase) return;
+
+    // Mapeia as colunas do kanban para os status do banco
+    const columnToStatus: Record<string, string> = {
+      'leads': 'lead',
+      'proposta': 'proposta_enviada',
+      'aceita': 'proposta_aceita',
+      'encerrado': 'encerrado',
+    };
+
+    // Atualiza o estado local imediatamente para feedback visual
+    setColumns(newColumns);
+
+    // Encontra qual lead mudou de coluna comparando com o estado anterior
+    for (const columnKey of Object.keys(newColumns)) {
+      const newLeads = newColumns[columnKey];
+      const oldLeads = columns[columnKey];
+      
+      // Verifica se há novos leads nesta coluna
+      const addedLeads = newLeads.filter(
+        newLead => !oldLeads.some(oldLead => oldLead.id === newLead.id)
+      );
+
+      // Para cada lead adicionado, atualiza o status no Supabase
+      for (const lead of addedLeads) {
+        const newStatus = columnToStatus[columnKey];
+        
+        try {
+          const { error } = await (supabase as any)
+            .from('leads')
+            .update({ status: newStatus })
+            .eq('id', lead.id);
+
+          if (error) throw error;
+
+          // Atualiza o status localmente também
+          const updatedColumns = { ...newColumns };
+          Object.keys(updatedColumns).forEach(col => {
+            updatedColumns[col] = updatedColumns[col].map(l =>
+              l.id === lead.id ? { ...l, status: columnKey } : l
+            );
+          });
+          setColumns(updatedColumns);
+          
+          // Mostra toast de sucesso
+          showToast('Status do Lead atualizado', 'success', 'top-right');
+        } catch (error) {
+          console.error('Erro ao atualizar status do lead:', error);
+          showToast('Erro ao mover o lead', 'error', 'top-right');
+          // Reverte para o estado anterior em caso de erro
+          setColumns(columns);
+        }
+      }
+    }
+  };
+
   return (
     <div className="w-full">
       {loading ? (
@@ -324,7 +465,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
           <div className="text-[#703535]">Carregando leads...</div>
         </div>
       ) : (
-        <Kanban value={filteredColumns} onValueChange={setColumns} getItemValue={(item) => item.id}>
+        <Kanban value={filteredColumns} onValueChange={handleColumnsChange} getItemValue={(item) => item.id}>
           <div className="flex gap-4">
             {/* Grid principal com 3 colunas */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
@@ -434,25 +575,23 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                       </AvatarFallback>
                     </Avatar>
                     {isEditing ? (
-                      <div className="flex gap-2">
-                        <input
-                          type="text"
-                          value={editedLead.nomeNoivo}
-                          onChange={(e) => setEditedLead({ ...editedLead, nomeNoivo: e.target.value })}
-                          className="px-3 py-1 border rounded text-lg font-unbounded"
-                          placeholder="Nome Noivo"
-                        />
-                        <span>&</span>
-                        <input
-                          type="text"
-                          value={editedLead.nomeNoiva}
-                          onChange={(e) => setEditedLead({ ...editedLead, nomeNoiva: e.target.value })}
-                          className="px-3 py-1 border rounded text-lg font-unbounded"
-                          placeholder="Nome Noiva"
-                        />
-                      </div>
+                      <input
+                        type="text"
+                        value={editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo}
+                        onChange={(e) => {
+                          const valor = e.target.value;
+                          const nomes = valor.split(/\s+e\s+|\s+&\s+/i);
+                          setEditedLead({ 
+                            ...editedLead, 
+                            nomeNoivo: nomes[0]?.trim() || '',
+                            nomeNoiva: nomes[1]?.trim() || ''
+                          });
+                        }}
+                        className="px-3 py-1 border rounded text-lg font-unbounded w-full"
+                        placeholder="Nome dos noivos"
+                      />
                     ) : (
-                      `${editedLead.nomeNoivo} & ${editedLead.nomeNoiva}`
+                      editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo
                     )}
                   </DialogTitle>
                   <div className="flex gap-2">
@@ -491,12 +630,24 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
               <div className="space-y-6 mt-4">
                 {/* Informações do Casamento */}
                 <div className="bg-white rounded-lg p-4 space-y-3">
-                  <h3 className="font-unbounded text-sm text-[#703535] mb-3">Informações do Casamento</h3>
+                  <h3 className="font-unbounded text-sm text-[#703535] mb-3">Informações</h3>
                   
                   <div className="flex items-center gap-3 text-sm">
-                    <Calendar className="size-5 text-[#703535]" />
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="cursor-help">
+                          <Calendar className="size-5 text-[#703535]" />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent 
+                        variant="light" 
+                        className="bg-white shadow-md"
+                        style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+                      >
+                        Data do Casamento
+                      </TooltipContent>
+                    </Tooltip>
                     <div className="flex-1">
-                      <p className="font-medium text-gray-700">Data do Casamento</p>
                       {isEditing ? (
                         <input
                           type="date"
@@ -505,15 +656,27 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                           className="px-2 py-1 border rounded text-sm w-full"
                         />
                       ) : (
-                        <p className="text-gray-600">{format(new Date(editedLead.dataCasamento), "dd 'de' MMMM 'de' yyyy", { locale: ptBR })}</p>
+                        <p className="text-gray-600">{format(new Date(editedLead.dataCasamento), "dd/MM/yy", { locale: ptBR })}</p>
                       )}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 text-sm">
-                    <Users className="size-5 text-[#703535]" />
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="cursor-help">
+                          <Users className="size-5 text-[#703535]" />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent 
+                        variant="light" 
+                        className="bg-white shadow-md"
+                        style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+                      >
+                        Número de Convidados
+                      </TooltipContent>
+                    </Tooltip>
                     <div className="flex-1">
-                      <p className="font-medium text-gray-700">Número de Convidados</p>
                       {isEditing ? (
                         <input
                           type="number"
@@ -522,15 +685,27 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                           className="px-2 py-1 border rounded text-sm w-full"
                         />
                       ) : (
-                        <p className="text-gray-600">{editedLead.numeroConvidados} convidados</p>
+                        <p className="text-gray-600">{editedLead.numeroConvidados === 0 ? 'A definir' : `${editedLead.numeroConvidados} convidados`}</p>
                       )}
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3 text-sm">
-                    <DollarSign className="size-5 text-[#703535]" />
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="cursor-help">
+                          <DollarSign className="size-5 text-[#703535]" />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent 
+                        variant="light" 
+                        className="bg-white shadow-md"
+                        style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
+                      >
+                        Orçamento
+                      </TooltipContent>
+                    </Tooltip>
                     <div className="flex-1">
-                      <p className="font-medium text-gray-700">Orçamento</p>
                       <p className="text-gray-600">{editedLead.orcamento}</p>
                     </div>
                   </div>
@@ -541,26 +716,8 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                   <h3 className="font-unbounded text-sm text-[#703535] mb-3">Contato</h3>
                   
                   <div className="flex items-center gap-3 text-sm">
-                    <Mail className="size-5 text-[#703535]" />
-                    <div className="flex-1">
-                      <p className="font-medium text-gray-700">E-mail</p>
-                      {isEditing ? (
-                        <input
-                          type="email"
-                          value={editedLead.email}
-                          onChange={(e) => setEditedLead({ ...editedLead, email: e.target.value })}
-                          className="px-2 py-1 border rounded text-sm w-full"
-                        />
-                      ) : (
-                        <p className="text-gray-600">{editedLead.email}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3 text-sm">
                     <Phone className="size-5 text-[#703535]" />
                     <div className="flex-1">
-                      <p className="font-medium text-gray-700">Telefone</p>
                       {isEditing ? (
                         <input
                           type="tel"
@@ -569,7 +726,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                           className="px-2 py-1 border rounded text-sm w-full"
                         />
                       ) : (
-                        <p className="text-gray-600">{editedLead.telefone}</p>
+                        <p className="text-gray-600">{formatWhatsApp(editedLead.telefone)}</p>
                       )}
                     </div>
                   </div>

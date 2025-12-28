@@ -9,6 +9,7 @@ export const mockPropostas: Proposta[] = [
     dataCriacao: '2025-01-10T10:30:00',
     dataEvento: '2025-06-14T16:00:00',
     descricao: 'Proposta para casamento com 150 convidados',
+    slug: 'joao-silva-maria-santos',
     itens: [
       { id: '1', nome: 'Bolo de Casamento 3 andares', quantidade: 1, valorUnitario: 3500, valorTotal: 3500 },
       { id: '2', nome: 'Docinhos Finos', quantidade: 200, valorUnitario: 5, valorTotal: 1000 },
@@ -23,6 +24,7 @@ export const mockPropostas: Proposta[] = [
     dataCriacao: '2025-11-28T09:00:00',
     dataEvento: '2025-07-09T15:00:00',
     descricao: 'Proposta para casamento com 120 convidados',
+    slug: 'carlos-ferreira-juliana-lima',
     itens: [
       { id: '1', nome: 'Bolo de Casamento 2 andares', quantidade: 1, valorUnitario: 2800, valorTotal: 2800 },
       { id: '2', nome: 'Cupcakes', quantidade: 120, valorUnitario: 8, valorTotal: 960 },
@@ -35,6 +37,7 @@ export const mockPropostas: Proposta[] = [
     status: 'rascunho',
     dataCriacao: '2025-12-01T14:15:00',
     dataEvento: '2025-08-19T18:00:00',
+    slug: 'pedro-oliveira-ana-costa',
     itens: [],
   },
 ];
