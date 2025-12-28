@@ -157,7 +157,6 @@ export function searchLeads(
       return (
         lead.nomeNoivo.toLowerCase().includes(term) ||
         lead.nomeNoiva.toLowerCase().includes(term) ||
-        lead.email.toLowerCase().includes(term) ||
         lead.telefone.includes(term)
       );
     });
