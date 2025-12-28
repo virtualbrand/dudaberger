@@ -19,8 +19,24 @@ export async function middleware(req: NextRequest) {
     // Extrai o identificador do projeto do URL
     const projectRef = supabaseUrl.split('//')[1].split('.')[0];
     
-    // Procura pelo cookie de autenticação do Supabase
-    const authCookie = req.cookies.get(`sb-${projectRef}-auth-token`);
+    // Procura pelo cookie de autenticação do Supabase (formato novo e antigo)
+    let authCookie = req.cookies.get(`sb-${projectRef}-auth-token`);
+    
+    // Se não encontrou, tenta o formato antigo
+    if (!authCookie) {
+      authCookie = req.cookies.get(`sb-${projectRef}-auth-token-code-verifier`);
+    }
+    
+    // Se não encontrou, tenta buscar cookies que começam com sb-
+    if (!authCookie) {
+      const allCookies = req.cookies.getAll();
+      const supabaseCookie = allCookies.find(cookie => 
+        cookie.name.startsWith('sb-') && cookie.name.includes('auth-token')
+      );
+      if (supabaseCookie) {
+        authCookie = supabaseCookie;
+      }
+    }
     
     if (!authCookie) {
       // Não há cookie de autenticação, redireciona para login
@@ -30,7 +46,7 @@ export async function middleware(req: NextRequest) {
     // Verifica se o cookie tem um token válido
     try {
       const authData = JSON.parse(authCookie.value);
-      if (!authData.access_token) {
+      if (!authData.access_token && !authData[0]?.access_token) {
         return NextResponse.redirect(new URL('/login', req.url));
       }
     } catch (error) {
@@ -44,12 +60,28 @@ export async function middleware(req: NextRequest) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     if (supabaseUrl) {
       const projectRef = supabaseUrl.split('//')[1].split('.')[0];
-      const authCookie = req.cookies.get(`sb-${projectRef}-auth-token`);
+      let authCookie = req.cookies.get(`sb-${projectRef}-auth-token`);
+      
+      // Tenta formato antigo se não encontrar
+      if (!authCookie) {
+        authCookie = req.cookies.get(`sb-${projectRef}-auth-token-code-verifier`);
+      }
+      
+      // Tenta buscar qualquer cookie do Supabase
+      if (!authCookie) {
+        const allCookies = req.cookies.getAll();
+        const supabaseCookie = allCookies.find(cookie => 
+          cookie.name.startsWith('sb-') && cookie.name.includes('auth-token')
+        );
+        if (supabaseCookie) {
+          authCookie = supabaseCookie;
+        }
+      }
       
       if (authCookie) {
         try {
           const authData = JSON.parse(authCookie.value);
-          if (authData.access_token) {
+          if (authData.access_token || authData[0]?.access_token) {
             // Usuário já está logado, redireciona para dashboard
             return NextResponse.redirect(new URL('/dashboard', req.url));
           }
