@@ -441,7 +441,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
           const updatedColumns = { ...newColumns };
           Object.keys(updatedColumns).forEach(col => {
             updatedColumns[col] = updatedColumns[col].map(l =>
-              l.id === lead.id ? { ...l, status: columnKey } : l
+              l.id === lead.id ? { ...l, status: columnKey as CasamentoLead['status'] } : l
             );
           });
           setColumns(updatedColumns);
