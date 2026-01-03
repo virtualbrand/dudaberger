@@ -97,7 +97,7 @@ export default function PropostasTable() {
 
         const { data, error } = await (supabase as any)
           .from('propostas')
-          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, link_pagamento_7_dias, link_pagamento_21_dias')
+          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, numero_convidados, link_pagamento_7_dias, link_pagamento_21_dias')
           .order('created_at', { ascending: false });
 
         if (error) throw error;
@@ -112,6 +112,7 @@ export default function PropostasTable() {
           descricao: row.descricao ?? undefined,
           slug: row.slug ?? undefined,
           localFesta: row.local_festa ?? undefined,
+          numeroConvidados: row.numero_convidados ?? undefined,
           linkPagamento7Dias: row.link_pagamento_7_dias ?? undefined,
           linkPagamento21Dias: row.link_pagamento_21_dias ?? undefined,
           itens: (Array.isArray(row.itens) ? row.itens : []) as any,
@@ -239,6 +240,7 @@ export default function PropostasTable() {
           data_proposta: selectedProposta.dataCriacao ? selectedProposta.dataCriacao.split('T')[0] : null,
           validade_ate: selectedProposta.dataEvento ? selectedProposta.dataEvento.split('T')[0] : null,
           local_festa: selectedProposta.localFesta?.trim() || null,
+          numero_convidados: selectedProposta.numeroConvidados ?? null,
           link_pagamento_7_dias: selectedProposta.linkPagamento7Dias?.trim() || null,
           link_pagamento_21_dias: selectedProposta.linkPagamento21Dias?.trim() || null,
           itens: (selectedProposta.itens as any) ?? [],
@@ -247,7 +249,7 @@ export default function PropostasTable() {
         const { data, error } = await (supabase as any)
           .from('propostas')
           .insert(payload)
-          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, link_pagamento_7_dias, link_pagamento_21_dias')
+          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, numero_convidados, link_pagamento_7_dias, link_pagamento_21_dias')
           .single();
 
         if (error) throw error;
@@ -262,6 +264,7 @@ export default function PropostasTable() {
           descricao: data.descricao ?? undefined,
           slug: data.slug ?? undefined,
           localFesta: data.local_festa ?? undefined,
+          numeroConvidados: data.numero_convidados ?? undefined,
           linkPagamento7Dias: data.link_pagamento_7_dias ?? undefined,
           linkPagamento21Dias: data.link_pagamento_21_dias ?? undefined,
           itens: (Array.isArray(data.itens) ? data.itens : []) as any,
@@ -290,6 +293,7 @@ export default function PropostasTable() {
           data_proposta: selectedProposta.dataCriacao ? selectedProposta.dataCriacao.split('T')[0] : null,
           validade_ate: selectedProposta.dataEvento ? selectedProposta.dataEvento.split('T')[0] : null,
           local_festa: selectedProposta.localFesta?.trim() || null,
+          numero_convidados: selectedProposta.numeroConvidados ?? null,
           link_pagamento_7_dias: selectedProposta.linkPagamento7Dias?.trim() || null,
           link_pagamento_21_dias: selectedProposta.linkPagamento21Dias?.trim() || null,
           itens: (selectedProposta.itens as any) ?? [],
@@ -299,7 +303,7 @@ export default function PropostasTable() {
           .from('propostas')
           .update(payload)
           .eq('id', selectedProposta.id)
-          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, link_pagamento_7_dias, link_pagamento_21_dias')
+          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, numero_convidados, link_pagamento_7_dias, link_pagamento_21_dias')
           .single();
 
         if (error) throw error;
@@ -314,6 +318,7 @@ export default function PropostasTable() {
           descricao: data.descricao ?? undefined,
           slug: data.slug ?? undefined,
           localFesta: data.local_festa ?? undefined,
+          numeroConvidados: data.numero_convidados ?? undefined,
           linkPagamento7Dias: data.link_pagamento_7_dias ?? undefined,
           linkPagamento21Dias: data.link_pagamento_21_dias ?? undefined,
           itens: (Array.isArray(data.itens) ? data.itens : []) as any,
@@ -627,6 +632,21 @@ export default function PropostasTable() {
                           placeholder="Local da festa"
                         />
                       </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Número de Convidados
+                      </label>
+                      <input
+                        type="number"
+                        value={selectedProposta.numeroConvidados || ''}
+                        onChange={(e) => setSelectedProposta({ ...selectedProposta, numeroConvidados: e.target.value ? parseInt(e.target.value) : undefined })}
+                        disabled={!isEditing}
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                        placeholder="Número de convidados"
+                        min="0"
+                      />
                     </div>
                   </div>
                 )}

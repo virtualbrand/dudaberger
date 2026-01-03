@@ -114,6 +114,7 @@ export type Database = {
           data_proposta: string | null;
           validade_ate: string | null;
           local_festa: string | null;
+          numero_convidados: number | null;
           link_pagamento_7_dias: string | null;
           link_pagamento_21_dias: string | null;
           arquivos: any[];
@@ -137,6 +138,7 @@ export type Database = {
           data_proposta?: string | null;
           validade_ate?: string | null;
           local_festa?: string | null;
+          numero_convidados?: number | null;
           link_pagamento_7_dias?: string | null;
           link_pagamento_21_dias?: string | null;
           arquivos?: any[];
@@ -157,6 +159,7 @@ export type Database = {
           data_proposta?: string | null;
           validade_ate?: string | null;
           local_festa?: string | null;
+          numero_convidados?: number | null;
           link_pagamento_7_dias?: string | null;
           link_pagamento_21_dias?: string | null;
           arquivos?: any[];

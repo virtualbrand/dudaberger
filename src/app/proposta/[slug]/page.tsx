@@ -130,7 +130,7 @@ export default function PropostaPublicaPage() {
       try {
         const { data, error } = await (supabase as any)
           .from('propostas')
-          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, link_pagamento_7_dias, link_pagamento_21_dias')
+          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, numero_convidados, link_pagamento_7_dias, link_pagamento_21_dias')
           .eq('slug', slug)
           .single();
 
@@ -170,6 +170,8 @@ export default function PropostaPublicaPage() {
           dataEvento: data.validade_ate ? `${data.validade_ate}T00:00:00` : '',
           descricao: data.descricao ?? undefined,
           slug: data.slug ?? undefined,
+          localFesta: data.local_festa ?? undefined,
+          numeroConvidados: data.numero_convidados ?? undefined,
           itens: (Array.isArray(data.itens) ? data.itens : []) as any,
           linkPagamento7Dias: data.link_pagamento_7_dias ?? undefined,
           linkPagamento21Dias: data.link_pagamento_21_dias ?? undefined,
@@ -618,10 +620,10 @@ export default function PropostaPublicaPage() {
           </section>
 
           {/* Conteúdo Principal */}
-          <section className="relative z-10 bg-[#D65B58] h-screen">
-            <div className="h-full grid grid-cols-1 md:grid-cols-2">
+          <section className="relative z-10 bg-[#D65B58] min-h-screen">
+            <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
               {/* Coluna Esquerda - Imagem com Overlay e Conteúdo da Proposta */}
-              <div className="hidden md:block relative h-full">
+              <div className="relative min-h-screen">
                 {/* Imagem de fundo */}
                 <img
                   src="/images/casamento/investimento-bolo.webp"
@@ -634,23 +636,74 @@ export default function PropostaPublicaPage() {
                 
                 {/* Conteúdo da Proposta sobreposto */}
                 <div className="relative z-10 h-full p-8 md:p-12 lg:p-16 flex items-center justify-center">
-                  <div className="w-full max-w-lg space-y-8">
+                  <div className="w-full max-w-lg space-y-6">
                     {/* Título Proposta */}
                     <div>
-                      <h2 className="text-3xl font-bold font-unbounded text-white mb-2">Proposta</h2>
+                      <h2 className="text-2xl font-bold font-unbounded text-white mb-2">Proposta para os noivos</h2>
                       <h3 className="text-2xl font-bold font-unbounded text-white">{proposta.clienteNome}</h3>
                     </div>
 
-                    {/* O Bolo - Lista sem box */}
+                    {/* Informações do Evento */}
+                    <div className="space-y-3 text-white">
+                      {proposta.dataEvento && (
+                        <div className="flex items-start gap-2">
+                          <span className="font-semibold">Data da cerimônia:</span>
+                          <span>{format(new Date(proposta.dataEvento), "dd/MM/yyyy", { locale: ptBR })}</span>
+                        </div>
+                      )}
+                      
+                      {proposta.localFesta && (
+                        <div className="flex items-start gap-2">
+                          <span className="font-semibold">Local:</span>
+                          <span>{proposta.localFesta}</span>
+                        </div>
+                      )}
+                      
+                      {proposta.numeroConvidados && (
+                        <div className="flex items-start gap-2">
+                          <span className="font-semibold">Número de convidados:</span>
+                          <span>{proposta.numeroConvidados}</span>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Separador */}
+                    {proposta.descricao && (
+                      <hr className="border-white/30" />
+                    )}
+
+                    {/* Descrição */}
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-4">
-                        O Bolo
-                      </h3>
                       {proposta.descricao && (
-                        <div className="space-y-2">
-                          {proposta.descricao.split('\n').map((line, index) => (
-                            <p key={index} className="text-white">{line}</p>
-                          ))}
+                        <div className="space-y-0">
+                          {proposta.descricao.split('\n').map((line, index) => {
+                            // Detectar título (# texto)
+                            if (line.startsWith('# ')) {
+                              return (
+                                <h3 key={index} className="font-bold font-unbounded text-md text-white mb-2 mt-4">
+                                  {line.substring(2)}
+                                </h3>
+                              );
+                            }
+                            // Detectar subtítulo (## texto)
+                            if (line.startsWith('## ')) {
+                              return (
+                                <h4 key={index} className="font-bold font-unbounded text-sm text-white mb-2 mt-3">
+                                  {line.substring(3)}
+                                </h4>
+                              );
+                            }
+                            // Linha vazia - preservar espaço
+                            if (line.trim() === '') {
+                              return (
+                                <div key={index} className="h-4"></div>
+                              );
+                            }
+                            // Texto normal
+                            return (
+                              <p key={index} className="text-white">{line}</p>
+                            );
+                          })}
                         </div>
                       )}
                     </div>
@@ -1146,7 +1199,7 @@ export default function PropostaPublicaPage() {
           <section className="py-16 md:py-24 bg-[#fbf7ef]">
             <div className="mx-auto max-w-4xl px-6">
               <div className="space-y-12">
-                <h2 className="text-center text-4xl font-semibold fade-in text-[#D65B58] font-unbounded">
+                <h2 className="text-center fade-in text-2xl md:text-3xl lg:text-4xl font-bold text-[#D65B58] font-unbounded">
                   Dúvidas Frequentes
                 </h2>
 
