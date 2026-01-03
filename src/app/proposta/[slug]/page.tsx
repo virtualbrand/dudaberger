@@ -836,12 +836,14 @@ export default function PropostaPublicaPage() {
 
                           {/* Botão Quero reservar */}
                           <div className="mb-6">
-                            <button
-                              onClick={() => setShowPaymentModal(true)}
+                            <a
+                              href="https://wa.me/5548991797296?text=Olá Duda! Gostei da proposta e tenho interesse em reservar minha data. Qual é o próximo passo?"
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto"
                             >
                               Quero reservar minha data
-                            </button>
+                            </a>
                           </div>
 
                           {/* Informações adicionais */}
@@ -923,19 +925,19 @@ export default function PropostaPublicaPage() {
                           {
                             id: "1",
                             title: "1. A confirmação",
-                            description: "A confirmação da proposta acontece mediante o pagamento. É a partir desse momento que damos início a todo o processo.",
+                            description: "A confirmação da proposta após o simples \"sim, temos interesse em reservar nossa data\" de vocês. É a partir desse momento que damos início a todo o processo.",
                             status: "active",
                           },
                           {
                             id: "2",
-                            title: "2. A reserva",
-                            description: "Após a confirmação do pagamento, formalizamos tudo por meio de contrato e a data é oficialmente reservada para o casamento de vocês.",
+                            title: "2. A degustação",
+                            description: "Agendamos a degustação para que vocês possam experimentar 4 sabores do nosso menu, com calma e presença.\nInvestimento da degustação c/ entrega no local onde estiverem hospedados na região: R$ 110.",
                             status: "pending",
                           },
                           {
                             id: "3",
-                            title: "3. A degustação",
-                            description: "Agendamos a degustação para que vocês possam experimentar 4 sabores do nosso menu, com calma e presença.\nInvestimento da degustação c/ entrega no local onde estiverem hospedados na região: R$ 110.",
+                            title: "3. O contrato",
+                            description: "Formalizamos tudo por meio de contrato e pagamento. Após isso, a data é oficialmente reservada para o casamento de vocês.",
                             status: "pending",
                           },
                           {
@@ -1151,12 +1153,14 @@ export default function PropostaPublicaPage() {
 
                               {/* Botão Quero reservar */}
                               <div className="mb-6">
-                                <button
-                                  onClick={() => setShowPaymentModal(true)}
+                                <a
+                                  href="https://wa.me/5548991797296?text=Olá Duda! Gostei da proposta e tenho interesse em reservar minha data. Qual é o próximo passo?"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                   className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto"
                                 >
                                   Seguir com a reserva da data
-                                </button>
+                                </a>
                               </div>
 
                               {/* Informações adicionais */}
