@@ -849,7 +849,7 @@ export default function PropostaPublicaPage() {
                           {/* Informações adicionais */}
                           <div className="space-y-4 max-w-sm mx-auto">
                             <p className="text-sm text-gray-600">
-                              A data é reservada após a confirmação do pagamento integral, via Pix ou cartão de crédito.
+                              A data é reservada após a confirmação, o contrato e o pagamento integral, via Pix ou cartão de crédito.
                             </p>
 
                             {/* Validade do Orçamento */}
@@ -1166,7 +1166,7 @@ export default function PropostaPublicaPage() {
                               {/* Informações adicionais */}
                               <div className="space-y-4 max-w-sm mx-auto">
                                 <p className="text-sm text-gray-600">
-                                  A data é reservada após a confirmação do pagamento integral, via Pix ou cartão de crédito.
+                                  A data é reservada após a confirmação, o contrato e o pagamento integral, via Pix ou cartão de crédito.
                                 </p>
 
                                 {/* Validade do Orçamento */}
