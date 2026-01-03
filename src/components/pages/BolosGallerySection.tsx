@@ -439,7 +439,7 @@ export default function BolosGallerySection() {
 
       <div
         ref={ref}
-        className="h-[120vh] md:h-[110vh] lg:h-[100vh] py-20 overflow-visible antialiased relative flex flex-col justify-center self-auto [perspective:1000px] [transform-style:preserve-3d] z-35"
+        className="py-20 antialiased relative flex flex-col justify-center self-auto [perspective:1000px] [transform-style:preserve-3d] z-35"
       >
         <Header />
         <motion.div

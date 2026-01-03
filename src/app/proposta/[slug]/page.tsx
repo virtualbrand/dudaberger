@@ -224,10 +224,9 @@ export default function PropostaPublicaPage() {
       <section className="relative h-screen w-full overflow-hidden">
         {/* Background Image */}
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat md:bg-fixed"
           style={{ 
-            backgroundImage: 'url(/images/casamento/hero-proposta.webp)',
-            backgroundAttachment: 'fixed'
+            backgroundImage: 'url(/images/casamento/hero-proposta.webp)'
           }}
         >
           {/* Overlay escuro para melhor legibilidade */}
