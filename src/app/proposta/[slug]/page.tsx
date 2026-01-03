@@ -271,7 +271,7 @@ export default function PropostaPublicaPage() {
               </div>
 
               {/* Nome do Casal - Destaque Principal */}
-              <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-7xl font-unbounded font-bold text-white mb-8 leading-tight animate-fade-in">
+              <h1 className="text-3xl md:text-5xl lg:text-6xl xl:text-6xl font-unbounded font-bold text-white mb-8 leading-tight animate-fade-in">
                 {proposta.clienteNome}
               </h1>
 
@@ -925,30 +925,24 @@ export default function PropostaPublicaPage() {
                           {
                             id: "1",
                             title: "1. A confirmação",
-                            description: "A confirmação da proposta após o simples \"sim, temos interesse em reservar nossa data\" de vocês. É a partir desse momento que damos início a todo o processo.",
+                            description: "A confirmação da proposta é feita após o simples \"sim, temos interesse em reservar nossa data\". É a partir desse momento que damos início a todo o processo.",
                             status: "active",
                           },
                           {
                             id: "2",
-                            title: "2. A degustação",
-                            description: "Agendamos a degustação para que vocês possam experimentar 4 sabores do nosso menu, com calma e presença.\nInvestimento da degustação c/ entrega no local onde estiverem hospedados na região: R$ 110.",
-                            status: "pending",
-                          },
-                          {
-                            id: "3",
-                            title: "3. O contrato",
+                            title: "2. O contrato",
                             description: "Formalizamos tudo por meio de contrato e pagamento. Após isso, a data é oficialmente reservada para o casamento de vocês.",
                             status: "pending",
                           },
                           {
-                            id: "4",
-                            title: "4. A criação",
+                            id: "3",
+                            title: "3. A criação",
                             description: "Aqui começa a parte mais especial. Com base na história de vocês, referências e estética do casamento, eu crio um bolo exclusivo, pensado com intenção em cada detalhe.",
                             status: "pending",
                           },
                           {
-                            id: "5",
-                            title: "5. O grande dia",
+                            id: "4",
+                            title: "4. O grande dia",
                             description: "Entrego pessoalmente no local. E garanto que tudo esteja perfeito para um dos momentos mais simbólicos da celebração.",
                             status: "pending",
                           },
