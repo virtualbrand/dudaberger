@@ -777,7 +777,7 @@ export default function PropostaPublicaPage() {
                               {!status.prazo7Vencido && (
                                 <button 
                                   onClick={() => setPrazoSelecionado('7dias')}
-                                  className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                                  className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
                                     prazoSelecionado === '7dias' 
                                       ? 'bg-[#b17878] text-white' 
                                       : 'bg-transparent text-gray-700 hover:bg-gray-200'
@@ -795,7 +795,7 @@ export default function PropostaPublicaPage() {
                               {/* Tab 21 dias */}
                               <button 
                                 onClick={() => setPrazoSelecionado('21dias')}
-                                className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                                className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
                                   prazoSelecionado === '21dias' 
                                     ? 'bg-[#b17878] text-white' 
                                     : 'bg-transparent text-gray-700 hover:bg-gray-200'
@@ -1092,7 +1092,7 @@ export default function PropostaPublicaPage() {
                                   {!status.prazo7Vencido && (
                                     <button 
                                       onClick={() => setPrazoSelecionado('7dias')}
-                                      className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                                      className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
                                         prazoSelecionado === '7dias' 
                                           ? 'bg-[#b17878] text-white' 
                                           : 'bg-transparent text-gray-700 hover:bg-gray-200'
@@ -1110,7 +1110,7 @@ export default function PropostaPublicaPage() {
                                   {/* Tab 21 dias */}
                                   <button 
                                     onClick={() => setPrazoSelecionado('21dias')}
-                                    className={`px-6 py-2 rounded-full text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                                    className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
                                       prazoSelecionado === '21dias' 
                                         ? 'bg-[#b17878] text-white' 
                                         : 'bg-transparent text-gray-700 hover:bg-gray-200'
