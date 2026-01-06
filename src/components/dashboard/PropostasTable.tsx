@@ -455,9 +455,9 @@ export default function PropostasTable() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Cliente</th>
+                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Noivos</th>
                     <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Valor</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Data Evento</th>
+                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Data da cerimônia</th>
                     <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Status</th>
                     <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Criada em</th>
                     <th className="px-4 py-3 text-center text-xs font-unbounded text-[#703535]">Ações</th>
