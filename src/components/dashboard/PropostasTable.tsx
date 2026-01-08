@@ -460,7 +460,7 @@ export default function PropostasTable() {
                     <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Data da cerimônia</th>
                     <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Status</th>
                     <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Criada em</th>
-                    <th className="px-4 py-3 text-center text-xs font-unbounded text-[#703535]">Ações</th>
+                    <th className="px-4 py-3 text-center text-xs font-unbounded text-[#703535]"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -487,26 +487,16 @@ export default function PropostasTable() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditProposta(proposta);
-                            }}
+                          <a
+                            href={`/proposta/${proposta.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="p-1.5 hover:bg-gray-100 rounded transition-colors text-gray-600 hover:text-[#D65B58]"
-                            title="Editar"
+                            title="Abrir proposta"
                           >
-                            <Edit className="size-4" />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteClick(proposta);
-                            }}
-                            className="p-1.5 hover:bg-red-50 rounded transition-colors text-gray-600 hover:text-red-600"
-                            title="Excluir"
-                          >
-                            <Trash2 className="size-4" />
-                          </button>
+                            <ExternalLink className="size-4" />
+                          </a>
                         </div>
                       </td>
                     </tr>

@@ -652,26 +652,16 @@ export default function ContratosTable() {
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleEditContrato(contrato);
-                            }}
+                          <a
+                            href={`/contrato/${contrato.slug}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
                             className="p-1.5 hover:bg-gray-100 rounded transition-colors text-gray-600 hover:text-[#D65B58]"
-                            title="Editar"
+                            title="Abrir contrato"
                           >
-                            <Edit className="size-4" />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteClick(contrato);
-                            }}
-                            className="p-1.5 hover:bg-red-50 rounded transition-colors text-gray-600 hover:text-red-600"
-                            title="Excluir"
-                          >
-                            <Trash2 className="size-4" />
-                          </button>
+                            <ExternalLink className="size-4" />
+                          </a>
                         </div>
                       </td>
                     </tr>
