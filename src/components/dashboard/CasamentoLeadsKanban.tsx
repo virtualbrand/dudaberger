@@ -19,9 +19,10 @@ import {
   KanbanOverlay,
 } from '@/components/ui/kanban';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Calendar, Users, DollarSign, Phone, MessageSquare } from 'lucide-react';
+import { Calendar, Users, DollarSign, Phone, MessageSquare, Trash2, Check, X } from 'lucide-react';
 import { CasamentoLead } from '@/types/casamento-lead';
 import { format } from 'date-fns';
+import { DatePickerInput } from '@/components/ui/date-picker-input';
 import { ptBR } from 'date-fns/locale';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/components/ui/toast-1';
@@ -213,6 +214,8 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   const [isEditing, setIsEditing] = React.useState(false);
   const [editedLead, setEditedLead] = React.useState<CasamentoLead | null>(null);
   const [saving, setSaving] = React.useState(false);
+  const [isDeleting, setIsDeleting] = React.useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
 
   // Função para carregar leads - usando useCallback para estabilizar a referência
   const loadLeads = React.useCallback(async () => {
@@ -392,16 +395,17 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   const handleCardClick = (lead: CasamentoLead) => {
     setSelectedLead(lead);
     setEditedLead(lead);
-    setIsEditing(false);
+    setIsEditing(true);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setIsEditing(false);
+    setShowDeleteConfirm(false);
     setTimeout(() => {
       setSelectedLead(null);
       setEditedLead(null);
+      setIsEditing(true);
     }, 200);
   };
 
@@ -434,12 +438,45 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       });
       setColumns(updatedColumns);
       setSelectedLead(editedLead);
-      setIsEditing(false);
+      showToast('Lead atualizado com sucesso', 'success', 'top-right');
     } catch (error) {
       console.error('Erro ao salvar lead:', error);
-      alert('Erro ao salvar alterações');
+      showToast('Erro ao salvar lead', 'error', 'top-right');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (!selectedLead || !supabase) return;
+
+    setIsDeleting(true);
+    try {
+      // Deleta do Supabase
+      const { error } = await (supabase as any)
+        .from('leads')
+        .delete()
+        .eq('id', selectedLead.id);
+
+      if (error) throw error;
+
+      // Remove do estado local
+      const updatedColumns = { ...columns };
+      Object.keys(updatedColumns).forEach(columnKey => {
+        updatedColumns[columnKey] = updatedColumns[columnKey].filter(
+          lead => lead.id !== selectedLead.id
+        );
+      });
+      setColumns(updatedColumns);
+      
+      showToast('Lead excluído com sucesso', 'success', 'top-right');
+      handleCloseModal();
+    } catch (error) {
+      console.error('Erro ao excluir lead:', error);
+      showToast('Erro ao excluir lead', 'error', 'top-right');
+    } finally {
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -605,209 +642,193 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
 
       {/* Modal de Detalhes do Lead */}
       <Dialog open={isModalOpen} onOpenChange={handleCloseModal}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto bg-[#F6EEE1]">
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-[#F6EEE1]">
           {selectedLead && editedLead && (
             <>
-              <DialogHeader>
-                <div className="flex items-center justify-between">
-                  <DialogTitle className="text-2xl font-unbounded text-[#703535] flex items-center gap-3">
-                    <Avatar className="size-12">
-                      <AvatarFallback className="bg-[#d4c4b2] text-[#703535] text-lg font-semibold">
-                        {editedLead.nomeNoivo.charAt(0)}{editedLead.nomeNoiva.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    {isEditing ? (
-                      <input
-                        type="text"
-                        value={editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo}
-                        onChange={(e) => {
-                          const valor = e.target.value;
-                          const nomes = valor.split(/\s+e\s+|\s+&\s+/i);
-                          setEditedLead({ 
-                            ...editedLead, 
-                            nomeNoivo: nomes[0]?.trim() || '',
-                            nomeNoiva: nomes[1]?.trim() || ''
-                          });
-                        }}
-                        className="px-3 py-1 border rounded text-lg font-unbounded w-full"
-                        placeholder="Nome dos noivos"
-                      />
-                    ) : (
-                      editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo
-                    )}
-                  </DialogTitle>
-                  <div className="flex gap-2">
-                    {isEditing ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            setEditedLead(selectedLead);
-                            setIsEditing(false);
-                          }}
-                          className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-100"
-                          disabled={saving}
-                        >
-                          Cancelar
-                        </button>
-                        <button
-                          onClick={handleSave}
-                          className="px-3 py-1 text-sm bg-[#703535] text-white rounded hover:bg-[#8B4545] disabled:opacity-50"
-                          disabled={saving}
-                        >
-                          {saving ? 'Salvando...' : 'Salvar'}
-                        </button>
-                      </>
-                    ) : (
-                      <button
-                        onClick={() => setIsEditing(true)}
-                        className="px-3 py-1 text-sm bg-[#703535] text-white rounded hover:bg-[#8B4545]"
-                      >
-                        Editar
-                      </button>
-                    )}
-                  </div>
-                </div>
+              <DialogHeader className="border-b border-gray-300 pb-4">
+                <DialogTitle className="text-2xl font-unbounded text-[#703535] text-left">
+                  Editar Lead
+                </DialogTitle>
               </DialogHeader>
 
-              <div className="space-y-6 mt-4">
-                {/* Informações do Casamento */}
-                <div className="bg-white rounded-lg p-4 space-y-3">
-                  <h3 className="font-unbounded text-sm text-[#703535] mb-3">Informações</h3>
-                  
-                  <div className="flex items-center gap-3 text-sm">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="cursor-help">
-                          <Calendar className="size-5 text-[#703535]" />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent 
-                        variant="light" 
-                        className="bg-white shadow-md"
-                        style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
-                      >
-                        Data do Casamento
-                      </TooltipContent>
-                    </Tooltip>
-                    <div className="flex-1">
-                      {isEditing ? (
-                        <input
-                          type="date"
-                          value={editedLead.dataCasamento}
-                          onChange={(e) => setEditedLead({ ...editedLead, dataCasamento: e.target.value })}
-                          className="px-2 py-1 border rounded text-sm w-full"
-                        />
-                      ) : (
-                        <p className="text-gray-600">{format(new Date(editedLead.dataCasamento), "dd/MM/yy", { locale: ptBR })}</p>
-                      )}
-                    </div>
-                  </div>
+              <div className="space-y-6 mt-6 p-6">
+                {/* Nome dos Noivos */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome dos Noivos *
+                  </label>
+                  <input
+                    type="text"
+                    value={editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo}
+                    onChange={(e) => {
+                      const valor = e.target.value;
+                      const nomes = valor.split(/\s+e\s+|\s+&\s+/i);
+                      setEditedLead({ 
+                        ...editedLead, 
+                        nomeNoivo: nomes[0]?.trim() || '',
+                        nomeNoiva: nomes[1]?.trim() || ''
+                      });
+                    }}
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                    placeholder="Nome dos noivos"
+                  />
+                </div>
 
-                  <div className="flex items-center gap-3 text-sm">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="cursor-help">
-                          <Users className="size-5 text-[#703535]" />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent 
-                        variant="light" 
-                        className="bg-white shadow-md"
-                        style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
-                      >
-                        Número de Convidados
-                      </TooltipContent>
-                    </Tooltip>
-                    <div className="flex-1">
-                      {isEditing ? (
-                        <input
-                          type="number"
-                          value={editedLead.numeroConvidados}
-                          onChange={(e) => setEditedLead({ ...editedLead, numeroConvidados: parseInt(e.target.value) || 0 })}
-                          className="px-2 py-1 border rounded text-sm w-full"
-                        />
-                      ) : (
-                        <p className="text-gray-600">{editedLead.numeroConvidados === 0 ? 'A definir' : `${editedLead.numeroConvidados} convidados`}</p>
-                      )}
-                    </div>
-                  </div>
+                {/* Data e Convidados */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <DatePickerInput
+                    value={editedLead.dataCasamento}
+                    onChange={(value) => setEditedLead({ ...editedLead, dataCasamento: value })}
+                    label="Data da Cerimônia *"
+                    placeholder="Selecione a data"
+                  />
 
-                  <div className="flex items-center gap-3 text-sm">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <div className="cursor-help">
-                          <DollarSign className="size-5 text-[#703535]" />
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent 
-                        variant="light" 
-                        className="bg-white shadow-md"
-                        style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)' }}
-                      >
-                        Orçamento
-                      </TooltipContent>
-                    </Tooltip>
-                    <div className="flex-1">
-                      <p className="text-gray-600">{editedLead.orcamento}</p>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Número de Convidados
+                    </label>
+                    <input
+                      type="number"
+                      value={editedLead.numeroConvidados}
+                      onChange={(e) => setEditedLead({ ...editedLead, numeroConvidados: parseInt(e.target.value) || 0 })}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                      placeholder="Número de convidados"
+                    />
                   </div>
                 </div>
 
-                {/* Informações de Contato */}
-                <div className="bg-white rounded-lg p-4 space-y-3">
-                  <h3 className="font-unbounded text-sm text-[#703535] mb-3">Contato</h3>
-                  
-                  <div className="flex items-center gap-3 text-sm">
-                    <Phone className="size-5 text-[#703535]" />
-                    <div className="flex-1">
-                      {isEditing ? (
-                        <input
-                          type="tel"
-                          value={editedLead.telefone}
-                          onChange={(e) => setEditedLead({ ...editedLead, telefone: e.target.value })}
-                          className="px-2 py-1 border rounded text-sm w-full"
-                        />
-                      ) : (
-                        <p className="text-gray-600">{formatWhatsApp(editedLead.telefone)}</p>
-                      )}
-                    </div>
+                {/* Telefone e Orçamento */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Telefone/WhatsApp
+                    </label>
+                    <input
+                      type="tel"
+                      value={editedLead.telefone}
+                      onChange={(e) => setEditedLead({ ...editedLead, telefone: e.target.value })}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                      placeholder="Telefone/WhatsApp"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Orçamento
+                    </label>
+                    <input
+                      type="text"
+                      value={editedLead.orcamento}
+                      disabled
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50"
+                    />
                   </div>
                 </div>
 
                 {/* Observações */}
-                <div className="bg-white rounded-lg p-4 space-y-3">
-                  <h3 className="font-unbounded text-sm text-[#703535] mb-3 flex items-center gap-2">
-                    <MessageSquare className="size-5" />
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Observações
-                  </h3>
-                  {isEditing ? (
-                    <textarea
-                      value={editedLead.observacoes || ''}
-                      onChange={(e) => setEditedLead({ ...editedLead, observacoes: e.target.value })}
-                      className="px-3 py-2 border rounded text-sm w-full min-h-[100px]"
-                      placeholder="Adicione observações sobre este lead..."
-                    />
-                  ) : (
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap">{editedLead.observacoes || 'Sem observações'}</p>
-                  )}
+                  </label>
+                  <textarea
+                    value={editedLead.observacoes || ''}
+                    onChange={(e) => setEditedLead({ ...editedLead, observacoes: e.target.value })}
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                    rows={4}
+                    placeholder="Adicione observações sobre este lead..."
+                  />
                 </div>
 
-                {/* Status e Data de Criação */}
-                <div className="bg-white rounded-lg p-4 space-y-2">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-700">Status:</span>
-                    <Badge variant="secondary" size="sm">
-                      {COLUMN_TITLES[selectedLead.status]}
-                    </Badge>
+                {/* Status e Data */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Status
+                    </label>
+                    <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50">
+                      <Badge variant="secondary" size="sm">
+                        {COLUMN_TITLES[selectedLead.status]}
+                      </Badge>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-700">Recebido em:</span>
-                    <span className="text-gray-600">
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Recebido em
+                    </label>
+                    <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50 text-gray-600">
                       {format(new Date(selectedLead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
-                    </span>
+                    </div>
                   </div>
                 </div>
+
+                {/* Barra de Ações */}
+                <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-300">
+                  <button
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="btn-danger-xs-outline flex items-center gap-2"
+                    disabled={saving}
+                  >
+                    <Trash2 className="size-4" />
+                    Excluir Lead
+                  </button>
+                  <button
+                    onClick={handleSave}
+                    className="btn-primary-xs flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={saving}
+                  >
+                    <Check className="size-4" />
+                    {saving ? 'Salvando...' : 'Atualizar Lead'}
+                  </button>
+                </div>
               </div>
+
+              {/* Diálogo de Confirmação de Exclusão */}
+              {showDeleteConfirm && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+                  <div className="bg-[#F6EEE1] rounded-lg p-6 max-w-md w-full shadow-2xl relative">
+                    <div className="flex flex-col space-y-1.5 text-left">
+                      <h2 className="text-xl font-unbounded font-semibold tracking-tight text-[#703535]">
+                        Confirmar Exclusão
+                      </h2>
+                    </div>
+                    <div className="space-y-4 mt-4">
+                      <p className="text-sm text-gray-700">
+                        Tem certeza que deseja excluir o lead de <strong>{editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo}</strong>?
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Esta ação não pode ser desfeita.
+                      </p>
+                      <div className="flex items-center justify-end gap-3 mt-6">
+                        <button
+                          onClick={() => setShowDeleteConfirm(false)}
+                          disabled={isDeleting}
+                          className="btn-secondary-xs-outline"
+                        >
+                          Cancelar
+                        </button>
+                        <button
+                          onClick={handleDelete}
+                          disabled={isDeleting}
+                          className="btn-danger-xs flex items-center gap-2"
+                        >
+                          <Trash2 className="size-4" />
+                          {isDeleting ? 'Excluindo...' : 'Excluir'}
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowDeleteConfirm(false)}
+                      disabled={isDeleting}
+                      className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground cursor-pointer"
+                    >
+                      <X className="h-4 w-4" />
+                      <span className="sr-only">Close</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </>
           )}
         </DialogContent>

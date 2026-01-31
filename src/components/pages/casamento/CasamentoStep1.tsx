@@ -213,6 +213,10 @@ export const CasamentoStep1: React.FC = () => {
                     cursor: pointer !important;
                     font-family: 'KumbhSans', system-ui, sans-serif !important;
                   }
+                  .rdp-day_button:hover:not([disabled]):not([data-selected-single="true"]) {
+                    background-color: #D65B58 !important;
+                    color: #ffffff !important;
+                  }
                   button[data-selected-single="true"],
                   [data-selected-single="true"] {
                     background-color: #D65B58 !important;

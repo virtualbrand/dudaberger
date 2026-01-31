@@ -16,16 +16,36 @@ export function useAuth() {
     }
 
     // Obtém a sessão inicial
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+    supabase.auth.getSession().then(({ data: { session }, error }) => {
+      // Se houver erro (token inválido/expirado), limpa a sessão
+      if (error) {
+        console.error('Erro ao obter sessão:', error);
+        supabase.auth.signOut();
+        setSession(null);
+        setUser(null);
+      } else {
+        setSession(session);
+        setUser(session?.user ?? null);
+      }
+      setLoading(false);
+    }).catch((error) => {
+      // Captura erros não tratados
+      console.error('Erro inesperado ao obter sessão:', error);
+      supabase.auth.signOut();
+      setSession(null);
+      setUser(null);
       setLoading(false);
     });
 
     // Escuta mudanças no estado de autenticação
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      // Se houver erro de autenticação, limpa a sessão
+      if (event === 'TOKEN_REFRESHED' && !session) {
+        supabase.auth.signOut();
+      }
+      
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);

@@ -5,10 +5,41 @@ import { LoginForm } from '@/components/pages/login';
 import { useAuth } from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 
 export default function LoginPage() {
   const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
+
+  // Limpa sessões inválidas ao carregar a página de login
+  useEffect(() => {
+    const clearInvalidSession = async () => {
+      if (supabase && !isAuthenticated && !loading) {
+        try {
+          // Tenta obter a sessão
+          const { error } = await supabase.auth.getSession();
+          
+          // Se houver erro (token inválido), limpa completamente
+          if (error) {
+            await supabase.auth.signOut();
+            // Limpa localStorage manualmente
+            if (typeof window !== 'undefined') {
+              const keys = Object.keys(localStorage);
+              keys.forEach(key => {
+                if (key.startsWith('sb-')) {
+                  localStorage.removeItem(key);
+                }
+              });
+            }
+          }
+        } catch (err) {
+          console.error('Erro ao limpar sessão:', err);
+        }
+      }
+    };
+    
+    clearInvalidSession();
+  }, [isAuthenticated, loading]);
 
   // Redireciona para dashboard se já estiver autenticado
   useEffect(() => {

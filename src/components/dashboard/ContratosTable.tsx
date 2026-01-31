@@ -6,6 +6,7 @@ import { Proposta } from '@/types/proposta';
 import { Badge } from '@/components/ui/badge-2';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { DatePickerInput } from '@/components/ui/date-picker-input';
 import { Plus, Edit, Search, Check, Trash2, ChevronDown, ExternalLink, Copy, AlertCircle } from 'lucide-react';
 import {
   Dialog,
@@ -693,7 +694,7 @@ export default function ContratosTable() {
           {selectedContrato && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl font-unbounded text-[#703535]">
+                <DialogTitle className="text-2xl font-unbounded text-[#703535] text-left">
                   {selectedContrato.clienteNome ? 'Editar Contrato' : 'Novo Contrato'}
                 </DialogTitle>
               </DialogHeader>
@@ -940,31 +941,23 @@ export default function ContratosTable() {
                   )}
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="md:col-span-1">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Data da Cerimônia *
-                      </label>
-                      <input
-                        type="date"
-                        value={selectedContrato.dataEvento ? selectedContrato.dataEvento.split('T')[0] : ''}
-                        onChange={(e) => setSelectedContrato({ ...selectedContrato, dataEvento: e.target.value ? `${e.target.value}T00:00:00` : '' })}
-                        disabled={!isEditing}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                      />
-                    </div>
+                    <DatePickerInput
+                      value={selectedContrato.dataEvento ? selectedContrato.dataEvento.split('T')[0] : ''}
+                      onChange={(value) => setSelectedContrato({ ...selectedContrato, dataEvento: value ? `${value}T00:00:00` : '' })}
+                      label="Data da Cerimônia *"
+                      placeholder="Selecione a data"
+                      disabled={!isEditing}
+                      className="md:col-span-1"
+                    />
 
-                    <div className="md:col-span-1">
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Data do Contrato
-                      </label>
-                      <input
-                        type="date"
-                        value={selectedContrato.dataContrato ? selectedContrato.dataContrato.split('T')[0] : ''}
-                        onChange={(e) => setSelectedContrato({ ...selectedContrato, dataContrato: e.target.value ? `${e.target.value}T00:00:00` : '' })}
-                        disabled={!isEditing}
-                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                      />
-                    </div>
+                    <DatePickerInput
+                      value={selectedContrato.dataContrato ? selectedContrato.dataContrato.split('T')[0] : ''}
+                      onChange={(value) => setSelectedContrato({ ...selectedContrato, dataContrato: value ? `${value}T00:00:00` : '' })}
+                      label="Data do Contrato"
+                      placeholder="Selecione a data"
+                      disabled={!isEditing}
+                      className="md:col-span-1"
+                    />
 
                     <div className="md:col-span-1">
                       <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -1138,7 +1131,7 @@ export default function ContratosTable() {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="max-w-md bg-[#F6EEE1]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-unbounded text-[#703535]">
+            <DialogTitle className="text-xl font-unbounded text-[#703535] text-left">
               Confirmar Exclusão
             </DialogTitle>
           </DialogHeader>
@@ -1176,7 +1169,7 @@ export default function ContratosTable() {
       <Dialog open={isRemoveSignatureDialogOpen} onOpenChange={setIsRemoveSignatureDialogOpen}>
         <DialogContent className="max-w-md bg-[#F6EEE1]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-unbounded text-[#703535] flex items-center gap-2">
+            <DialogTitle className="text-xl font-unbounded text-[#703535] text-left flex items-center gap-2">
               <AlertCircle className="w-5 h-5 text-amber-600" />
               Remover Assinatura
             </DialogTitle>

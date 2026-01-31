@@ -13,6 +13,7 @@ import extenso from 'extenso';
 import dynamic from 'next/dynamic';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { DatePickerInput } from '@/components/ui/date-picker-input';
 
 const SignatureMaker = dynamic(
   () => import('@docuseal/signature-maker-react').then(mod => mod.SignatureMaker),
@@ -35,8 +36,26 @@ export default function ContratoPublicoPage() {
   const [assinaturaNoivo, setAssinaturaNoivo] = React.useState<string | null>(null);
   const [signatureMakerKey, setSignatureMakerKey] = React.useState(0);
   const [isGeneratingPDF, setIsGeneratingPDF] = React.useState(false);
+  const [showSuccessModal, setShowSuccessModal] = React.useState(false);
   
   const targetRef = React.useRef<HTMLElement>(null);
+  const assinaturasRef = React.useRef<HTMLDivElement>(null);
+
+  // Scroll para assinaturas após reload
+  React.useEffect(() => {
+    const shouldScrollToSignatures = sessionStorage.getItem('scrollToSignatures');
+    if (shouldScrollToSignatures === 'true' && !loading && (assinaturaNoiva || assinaturaNoivo)) {
+      sessionStorage.removeItem('scrollToSignatures');
+      setTimeout(() => {
+        if (assinaturasRef.current) {
+          assinaturasRef.current.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+        }
+      }, 1000);
+    }
+  }, [loading, assinaturaNoiva, assinaturaNoivo]);
 
   // Função para gerar PDF
   const handleDownloadPDF = async () => {
@@ -455,22 +474,15 @@ export default function ContratoPublicoPage() {
             </div>
 
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Data da Cerimônia
-                </label>
-                <input
-                  type="date"
-                  value={inputDate}
-                  onChange={(e) => {
-                    setInputDate(e.target.value);
-                    setValidationError('');
-                  }}
-                  onKeyPress={handleKeyPress}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-[#D65B58] focus:border-transparent"
-                  placeholder="DD/MM/AAAA"
-                />
-              </div>
+              <DatePickerInput
+                value={inputDate}
+                onChange={(value) => {
+                  setInputDate(value);
+                  setValidationError('');
+                }}
+                label="Data da Cerimônia"
+                placeholder="Selecione a data"
+              />
 
               {validationError && (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-3">
@@ -480,7 +492,7 @@ export default function ContratoPublicoPage() {
 
               <button
                 onClick={handleValidateDate}
-                className="w-full bg-[#D65B58] hover:bg-[#b84a47] text-white font-unbounded py-3 px-6 rounded-lg transition-colors duration-200"
+                className="w-full bg-[#D65B58] hover:bg-[#b84a47] text-white font-unbounded py-3 px-6 rounded-lg transition-colors duration-200 cursor-pointer"
               >
                 Acessar Contrato
               </button>
@@ -882,7 +894,10 @@ export default function ContratoPublicoPage() {
 
             {/* Assinaturas */}
             {(assinaturaNoiva || assinaturaNoivo) && (
-              <div className={`mt-16 grid gap-12 ${assinaturaNoiva && assinaturaNoivo ? 'md:grid-cols-2' : 'max-w-md mx-auto'}`}>
+              <div 
+                ref={assinaturasRef}
+                className={`mt-16 grid gap-12 ${assinaturaNoiva && assinaturaNoivo ? 'md:grid-cols-2' : 'max-w-md mx-auto'}`}
+              >
                 {/* Assinatura Noiva */}
                 {assinaturaNoiva && contrato.nomeNoiva && (
                   <div className="space-y-4">
@@ -1169,7 +1184,12 @@ export default function ContratoPublicoPage() {
                     setAssinaturaNoivo(base64Signature);
                   }
                   
+                  // Fechar o painel de assinatura
+                  setShowSignaturePanel(false);
+                  setSelectedSigner(null);
+                  
                   // Salvar no Supabase
+                  let saveSuccess = false;
                   if (supabase && contrato) {
                     try {
                       const updateData = selectedSigner === 'noiva' 
@@ -1183,17 +1203,43 @@ export default function ContratoPublicoPage() {
                       
                       if (error) {
                         console.error('❌ Erro ao salvar assinatura:', error);
+                      } else {
+                        saveSuccess = true;
+                        // Mostrar modal de sucesso
+                        setShowSuccessModal(true);
                       }
                     } catch (err) {
                       console.error('💥 Erro ao salvar assinatura no Supabase:', err);
                     }
                   }
-                  
-                  // Recarregar página para mostrar assinatura e evitar erros de cleanup
-                  window.location.reload();
                 }}
               />
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Sucesso */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl text-center animate-fade-in">
+            <div className="mx-auto w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-unbounded font-bold text-[#703535] mb-4">
+              Contrato assinado com sucesso!
+            </h3>
+            <button
+              onClick={() => {
+                sessionStorage.setItem('scrollToSignatures', 'true');
+                window.location.reload();
+              }}
+              className="btn-primary-md w-full"
+            >
+              Continuar
+            </button>
           </div>
         </div>
       )}

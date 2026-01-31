@@ -6,7 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { Proposta } from '@/types/proposta';
 import { format, addDays, differenceInDays, isPast } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { CircleSmall, CircleDollarSign } from 'lucide-react';
+import { CircleSmall, CircleDollarSign, Calendar as CalendarIcon } from 'lucide-react';
 import ImmersiveScrollGallery from '@/components/ui/immersive-scroll-gallery';
 import { InteractivePhotoStack } from '@/components/ui/photo-stack';
 import BolosGallerySection from '@/components/pages/BolosGallerySection';
@@ -19,6 +19,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { DatePickerInput } from '@/components/ui/date-picker-input';
 import './proposta.css';
 
 const dbStatusToUiStatus = (status: string | null | undefined): Proposta['status'] => {
@@ -45,6 +46,10 @@ export default function PropostaPublicaPage() {
   const [proposta, setProposta] = React.useState<Proposta | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
+  const [isValidated, setIsValidated] = React.useState(false);
+  const [inputDate, setInputDate] = React.useState('');
+  const [validationError, setValidationError] = React.useState('');
+  const [dataCerimonia, setDataCerimonia] = React.useState<string | null>(null);
   const [prazoSelecionado, setPrazoSelecionado] = React.useState<'7dias' | '21dias'>('7dias');
   const [showPaymentModal, setShowPaymentModal] = React.useState(false);
   const [paymentStep, setPaymentStep] = React.useState<'choose' | 'pix'>('choose');
@@ -52,6 +57,46 @@ export default function PropostaPublicaPage() {
   const [activeTab, setActiveTab] = React.useState<'seguir' | 'decidir'>('seguir');
   
   useScrollAnimation();
+
+  // Verificar se já foi validado anteriormente
+  React.useEffect(() => {
+    if (slug) {
+      const validated = sessionStorage.getItem(`proposta-validated-${slug}`);
+      if (validated === 'true') {
+        setIsValidated(true);
+      }
+    }
+  }, [slug]);
+
+  const handleValidateDate = () => {
+    if (!inputDate) {
+      setValidationError('Por favor, selecione a data da cerimônia');
+      return;
+    }
+
+    if (!dataCerimonia) {
+      setValidationError('Data da cerimônia não disponível');
+      return;
+    }
+
+    // Comparar apenas a data (sem hora)
+    const inputDateOnly = inputDate;
+    const cerimonieDateOnly = dataCerimonia.split('T')[0];
+
+    if (inputDateOnly === cerimonieDateOnly) {
+      setIsValidated(true);
+      setValidationError('');
+      sessionStorage.setItem(`proposta-validated-${slug}`, 'true');
+    } else {
+      setValidationError('Data incorreta. Verifique a data da cerimônia e tente novamente.');
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleValidateDate();
+    }
+  };
 
   const handleCopyCNPJ = () => {
     navigator.clipboard.writeText('59138056000150');
@@ -140,6 +185,13 @@ export default function PropostaPublicaPage() {
           return;
         }
 
+        // Data da cerimônia vem do campo validade_ate da proposta
+        const propostaValidadeAte = data.validade_ate;
+        
+        if (propostaValidadeAte) {
+          setDataCerimonia(`${propostaValidadeAte}T00:00:00`);
+        }
+
         const dataCriacao = data.data_proposta ? `${data.data_proposta}T00:00:00` : String(data.created_at ?? new Date().toISOString());
         const statusOriginal = dbStatusToUiStatus(data.status);
         
@@ -220,6 +272,56 @@ export default function PropostaPublicaPage() {
 
   return (
     <div className="min-h-screen bg-[#F6EEE1]">
+      {/* Tela de Validação de Data */}
+      {!isValidated && !loading && proposta && !isRestrito && dataCerimonia && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 max-w-md w-full mx-4">
+            <div className="flex flex-col items-center mb-6">
+              <div className="w-16 h-16 bg-[#D65B58] rounded-full flex items-center justify-center mb-4">
+                <CalendarIcon className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-2xl font-unbounded font-bold text-[#703535] mb-2">
+                Acesso à Proposta
+              </h2>
+              <p className="text-gray-600 text-sm text-center">
+                Para acessar a proposta, por favor confirme a data da cerimônia
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              <DatePickerInput
+                value={inputDate}
+                onChange={(value) => {
+                  setInputDate(value);
+                  setValidationError('');
+                }}
+                label="Data da Cerimônia"
+                placeholder="Selecione a data"
+              />
+
+              {validationError && (
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                  <p className="text-sm text-red-600">{validationError}</p>
+                </div>
+              )}
+
+              <button
+                onClick={handleValidateDate}
+                className="w-full bg-[#D65B58] hover:bg-[#b84a47] text-white font-unbounded py-3 px-6 rounded-lg transition-colors duration-200 cursor-pointer"
+              >
+                Acessar Proposta
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-500 text-center mt-6">
+              Esta verificação garante que apenas pessoas autorizadas acessem a proposta
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Page content with blur when not validated */}
+      <div className={!isValidated && !loading && proposta && !isRestrito && dataCerimonia ? 'filter blur-sm pointer-events-none select-none' : ''}>
       {/* Hero Section com Background Fixo */}
       <section className="relative h-screen w-full overflow-hidden">
         {/* Background Image */}
@@ -1434,6 +1536,7 @@ export default function PropostaPublicaPage() {
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 }

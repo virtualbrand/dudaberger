@@ -6,6 +6,7 @@ import { mockPropostas } from '@/data/mock-propostas';
 import { Badge } from '@/components/ui/badge-2';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { DatePickerInput } from '@/components/ui/date-picker-input';
 import { Plus, Edit, Search, Check, Trash2, X, ExternalLink, Copy } from 'lucide-react';
 import {
   Dialog,
@@ -237,8 +238,12 @@ export default function PropostasTable() {
           slug: slug || null,
           valor_total: selectedProposta.valorTotal,
           status: uiStatusToDbStatus(selectedProposta.status),
-          data_proposta: selectedProposta.dataCriacao ? selectedProposta.dataCriacao.split('T')[0] : null,
-          validade_ate: selectedProposta.dataEvento ? selectedProposta.dataEvento.split('T')[0] : null,
+          data_proposta: selectedProposta.dataCriacao 
+            ? (selectedProposta.dataCriacao.includes('T') ? selectedProposta.dataCriacao.split('T')[0] : selectedProposta.dataCriacao)
+            : null,
+          validade_ate: selectedProposta.dataEvento 
+            ? (selectedProposta.dataEvento.includes('T') ? selectedProposta.dataEvento.split('T')[0] : selectedProposta.dataEvento)
+            : null,
           local_festa: selectedProposta.localFesta?.trim() || null,
           numero_convidados: selectedProposta.numeroConvidados ?? null,
           link_pagamento_7_dias: selectedProposta.linkPagamento7Dias?.trim() || null,
@@ -290,8 +295,12 @@ export default function PropostasTable() {
           slug: slug || null,
           valor_total: selectedProposta.valorTotal,
           status: uiStatusToDbStatus(selectedProposta.status),
-          data_proposta: selectedProposta.dataCriacao ? selectedProposta.dataCriacao.split('T')[0] : null,
-          validade_ate: selectedProposta.dataEvento ? selectedProposta.dataEvento.split('T')[0] : null,
+          data_proposta: selectedProposta.dataCriacao 
+            ? (selectedProposta.dataCriacao.includes('T') ? selectedProposta.dataCriacao.split('T')[0] : selectedProposta.dataCriacao)
+            : null,
+          validade_ate: selectedProposta.dataEvento 
+            ? (selectedProposta.dataEvento.includes('T') ? selectedProposta.dataEvento.split('T')[0] : selectedProposta.dataEvento)
+            : null,
           local_festa: selectedProposta.localFesta?.trim() || null,
           numero_convidados: selectedProposta.numeroConvidados ?? null,
           link_pagamento_7_dias: selectedProposta.linkPagamento7Dias?.trim() || null,
@@ -528,7 +537,7 @@ export default function PropostasTable() {
           {selectedProposta && (
             <>
               <DialogHeader>
-                <DialogTitle className="text-2xl font-unbounded text-[#703535]">
+                <DialogTitle className="text-2xl font-unbounded text-[#703535] text-left">
                   {selectedProposta.clienteNome ? 'Editar Proposta' : 'Nova Proposta'}
                 </DialogTitle>
               </DialogHeader>
@@ -596,18 +605,14 @@ export default function PropostasTable() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="md:col-span-1">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Data da Cerimônia *
-                        </label>
-                        <input
-                          type="date"
-                          value={selectedProposta.dataEvento ? selectedProposta.dataEvento.split('T')[0] : ''}
-                          onChange={(e) => setSelectedProposta({ ...selectedProposta, dataEvento: e.target.value ? `${e.target.value}T00:00:00` : '' })}
-                          disabled={!isEditing}
-                          className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                        />
-                      </div>
+                      <DatePickerInput
+                        value={selectedProposta.dataEvento ? selectedProposta.dataEvento.split('T')[0] : ''}
+                        onChange={(value) => setSelectedProposta({ ...selectedProposta, dataEvento: value ? `${value}T00:00:00` : '' })}
+                        label="Data da Cerimônia *"
+                        placeholder="Selecione a data"
+                        disabled={!isEditing}
+                        className="md:col-span-1"
+                      />
 
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -645,18 +650,13 @@ export default function PropostasTable() {
                 {activeTab === 'proposta' && (
                   <div className="p-6 space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Data da Proposta
-                        </label>
-                        <input
-                          type="date"
-                          value={selectedProposta.dataCriacao ? selectedProposta.dataCriacao.split('T')[0] : ''}
-                          onChange={(e) => setSelectedProposta({ ...selectedProposta, dataCriacao: e.target.value ? `${e.target.value}T00:00:00` : new Date().toISOString() })}
-                          disabled={!isEditing}
-                          className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                        />
-                      </div>
+                      <DatePickerInput
+                        value={selectedProposta.dataCriacao ? selectedProposta.dataCriacao.split('T')[0] : ''}
+                        onChange={(value) => setSelectedProposta({ ...selectedProposta, dataCriacao: value ? `${value}T00:00:00` : new Date().toISOString() })}
+                        label="Data da Proposta"
+                        placeholder="Selecione a data"
+                        disabled={!isEditing}
+                      />
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -835,7 +835,7 @@ export default function PropostasTable() {
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="max-w-md bg-[#F6EEE1]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-unbounded text-[#703535]">
+            <DialogTitle className="text-xl font-unbounded text-[#703535] text-left">
               Confirmar Exclusão
             </DialogTitle>
           </DialogHeader>
