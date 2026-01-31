@@ -20,7 +20,9 @@ export function useAuth() {
       // Se houver erro (token inválido/expirado), limpa a sessão
       if (error) {
         console.error('Erro ao obter sessão:', error);
-        supabase.auth.signOut();
+        if (supabase) {
+          supabase.auth.signOut();
+        }
         setSession(null);
         setUser(null);
       } else {
@@ -31,7 +33,9 @@ export function useAuth() {
     }).catch((error) => {
       // Captura erros não tratados
       console.error('Erro inesperado ao obter sessão:', error);
-      supabase.auth.signOut();
+      if (supabase) {
+        supabase.auth.signOut();
+      }
       setSession(null);
       setUser(null);
       setLoading(false);
@@ -43,7 +47,9 @@ export function useAuth() {
     } = supabase.auth.onAuthStateChange((event, session) => {
       // Se houver erro de autenticação, limpa a sessão
       if (event === 'TOKEN_REFRESHED' && !session) {
-        supabase.auth.signOut();
+        if (supabase) {
+          supabase.auth.signOut();
+        }
       }
       
       setSession(session);
