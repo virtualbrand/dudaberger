@@ -209,7 +209,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   });
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const [isEncerradoOpen, setIsEncerradoOpen] = React.useState(false);
+  const [collapsedColumns, setCollapsedColumns] = React.useState<Record<string, boolean>>({});
   const [selectedLead, setSelectedLead] = React.useState<CasamentoLead | null>(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isEditing, setIsEditing] = React.useState(false);
@@ -217,6 +217,14 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
   const [saving, setSaving] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = React.useState(false);
+
+  // Função para alternar estado de colapso de uma coluna
+  const toggleColumnCollapse = (columnKey: string) => {
+    setCollapsedColumns(prev => ({
+      ...prev,
+      [columnKey]: !prev[columnKey]
+    }));
+  };
 
   // Função para carregar leads - usando useCallback para estabilizar a referência
   const loadLeads = React.useCallback(async () => {
@@ -353,8 +361,6 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       window.removeEventListener('focus', handleFocus);
     };
   }, [loadLeads]);
-
-  const visibleColumns = ['leads', 'proposta', 'aceita'];
 
   // Filtrar leads com base na busca
   const filteredColumns = React.useMemo(() => {
@@ -585,26 +591,35 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       ) : (
         <Kanban value={filteredColumns} onValueChange={handleColumnsChange} getItemValue={(item) => item.id}>
           <div className="flex gap-4">
-            {/* Grid principal com 3 colunas */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 flex-1">
-              {visibleColumns.map((columnValue) => (
-                <LeadColumn 
-                  key={columnValue} 
-                  value={columnValue} 
-                  leads={filteredColumns[columnValue] || []} 
-                  onCardClick={handleCardClick}
-                />
-              ))}
-          </div>
-
-          {/* Coluna Encerrado - Versão Expandida OU Colapsada */}
-          {isEncerradoOpen ? (
-            /* Versão expandida - coluna completa */
-            <div className="w-80">
-              <div className={`rounded-lg border-2 p-3 shadow-sm outline-none focus:outline-none focus-visible:outline-none ${COLUMN_COLORS.encerrado}`}>
-                <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-300">
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs font-unbounded text-[#703535]">{COLUMN_TITLES.encerrado}</span>
+            {/* Renderiza todas as colunas */}
+            {Object.keys(filteredColumns).map((columnKey) => {
+              const isCollapsed = collapsedColumns[columnKey];
+              
+              if (isCollapsed) {
+                // Versão colapsada - barra vertical fina
+                return (
+                  <button
+                    key={columnKey}
+                    onClick={() => toggleColumnCollapse(columnKey)}
+                    className={`relative w-12 border-2 rounded-lg shadow-sm transition-all flex flex-col items-center justify-start gap-2 py-4 outline-none focus:outline-none focus-visible:outline-none cursor-pointer hover:opacity-90 ${COLUMN_COLORS[columnKey]}`}
+                    title={`Expandir ${COLUMN_TITLES[columnKey]}`}
+                    aria-label={`Expandir ${COLUMN_TITLES[columnKey]}`}
+                  >
+                    {/* Ícone de seta apontando para esquerda (expandir) */}
+                    <div className="p-1 rounded transition-colors">
+                      <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 rotate-180">
+                        <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </div>
+                    
+                    {/* Texto vertical */}
+                    <div className="flex-1 flex items-center justify-center">
+                      <div className="text-xs font-semibold text-gray-600" style={{ writingMode: 'vertical-rl' }}>
+                        {COLUMN_TITLES[columnKey]}
+                      </div>
+                    </div>
+                    
+                    {/* Badge no final */}
                     <Badge 
                       variant="secondary" 
                       size="sm" 
@@ -612,70 +627,58 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                       className="bg-white font-unbounded font-bold text-[0.6rem] text-[#703535]"
                       style={{ boxShadow: '0 0px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
                     >
-                      {filteredColumns.encerrado?.length || 0}
+                      {filteredColumns[columnKey]?.length || 0}
                     </Badge>
-                  </div>
-                  {/* Botão de colapsar no lugar do grip */}
-                  <button
-                    onClick={() => setIsEncerradoOpen(false)}
-                    className="p-1 hover:bg-gray-200 rounded transition-colors outline-none focus:outline-none focus-visible:outline-none cursor-pointer"
-                    aria-label="Recolher Encerrados"
-                  >
-                    <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
-                      <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
                   </button>
-                </div>
-                <KanbanColumnContent value="encerrado" className="flex flex-col gap-3 p-0.5 min-h-[200px]">
-                  {(filteredColumns.encerrado || []).map((lead) => (
-                    <LeadCard key={lead.id} lead={lead} asHandle={true} onCardClick={handleCardClick} />
-                  ))}
-                </KanbanColumnContent>
-                {(!filteredColumns.encerrado || filteredColumns.encerrado.length === 0) && (
-                  <p className="text-center text-gray-500 text-sm py-8">
-                    {searchQuery ? 'Nenhum lead encontrado' : 'Nenhum lead encerrado'}
-                  </p>
-                )}
-              </div>
-            </div>
-          ) : (
-            /* Versão colapsada - barra vertical fina */
-            <button
-              onClick={() => setIsEncerradoOpen(true)}
-              className="relative w-12 bg-gray-100 hover:bg-gray-200 border-2 border-gray-300 rounded-lg transition-colors flex flex-col items-center justify-start gap-2 py-4 outline-none focus:outline-none focus-visible:outline-none cursor-pointer"
-              title="Expandir Encerrados"
-              aria-label="Expandir Encerrados"
-            >
-              {/* Ícone de seta apontando para esquerda (expandir) */}
-              <div className="p-1 hover:bg-gray-200 rounded transition-colors">
-                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400 rotate-180">
-                  <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
+                );
+              }
               
-              {/* Texto vertical */}
-              <div className="flex-1 flex items-center justify-center">
-                <div className="text-xs font-semibold text-gray-600" style={{ writingMode: 'vertical-rl' }}>
-                  {COLUMN_TITLES.encerrado}
+              // Versão expandida - coluna completa
+              return (
+                <div key={columnKey} className="w-80">
+                  <div className={`rounded-lg border-2 p-3 shadow-sm outline-none focus:outline-none focus-visible:outline-none ${COLUMN_COLORS[columnKey]}`}>
+                    <div className="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-unbounded text-[#703535]">{COLUMN_TITLES[columnKey]}</span>
+                        <Badge 
+                          variant="secondary" 
+                          size="sm" 
+                          shape="circle" 
+                          className="bg-white font-unbounded font-bold text-[0.6rem] text-[#703535]"
+                          style={{ boxShadow: '0 0px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
+                        >
+                          {filteredColumns[columnKey]?.length || 0}
+                        </Badge>
+                      </div>
+                      {/* Botão de colapsar */}
+                      <button
+                        onClick={() => toggleColumnCollapse(columnKey)}
+                        className="p-1 hover:bg-gray-200 rounded transition-colors outline-none focus:outline-none focus-visible:outline-none cursor-pointer"
+                        aria-label={`Recolher ${COLUMN_TITLES[columnKey]}`}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-gray-400">
+                          <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      </button>
+                    </div>
+                    <KanbanColumnContent value={columnKey} className="flex flex-col gap-3 p-0.5 min-h-[200px]">
+                      {(filteredColumns[columnKey] || []).map((lead) => (
+                        <LeadCard key={lead.id} lead={lead} asHandle={true} onCardClick={handleCardClick} />
+                      ))}
+                    </KanbanColumnContent>
+                    {(!filteredColumns[columnKey] || filteredColumns[columnKey].length === 0) && (
+                      <p className="text-center text-gray-500 text-sm py-8">
+                        {searchQuery ? 'Nenhum lead encontrado' : `Nenhum lead em ${COLUMN_TITLES[columnKey].toLowerCase()}`}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-              
-              {/* Badge no final */}
-              <Badge 
-                variant="secondary" 
-                size="sm" 
-                shape="circle" 
-                className="bg-white font-unbounded font-bold text-[0.6rem] text-[#703535]"
-                style={{ boxShadow: '0 0px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
-              >
-                {filteredColumns.encerrado?.length || 0}
-              </Badge>
-            </button>
-          )}
-        </div>
-        <KanbanOverlay>
-          <div className="rounded-lg bg-gray-200/80 size-full" />
-        </KanbanOverlay>
+              );
+            })}
+          </div>
+          <KanbanOverlay>
+            <div className="rounded-lg bg-gray-200/80 size-full" />
+          </KanbanOverlay>
         </Kanban>
       )}
 
