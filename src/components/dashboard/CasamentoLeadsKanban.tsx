@@ -23,6 +23,7 @@ import { Calendar, Users, DollarSign, Phone, MessageSquare, Trash2, Check, X } f
 import { CasamentoLead } from '@/types/casamento-lead';
 import { format } from 'date-fns';
 import { DatePickerInput } from '@/components/ui/date-picker-input';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ptBR } from 'date-fns/locale';
 import { supabase } from '@/lib/supabase';
 import { useToast } from '@/components/ui/toast-1';
@@ -249,7 +250,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
       };
 
         data?.forEach((lead: any) => {
-          const casamentoLead: CasamentoLead = {
+          const casamentoLead: any = {
             id: lead.id,
             nomeNoivo: lead.nome_noivo || '',
             nomeNoiva: lead.nome_noiva || '',
@@ -262,7 +263,20 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
           status: lead.status,
           createdAt: lead.created_at,
           observacoes: lead.observacoes || undefined,
+          // Campos adicionais do formulário de casamento
+          localFesta: lead.local_evento || '',
         };
+
+        // Adiciona dados_extras se existirem
+        if (lead.dados_extras) {
+          if (lead.dados_extras.responsavelDecoracao) casamentoLead.responsavelDecoracao = lead.dados_extras.responsavelDecoracao;
+          if (lead.dados_extras.responsavelOrganizacao) casamentoLead.responsavelOrganizacao = lead.dados_extras.responsavelOrganizacao;
+          if (lead.dados_extras.fotografo) casamentoLead.fotografo = lead.dados_extras.fotografo;
+          if (lead.dados_extras.motivacaoBolo) casamentoLead.motivacaoBolo = lead.dados_extras.motivacaoBolo;
+          if (lead.dados_extras.doces) casamentoLead.doces = lead.dados_extras.doces;
+          if (lead.dados_extras.budgetPorConvidado) casamentoLead.budgetPorConvidado = lead.dados_extras.budgetPorConvidado;
+          if (lead.dados_extras.consideracoesEspecificas) casamentoLead.consideracoesEspecificas = lead.dados_extras.consideracoesEspecificas;
+        }
 
         // Mapeia os status do banco para as colunas do kanban
         const statusMap: Record<string, string> = {
@@ -414,17 +428,42 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
 
     setSaving(true);
     try {
+      // Prepara os dados extras
+      const dadosExtras: any = {};
+      
+      // Adiciona campos da aba "Outras Informações" se existirem
+      if ((editedLead as any).localFesta) dadosExtras.localFesta = (editedLead as any).localFesta;
+      if ((editedLead as any).responsavelDecoracao) dadosExtras.responsavelDecoracao = (editedLead as any).responsavelDecoracao;
+      if ((editedLead as any).responsavelOrganizacao) dadosExtras.responsavelOrganizacao = (editedLead as any).responsavelOrganizacao;
+      if ((editedLead as any).fotografo) dadosExtras.fotografo = (editedLead as any).fotografo;
+      if ((editedLead as any).motivacaoBolo) dadosExtras.motivacaoBolo = (editedLead as any).motivacaoBolo;
+      if ((editedLead as any).doces) dadosExtras.doces = (editedLead as any).doces;
+      if ((editedLead as any).budgetPorConvidado) dadosExtras.budgetPorConvidado = (editedLead as any).budgetPorConvidado;
+      if ((editedLead as any).consideracoesEspecificas) dadosExtras.consideracoesEspecificas = (editedLead as any).consideracoesEspecificas;
+
       // Atualiza no Supabase
+      const updateData: any = {
+        nome_noivo: editedLead.nomeNoivo,
+        nome_noiva: editedLead.nomeNoiva,
+        whatsapp: editedLead.telefone,
+        data_casamento: editedLead.dataCasamento,
+        numero_convidados: editedLead.numeroConvidados,
+        observacoes: editedLead.observacoes,
+      };
+
+      // Adiciona local_evento se existir
+      if ((editedLead as any).localFesta) {
+        updateData.local_evento = (editedLead as any).localFesta;
+      }
+
+      // Adiciona dados_extras se houver campos adicionais
+      if (Object.keys(dadosExtras).length > 0) {
+        updateData.dados_extras = dadosExtras;
+      }
+
       const { error } = await (supabase as any)
         .from('leads')
-        .update({
-          nome_noivo: editedLead.nomeNoivo,
-          nome_noiva: editedLead.nomeNoiva,
-          whatsapp: editedLead.telefone,
-          data_casamento: editedLead.dataCasamento,
-          numero_convidados: editedLead.numeroConvidados,
-          observacoes: editedLead.observacoes,
-        })
+        .update(updateData)
         .eq('id', editedLead.id);
 
       if (error) throw error;
@@ -651,137 +690,338 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                 </DialogTitle>
               </DialogHeader>
 
-              <div className="space-y-6 mt-6 p-6">
-                {/* Nome dos Noivos */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nome dos Noivos *
-                  </label>
-                  <input
-                    type="text"
-                    value={editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo}
-                    onChange={(e) => {
-                      const valor = e.target.value;
-                      const nomes = valor.split(/\s+e\s+|\s+&\s+/i);
-                      setEditedLead({ 
-                        ...editedLead, 
-                        nomeNoivo: nomes[0]?.trim() || '',
-                        nomeNoiva: nomes[1]?.trim() || ''
-                      });
-                    }}
-                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                    placeholder="Nome dos noivos"
-                  />
-                </div>
+              <Tabs defaultValue="lead" className="w-full mt-6">
+                <TabsList className="grid w-full grid-cols-2 mb-6">
+                  <TabsTrigger value="lead">Lead</TabsTrigger>
+                  <TabsTrigger value="outras">Outras Informações</TabsTrigger>
+                </TabsList>
 
-                {/* Data e Convidados */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <DatePickerInput
-                    value={editedLead.dataCasamento}
-                    onChange={(value) => setEditedLead({ ...editedLead, dataCasamento: value })}
-                    label="Data da Cerimônia *"
-                    placeholder="Selecione a data"
-                  />
-
+                {/* Aba 1: Lead */}
+                <TabsContent value="lead" className="space-y-6 px-6 pb-6">
+                  {/* Nome dos Noivos */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Número de Convidados
-                    </label>
-                    <input
-                      type="number"
-                      value={editedLead.numeroConvidados}
-                      onChange={(e) => setEditedLead({ ...editedLead, numeroConvidados: parseInt(e.target.value) || 0 })}
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                      placeholder="Número de convidados"
-                    />
-                  </div>
-                </div>
-
-                {/* Telefone e Orçamento */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Telefone/WhatsApp
-                    </label>
-                    <input
-                      type="tel"
-                      value={editedLead.telefone}
-                      onChange={(e) => setEditedLead({ ...editedLead, telefone: e.target.value })}
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                      placeholder="Telefone/WhatsApp"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Orçamento
+                      Nome dos Noivos *
                     </label>
                     <input
                       type="text"
-                      value={editedLead.orcamento}
-                      disabled
-                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50"
+                      value={editedLead.nomeNoiva ? `${editedLead.nomeNoivo} e ${editedLead.nomeNoiva}` : editedLead.nomeNoivo}
+                      onChange={(e) => {
+                        const valor = e.target.value;
+                        const nomes = valor.split(/\s+e\s+|\s+&\s+/i);
+                        setEditedLead({ 
+                          ...editedLead, 
+                          nomeNoivo: nomes[0]?.trim() || '',
+                          nomeNoiva: nomes[1]?.trim() || ''
+                        });
+                      }}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                      placeholder="Nome dos noivos"
                     />
                   </div>
-                </div>
 
-                {/* Observações */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Observações
-                  </label>
-                  <textarea
-                    value={editedLead.observacoes || ''}
-                    onChange={(e) => setEditedLead({ ...editedLead, observacoes: e.target.value })}
-                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
-                    rows={4}
-                    placeholder="Adicione observações sobre este lead..."
-                  />
-                </div>
+                  {/* Data e Convidados */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <DatePickerInput
+                      value={editedLead.dataCasamento}
+                      onChange={(value) => setEditedLead({ ...editedLead, dataCasamento: value })}
+                      label="Data da Cerimônia *"
+                      placeholder="Selecione a data"
+                    />
 
-                {/* Status e Data */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Status
-                    </label>
-                    <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50">
-                      <Badge variant="secondary" size="sm">
-                        {COLUMN_TITLES[selectedLead.status]}
-                      </Badge>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Número de Convidados
+                      </label>
+                      <input
+                        type="number"
+                        value={editedLead.numeroConvidados}
+                        onChange={(e) => setEditedLead({ ...editedLead, numeroConvidados: parseInt(e.target.value) || 0 })}
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                        placeholder="Número de convidados"
+                      />
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Recebido em
-                    </label>
-                    <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50 text-gray-600">
-                      {format(new Date(selectedLead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                  {/* Telefone e Orçamento */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Telefone/WhatsApp
+                      </label>
+                      <input
+                        type="tel"
+                        value={editedLead.telefone}
+                        onChange={(e) => setEditedLead({ ...editedLead, telefone: e.target.value })}
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                        placeholder="Telefone/WhatsApp"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Orçamento
+                      </label>
+                      <input
+                        type="text"
+                        value={editedLead.orcamento}
+                        disabled
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50"
+                      />
                     </div>
                   </div>
-                </div>
 
-                {/* Barra de Ações */}
-                <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-300">
-                  <button
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className="btn-danger-xs-outline flex items-center gap-2"
-                    disabled={saving}
-                  >
-                    <Trash2 className="size-4" />
-                    Excluir Lead
-                  </button>
-                  <button
-                    onClick={handleSave}
-                    className="btn-primary-xs flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={saving}
-                  >
-                    <Check className="size-4" />
-                    {saving ? 'Salvando...' : 'Atualizar Lead'}
-                  </button>
-                </div>
-              </div>
+                  {/* Observações */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Observações
+                    </label>
+                    <textarea
+                      value={editedLead.observacoes || ''}
+                      onChange={(e) => setEditedLead({ ...editedLead, observacoes: e.target.value })}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                      rows={4}
+                      placeholder="Adicione observações sobre este lead..."
+                    />
+                  </div>
+
+                  {/* Status e Data */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Status
+                      </label>
+                      <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50">
+                        <Badge variant="secondary" size="sm">
+                          {COLUMN_TITLES[selectedLead.status]}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Recebido em
+                      </label>
+                      <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50 text-gray-600">
+                        {format(new Date(selectedLead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Barra de Ações */}
+                  <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-300">
+                    <button
+                      onClick={() => setShowDeleteConfirm(true)}
+                      className="btn-danger-xs-outline flex items-center gap-2"
+                      disabled={saving}
+                    >
+                      <Trash2 className="size-4" />
+                      Excluir Lead
+                    </button>
+                    <button
+                      onClick={handleSave}
+                      className="btn-primary-xs flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={saving}
+                    >
+                      <Check className="size-4" />
+                      {saving ? 'Salvando...' : 'Atualizar Lead'}
+                    </button>
+                  </div>
+                </TabsContent>
+
+                {/* Aba 2: Outras Informações */}
+                <TabsContent value="outras" className="space-y-6 px-6 pb-6">
+                  {/* Local da Festa */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Local da Festa
+                    </label>
+                    <input
+                      type="text"
+                      value={(editedLead as any).localFesta || ''}
+                      onChange={(e) => setEditedLead({ ...editedLead, localFesta: e.target.value } as any)}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                      placeholder="Ex: Praia do Rosa, Garopaba"
+                    />
+                  </div>
+
+                  {/* Responsáveis */}
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Responsável pela Decoração
+                      </label>
+                      <input
+                        type="text"
+                        value={(editedLead as any).responsavelDecoracao || ''}
+                        onChange={(e) => setEditedLead({ ...editedLead, responsavelDecoracao: e.target.value } as any)}
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                        placeholder="Ex: Nisinha, Amor & Praia"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Responsável pela Organização/Cerimônia
+                      </label>
+                      <input
+                        type="text"
+                        value={(editedLead as any).responsavelOrganizacao || ''}
+                        onChange={(e) => setEditedLead({ ...editedLead, responsavelOrganizacao: e.target.value } as any)}
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                        placeholder="Ex: Bartira, Kitty"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Fotógrafo
+                      </label>
+                      <input
+                        type="text"
+                        value={(editedLead as any).fotografo || ''}
+                        onChange={(e) => setEditedLead({ ...editedLead, fotografo: e.target.value } as any)}
+                        className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                        placeholder="Ex: Cícero"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Motivação do Bolo */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Motivação para ter o bolo no casamento
+                    </label>
+                    <textarea
+                      value={(editedLead as any).motivacaoBolo || ''}
+                      onChange={(e) => setEditedLead({ ...editedLead, motivacaoBolo: e.target.value } as any)}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white resize-none"
+                      rows={4}
+                      placeholder="O que os motiva a optarem pela escolha de ter o bolo no casamento?"
+                    />
+                  </div>
+
+                  {/* Doces */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Quais outros doces serão servidos?
+                    </label>
+                    <div className="space-y-2">
+                      <label className="flex items-center p-3 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50">
+                        <input
+                          type="checkbox"
+                          checked={((editedLead as any).doces || []).includes('mesa-doces')}
+                          onChange={(e) => {
+                            const doces = (editedLead as any).doces || [];
+                            const newDoces = e.target.checked
+                              ? [...doces, 'mesa-doces']
+                              : doces.filter((d: string) => d !== 'mesa-doces');
+                            setEditedLead({ ...editedLead, doces: newDoces } as any);
+                          }}
+                          className="w-4 h-4 text-[#D65B58] border-gray-300 rounded cursor-pointer"
+                        />
+                        <span className="ml-3 text-sm text-gray-700">Mesa de Doces (6 a 8 doces por convidado)</span>
+                      </label>
+
+                      <label className="flex items-center p-3 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50">
+                        <input
+                          type="checkbox"
+                          checked={((editedLead as any).doces || []).includes('reposicao-mesa')}
+                          onChange={(e) => {
+                            const doces = (editedLead as any).doces || [];
+                            const newDoces = e.target.checked
+                              ? [...doces, 'reposicao-mesa']
+                              : doces.filter((d: string) => d !== 'reposicao-mesa');
+                            setEditedLead({ ...editedLead, doces: newDoces } as any);
+                          }}
+                          className="w-4 h-4 text-[#D65B58] border-gray-300 rounded cursor-pointer"
+                        />
+                        <span className="ml-3 text-sm text-gray-700">Reposição da Mesa de Doces (10 doces por convidado)</span>
+                      </label>
+
+                      <label className="flex items-center p-3 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50">
+                        <input
+                          type="checkbox"
+                          checked={((editedLead as any).doces || []).includes('sobremesa-menu')}
+                          onChange={(e) => {
+                            const doces = (editedLead as any).doces || [];
+                            const newDoces = e.target.checked
+                              ? [...doces, 'sobremesa-menu']
+                              : doces.filter((d: string) => d !== 'sobremesa-menu');
+                            setEditedLead({ ...editedLead, doces: newDoces } as any);
+                          }}
+                          className="w-4 h-4 text-[#D65B58] border-gray-300 rounded cursor-pointer"
+                        />
+                        <span className="ml-3 text-sm text-gray-700">Sobremesa no Menu</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  {/* Budget por Convidado */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Budget por convidado para investir no bolo
+                    </label>
+                    <div className="space-y-2">
+                      {[
+                        { label: 'Entre R$25 e R$30', value: 'R$25-R$30' },
+                        { label: 'Entre R$20 e R$25', value: 'R$20-R$25' },
+                        { label: 'Entre R$15 e R$20', value: 'R$15-R$20' },
+                        { label: 'Entre R$10 e R$15', value: 'R$10-R$15' },
+                      ].map((option) => (
+                        <label
+                          key={option.value}
+                          className="flex items-center p-3 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50"
+                        >
+                          <input
+                            type="radio"
+                            name="budgetPorConvidado"
+                            value={option.value}
+                            checked={(editedLead as any).budgetPorConvidado === option.value}
+                            onChange={(e) => setEditedLead({ ...editedLead, budgetPorConvidado: e.target.value } as any)}
+                            className="w-4 h-4 text-[#D65B58] border-gray-300 cursor-pointer"
+                          />
+                          <span className="ml-3 text-sm text-gray-700">{option.label}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Considerações Específicas */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Considerações Específicas
+                    </label>
+                    <textarea
+                      value={(editedLead as any).consideracoesEspecificas || ''}
+                      onChange={(e) => setEditedLead({ ...editedLead, consideracoesEspecificas: e.target.value } as any)}
+                      className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white resize-none"
+                      rows={4}
+                      placeholder="Itens, tamanhos, características específicas, quantidade de andares, etc."
+                    />
+                  </div>
+
+                  {/* Barra de Ações */}
+                  <div className="flex items-center justify-end gap-3 pt-6 border-t border-gray-300">
+                    <button
+                      onClick={() => setShowDeleteConfirm(true)}
+                      className="btn-danger-xs-outline flex items-center gap-2"
+                      disabled={saving}
+                    >
+                      <Trash2 className="size-4" />
+                      Excluir Lead
+                    </button>
+                    <button
+                      onClick={handleSave}
+                      className="btn-primary-xs flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={saving}
+                    >
+                      <Check className="size-4" />
+                      {saving ? 'Salvando...' : 'Atualizar Lead'}
+                    </button>
+                  </div>
+                </TabsContent>
+              </Tabs>
 
               {/* Diálogo de Confirmação de Exclusão */}
               {showDeleteConfirm && (

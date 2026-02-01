@@ -426,7 +426,7 @@ export default function BolosGallerySection() {
   );
 
   return (
-    <div className="bg-[#F6EEE1] w-full relative -mt-32 md:-mt-48 lg:-mt-64 pt-32 md:pt-48 lg:pt-64">
+    <div className="bg-[#F6EEE1] w-full relative -mt-32 md:-mt-48 lg:-mt-64 pt-32 md:pt-48 lg:pt-64 overflow-x-hidden">
       {galleryState.productId && (
         <GalleryModal
           isOpen={galleryState.isOpen}
@@ -439,7 +439,7 @@ export default function BolosGallerySection() {
 
       <div
         ref={ref}
-        className="py-20 antialiased relative flex flex-col justify-center self-auto [perspective:1000px] [transform-style:preserve-3d] z-35"
+        className="py-20 antialiased relative flex flex-col justify-center self-auto [perspective:1000px] [transform-style:preserve-3d] z-35 overflow-x-hidden"
       >
         <Header />
         <motion.div

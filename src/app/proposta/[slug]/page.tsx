@@ -557,7 +557,7 @@ export default function PropostaPublicaPage() {
                       {
                         src: "/images/casamento/bolo-carolina-guilherme.webp",
                         name: "Carolina e Guilherme",
-                        description: "Ela pratica esqui, ele snowboard. também pediram que tivesse uma recordação do pet presente",
+                        description: "Ela pratica esqui, ele snowboard. Também pediram que tivesse uma recordação do pet deles",
                       },
                       {
                         src: "/images/casamento/bolo-marcelle-rafael.webp",

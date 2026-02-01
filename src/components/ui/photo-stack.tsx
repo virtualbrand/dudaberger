@@ -40,14 +40,14 @@ const InteractivePhotoStack = React.forwardRef<
       )}
       {...props}
     >
-      <div className="relative w-full max-w-md">
+      <div className="relative w-[400px]">
         {/* Card with Fade Transition */}
-        <div className="w-full relative">
+        <div className="w-[400px] relative">
           {items.map((item, index) => (
             <div
               key={index}
               className={cn(
-                "rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col bg-white transition-opacity duration-700 ease-in-out",
+                "rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] p-6 flex flex-col bg-white transition-opacity duration-700 ease-in-out w-[400px]",
                 index === currentIndex ? "opacity-100" : "opacity-0 absolute inset-0 pointer-events-none"
               )}
             >
@@ -58,7 +58,7 @@ const InteractivePhotoStack = React.forwardRef<
                   className="h-full w-full rounded-lg object-cover"
                 />
               </div>
-              <div className="mt-3 px-2 py-2 bg-white">
+              <div className="mt-3 px-2 py-2 bg-white min-h-[80px] flex flex-col justify-start">
                 <p className="font-unbounded text-xs text-[#703535] text-center font-semibold mb-1">
                   {item.name}
                 </p>
