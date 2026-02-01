@@ -354,6 +354,19 @@ export default function BolosGallerySection() {
     productTitle: "",
   });
 
+  // Detectar se é desktop para aplicar efeitos 3D
+  const [isDesktop, setIsDesktop] = useState(false);
+  
+  useEffect(() => {
+    const checkIsDesktop = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+    
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop);
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
+
   const handleOpenGallery = (productId: string | null, clickedThumbnail: string) => {
     if (!productId) return;
     
@@ -420,13 +433,9 @@ export default function BolosGallerySection() {
     useTransform(scrollYProgress, [0, 0.3], [20, 0]),
     springConfig
   );
-  const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.3], [-200, 200]),
-    springConfig
-  );
 
   return (
-    <div className="bg-[#F6EEE1] w-full relative -mt-32 md:-mt-48 lg:-mt-64 pt-32 md:pt-48 lg:pt-64 overflow-x-hidden">
+    <div className="bg-[#F6EEE1] w-full relative overflow-hidden">
       {galleryState.productId && (
         <GalleryModal
           isOpen={galleryState.isOpen}
@@ -439,14 +448,15 @@ export default function BolosGallerySection() {
 
       <div
         ref={ref}
-        className="py-20 antialiased relative flex flex-col justify-center self-auto [perspective:1000px] [transform-style:preserve-3d] z-35 overflow-x-hidden"
+        className="py-20 antialiased relative flex flex-col self-auto lg:[perspective:1000px] lg:[transform-style:preserve-3d] z-10"
       >
         <Header />
         <motion.div
-          style={{
+          style={isDesktop ? {
             rotateX,
             rotateZ,
-            translateY,
+            opacity,
+          } : {
             opacity,
           }}
           className=""

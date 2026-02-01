@@ -403,7 +403,7 @@ export default function PropostaPublicaPage() {
       {!isRestrito && (
         <>
           {/* Segunda Seção - Galeria Imersiva */}
-          <section className="w-full bg-[#F6EEE1] py-16 md:py-24 px-6 md:px-0">
+          <section className="w-full bg-[#F6EEE1]">
             <ImmersiveScrollGallery
               images={[
                 { src: '/images/casamento/segunda-galeria-1.webp' },

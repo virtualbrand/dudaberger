@@ -83,6 +83,7 @@ const ImmersiveScrollGallery: React.FC<iImmersiveScrollGalleryProps> = ({
   const scale9 = useTransform(scrollYProgress, [0, 1], [1, 9]);
   const opacityImage = useTransform(scrollYProgress, [0, 1], [1, 0]);
   const opacitySection2 = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
+  const scaleContent = useTransform(scrollYProgress, [0.6, 0.8], [0.8, 1]);
 
   // Assign scales to images
   const pictures = images.map((img, index) => {
@@ -120,9 +121,9 @@ const ImmersiveScrollGallery: React.FC<iImmersiveScrollGalleryProps> = ({
         <motion.div
           style={{
             opacity: opacitySection2,
-            scale: useTransform(scrollYProgress, [0.6, 0.8], [0.8, 1]),
+            scale: scaleContent,
           }}
-          className="w-full h-full flex items-center justify-center p-8 relative"
+          className="absolute inset-0 w-full h-full flex items-center justify-center max-w-3xl mx-auto p-8 z-10"
         >
           {children}
         </motion.div>

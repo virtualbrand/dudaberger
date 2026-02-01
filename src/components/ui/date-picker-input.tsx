@@ -68,7 +68,7 @@ export function DatePickerInput({
             <CalendarIcon className="h-4 w-4 text-gray-400" />
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-[251px] overflow-hidden p-0 border-0 shadow-lg" align="start">
+        <PopoverContent className="w-auto min-w-[280px] overflow-visible p-0 border-0 shadow-lg rounded-xl" align="start">
           <style jsx global>{`
             [data-slot="calendar"],
             [data-slot="calendar"] *,
@@ -172,8 +172,22 @@ export function DatePickerInput({
               align-items: center !important;
               justify-content: center !important;
             }
+            /* Dias fora do mês atual (mês anterior/posterior) */
+            .rdp-outside .rdp-day_button,
+            .rdp-day.rdp-outside button,
+            [data-outside="true"] button,
+            [data-outside="true"] .rdp-day_button,
+            td[data-outside="true"] button {
+              color: #9ca3af !important;
+              opacity: 0.7 !important;
+            }
+            .rdp-outside .rdp-day_button:hover,
+            [data-outside="true"] button:hover {
+              background-color: #e5e7eb !important;
+              color: #6b7280 !important;
+            }
           `}</style>
-          <div className="font-sans" style={{ fontFamily: 'KumbhSans, system-ui, sans-serif' }}>
+          <div className="font-sans rounded-xl overflow-hidden" style={{ fontFamily: 'KumbhSans, system-ui, sans-serif' }}>
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -181,7 +195,7 @@ export function DatePickerInput({
               onSelect={handleDateSelect}
               fromYear={2024}
               toYear={2030}
-              className="font-sans"
+              className="font-sans rounded-xl"
               style={{ fontFamily: 'KumbhSans, system-ui, sans-serif' } as React.CSSProperties}
               disabled={(date) => {
                 if (minDate && date < minDate) return true;

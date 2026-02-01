@@ -425,7 +425,7 @@ export default function ContratoPublicoPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F6EEE1] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F6EEE1] flex items-center justify-center overflow-x-hidden max-w-full">
         <Spinner size="lg" />
       </div>
     );
@@ -433,7 +433,7 @@ export default function ContratoPublicoPage() {
 
   if (error || !contrato) {
     return (
-      <div className="min-h-screen bg-[#F6EEE1] flex items-center justify-center">
+      <div className="min-h-screen bg-[#F6EEE1] flex items-center justify-center overflow-x-hidden max-w-full">
         <div className="text-center">
           <h1 className="text-2xl font-bold font-unbounded text-[#703535] mb-4">
             Contrato não encontrado
@@ -452,7 +452,7 @@ export default function ContratoPublicoPage() {
   const isRestrito = isRascunho || isCancelado;
 
   return (
-    <div className="min-h-screen bg-[#F6EEE1] relative">
+    <div className="min-h-screen bg-[#F6EEE1] relative overflow-x-hidden max-w-full">
       {/* Validation Modal Overlay */}
       {!isValidated && !loading && contrato && !isRascunho && !isCancelado && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
