@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import type { User, Session } from '@supabase/supabase-js';
+import type { User, Session, AuthError, AuthChangeEvent } from '@supabase/supabase-js';
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
@@ -16,7 +16,7 @@ export function useAuth() {
     }
 
     // Obtém a sessão inicial
-    supabase.auth.getSession().then(({ data: { session }, error }) => {
+    supabase.auth.getSession().then(({ data, error }: { data: { session: Session | null }, error: AuthError | null }) => {
       // Se houver erro (token inválido/expirado), limpa a sessão
       if (error) {
         console.error('Erro ao obter sessão:', error);
@@ -26,11 +26,11 @@ export function useAuth() {
         setSession(null);
         setUser(null);
       } else {
-        setSession(session);
-        setUser(session?.user ?? null);
+        setSession(data.session);
+        setUser(data.session?.user ?? null);
       }
       setLoading(false);
-    }).catch((error) => {
+    }).catch((error: Error) => {
       // Captura erros não tratados
       console.error('Erro inesperado ao obter sessão:', error);
       if (supabase) {
@@ -44,7 +44,7 @@ export function useAuth() {
     // Escuta mudanças no estado de autenticação
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((event, session) => {
+    } = supabase.auth.onAuthStateChange((event: AuthChangeEvent, session: Session | null) => {
       // Se houver erro de autenticação, limpa a sessão
       if (event === 'TOKEN_REFRESHED' && !session) {
         if (supabase) {

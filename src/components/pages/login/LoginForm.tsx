@@ -35,10 +35,11 @@ const LoginForm = () => {
 
       if (data.session) {
         // Aguarda um momento para garantir que o cookie foi setado
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 500));
         
-        // Usa replace para evitar voltar para login com o botão voltar
-        window.location.replace('/dashboard');
+        // Força refresh e redireciona - isso garante que o middleware reconheça a nova sessão
+        router.refresh();
+        window.location.href = '/dashboard';
       } else {
         setError('Erro ao fazer login. Tente novamente.');
         setIsLoading(false);

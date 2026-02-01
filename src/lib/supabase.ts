@@ -1,23 +1,16 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createBrowserClient } from '@supabase/ssr';
 
 // Verifica se as variáveis de ambiente estão definidas
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-// Só joga erro se estiver tentando usar o cliente no runtime (não durante build)
-let supabase: ReturnType<typeof createClient> | null = null;
+// Cria cliente usando @supabase/ssr para gerenciar cookies automaticamente
+let supabase: ReturnType<typeof createBrowserClient> | null = null;
 
 if (supabaseUrl && supabaseAnonKey) {
-  supabase = createClient(supabaseUrl, supabaseAnonKey, {
-    auth: {
-      persistSession: true,
-      autoRefreshToken: true,
-      detectSessionInUrl: true,
-      flowType: 'pkce',
-      storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-      storageKey: `sb-${supabaseUrl.split('//')[1].split('.')[0]}-auth-token`,
-    },
-  });
+  // Usa createBrowserClient que gerencia cookies automaticamente
+  supabase = createBrowserClient(supabaseUrl, supabaseAnonKey);
 }
 
 // Exporta o cliente (pode ser null durante build)
@@ -31,7 +24,7 @@ export const getServiceRoleClient = () => {
     throw new Error('Missing SUPABASE_SERVICE_ROLE_KEY');
   }
 
-  return createClient(supabaseUrl, serviceRoleKey, {
+  return createSupabaseClient(supabaseUrl, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,
