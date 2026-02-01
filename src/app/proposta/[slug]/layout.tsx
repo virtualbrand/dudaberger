@@ -25,7 +25,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const proposta = await getProposta(slug);
   
-  const nomeCliente = proposta?.cliente_nome || 'Casal';
+  // O campo no banco é 'titulo' (que contém o nome do cliente)
+  const nomeCliente = proposta?.titulo || 'Casal';
   const baseUrl = 'https://dudaberger.com.br';
   const imageUrl = `${baseUrl}/images/casamento/thumb-proposta.webp`;
 
