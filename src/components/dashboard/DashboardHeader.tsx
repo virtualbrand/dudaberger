@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button-1';
 import { useAuth } from '@/hooks/useAuth';
 
 type DashboardHeaderProps = {
-  currentPage: 'leads' | 'propostas' | 'contratos';
+  currentPage: 'dashboard' | 'leads' | 'propostas' | 'contratos';
 };
 
 export default function DashboardHeader({ currentPage }: DashboardHeaderProps) {
@@ -30,6 +30,16 @@ export default function DashboardHeader({ currentPage }: DashboardHeaderProps) {
           <nav className="hidden md:flex items-center gap-8">
             <a 
               href="/dashboard"
+              className={`text-sm font-unbounded transition-colors pb-1 cursor-pointer ${
+                currentPage === 'dashboard'
+                  ? 'text-[#D65B58] border-b-2 border-[#D65B58]'
+                  : 'text-[#703535] hover:text-[#D65B58]'
+              }`}
+            >
+              Dashboard
+            </a>
+            <a 
+              href="/leads"
               className={`text-sm font-unbounded transition-colors pb-1 cursor-pointer ${
                 currentPage === 'leads'
                   ? 'text-[#D65B58] border-b-2 border-[#D65B58]'
