@@ -1,7 +1,7 @@
 import NextImage from "next/image";
 
 const HeroSection = () => {
-  const links = [
+  const links: { title: string; description: string; url: string; image?: string; emoji?: string }[] = [
     // {
     //   title: "Workshop de Confeitaria",
     //   description: "R$ 10.000 /mês trabalhando de casa com Confeitaria",
@@ -9,10 +9,22 @@ const HeroSection = () => {
     //   image: "/images/links/workshop-cover.webp"
     // },
     {
-   title: "WhatsApp",
-   description: "Faça sua encomenda personalizada ou tire suas dúvidas",
-   url: "https://wa.link/91yirq",
-   image: "/images/links/whatsapp.webp"
+      title: "WhatsApp",
+      description: "Faça sua encomenda personalizada ou tire suas dúvidas",
+      url: "https://wa.link/91yirq",
+      image: "/images/links/whatsapp.webp"
+    },
+    {
+      title: "Menu de Sabores",
+      description: "Para conferir os sabores, tamanhos e valores, é só acessar o nosso menu atualizado aqui",
+      url: "https://contoatelierdebolos.menulegal.app",
+      image: "/images/logo-menu-site.webp"
+    },
+    {
+      title: "Menu de Páscoa",
+      description: "Confira nosso menu especial de Páscoa",
+      url: "https://sotasty.com.br/contoatelier/pascoa",
+      image: "/images/pascoa-cover-menu.webp"
     },
     // {
     //   title: "Guirlanda de Natal",
@@ -80,7 +92,7 @@ const HeroSection = () => {
               ">
                 <div className="flex items-center space-x-5">
                   <div className="text-2xl flex-shrink-0">
-                    {link.image && (
+                    {link.image ? (
                       <NextImage 
                         src={link.image} 
                         alt={link.title}
@@ -89,7 +101,11 @@ const HeroSection = () => {
                         className="w-16 h-16 rounded-lg object-cover"
                         loading="lazy"
                       />
-                    )}
+                    ) : link.emoji ? (
+                      <div className="w-16 h-16 rounded-lg bg-[#f5ede4] flex items-center justify-center text-4xl">
+                        {link.emoji}
+                      </div>
+                    ) : null}
                   </div>
                   <div className="flex-1 flex flex-col gap-1">
                     <h2 className="font-semibold text-[#703535] md:text-lg lg:text-xl">
