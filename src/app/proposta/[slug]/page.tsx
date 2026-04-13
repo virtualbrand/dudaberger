@@ -4,7 +4,7 @@ import * as React from 'react';
 import { useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { Proposta } from '@/types/proposta';
-import { format, addDays, differenceInDays, isPast } from 'date-fns';
+import { format, addDays, addMonths, differenceInDays, isPast } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { CircleSmall, CircleDollarSign, Calendar as CalendarIcon } from 'lucide-react';
 import ImmersiveScrollGallery from '@/components/ui/immersive-scroll-gallery';
@@ -50,7 +50,7 @@ export default function PropostaPublicaPage() {
   const [inputDate, setInputDate] = React.useState('');
   const [validationError, setValidationError] = React.useState('');
   const [dataCerimonia, setDataCerimonia] = React.useState<string | null>(null);
-  const [prazoSelecionado, setPrazoSelecionado] = React.useState<'7dias' | '21dias'>('7dias');
+  const [prazoSelecionado, setPrazoSelecionado] = React.useState<'7dias' | '21dias'>('21dias');
   const [showPaymentModal, setShowPaymentModal] = React.useState(false);
   const [paymentStep, setPaymentStep] = React.useState<'choose' | 'pix'>('choose');
   const [copiedCNPJ, setCopiedCNPJ] = React.useState(false);
@@ -152,7 +152,7 @@ export default function PropostaPublicaPage() {
     hoje.setHours(0, 0, 0, 0);
     
     const dataLimite7 = addDays(dataProposta, 7);
-    const dataLimite21 = addDays(dataProposta, 21);
+    const dataLimite21 = addMonths(dataProposta, 1);
     
     const diasRestantes7 = differenceInDays(dataLimite7, hoje);
     const diasRestantes21 = differenceInDays(dataLimite21, hoje);
@@ -875,6 +875,18 @@ export default function PropostaPublicaPage() {
                           {/* Toggle de Prazo - Tab Menu */}
                           <div className="flex justify-center mb-6">
                             <div className="inline-flex rounded-full bg-gray-100 p-1">
+                              {/* Tab 21 dias */}
+                              <button 
+                                onClick={() => setPrazoSelecionado('21dias')}
+                                className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                                  prazoSelecionado === '21dias' 
+                                    ? 'bg-[#b17878] text-white' 
+                                    : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                                }`}
+                              >
+                                {`Até ${format(addMonths(new Date(proposta.dataCriacao), 1), 'dd/MM/yyyy')}`}
+                              </button>
+
                               {/* Tab 7 dias - só mostra se não venceu */}
                               {!status.prazo7Vencido && (
                                 <button 
@@ -893,44 +905,27 @@ export default function PropostaPublicaPage() {
                                   }
                                 </button>
                               )}
-                              
-                              {/* Tab 21 dias */}
-                              <button 
-                                onClick={() => setPrazoSelecionado('21dias')}
-                                className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
-                                  prazoSelecionado === '21dias' 
-                                    ? 'bg-[#b17878] text-white' 
-                                    : 'bg-transparent text-gray-700 hover:bg-gray-200'
-                                }`}
-                              >
-                                {status.diasRestantes21 === 0 
-                                  ? 'Último dia'
-                                  : status.diasRestantes21 === 1
-                                  ? 'Em até 1 dia'
-                                  : `Em até ${status.diasRestantes21} dias`
-                                }
-                              </button>
                             </div>
                           </div>
 
                           {/* Valores */}
                           <div className="mb-6 mt-6">
                             {prazoSelecionado === '7dias' && !status.prazo7Vencido ? (
-                              <div className="space-y-2">
+                              <div className="space-y-1">
                                 <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                  12x de R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                  R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                 </div>
-                                <div className="text-lg md:text-xl font-bold font-unbounded text-[#b94946] text-center">
-                                  ou R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
+                                  ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                 </div>
                               </div>
                             ) : (
-                              <div className="space-y-2">
+                              <div className="space-y-1">
                                 <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                  12x de R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                  R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                 </div>
-                                <div className="text-lg md:text-xl font-bold font-unbounded text-[#b94946] text-center">
-                                  ou R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
+                                  ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                 </div>
                               </div>
                             )}
@@ -958,7 +953,7 @@ export default function PropostaPublicaPage() {
                             {proposta.dataCriacao && (
                               <div className="pt-4 border-t border-gray-200">
                                 <p className="text-sm text-gray-600">
-                                  Proposta válida até {format(addDays(new Date(proposta.dataCriacao), 21), "dd/MM/yyyy", { locale: ptBR })}
+                                  Proposta válida até {format(addMonths(new Date(proposta.dataCriacao), 1), "dd/MM/yyyy", { locale: ptBR })}
                                 </p>
                               </div>
                             )}
@@ -1186,6 +1181,18 @@ export default function PropostaPublicaPage() {
                               {/* Toggle de Prazo - Tab Menu */}
                               <div className="flex justify-center mb-6">
                                 <div className="inline-flex rounded-full bg-gray-100 p-1">
+                                  {/* Tab 21 dias */}
+                                  <button 
+                                    onClick={() => setPrazoSelecionado('21dias')}
+                                    className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
+                                      prazoSelecionado === '21dias' 
+                                        ? 'bg-[#b17878] text-white' 
+                                        : 'bg-transparent text-gray-700 hover:bg-gray-200'
+                                    }`}
+                                  >
+                                    {`Até ${format(addMonths(new Date(proposta.dataCriacao), 1), 'dd/MM/yyyy')}`}
+                                  </button>
+
                                   {/* Tab 7 dias - só mostra se não venceu */}
                                   {!status.prazo7Vencido && (
                                     <button 
@@ -1204,44 +1211,27 @@ export default function PropostaPublicaPage() {
                                       }
                                     </button>
                                   )}
-                                  
-                                  {/* Tab 21 dias */}
-                                  <button 
-                                    onClick={() => setPrazoSelecionado('21dias')}
-                                    className={`px-6 py-2 rounded-full text-xs md:text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${
-                                      prazoSelecionado === '21dias' 
-                                        ? 'bg-[#b17878] text-white' 
-                                        : 'bg-transparent text-gray-700 hover:bg-gray-200'
-                                    }`}
-                                  >
-                                    {status.diasRestantes21 === 0 
-                                      ? 'Último dia'
-                                      : status.diasRestantes21 === 1
-                                      ? 'Em até 1 dia'
-                                      : `Em até ${status.diasRestantes21} dias`
-                                    }
-                                  </button>
                                 </div>
                               </div>
 
                               {/* Valores */}
                               <div className="mb-6 mt-6">
                                 {prazoSelecionado === '7dias' && !status.prazo7Vencido ? (
-                                  <div className="space-y-2">
+                                  <div className="space-y-1">
                                     <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                      12x de R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                      R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                     </div>
-                                    <div className="text-lg md:text-xl font-bold font-unbounded text-[#b94946] text-center">
-                                      ou R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                    <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
+                                      ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                     </div>
                                   </div>
                                 ) : (
-                                  <div className="space-y-2">
+                                  <div className="space-y-1">
                                     <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                      12x de R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                      R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                     </div>
-                                    <div className="text-lg md:text-xl font-bold font-unbounded text-[#b94946] text-center">
-                                      ou R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                    <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
+                                      ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
                                     </div>
                                   </div>
                                 )}
@@ -1269,7 +1259,7 @@ export default function PropostaPublicaPage() {
                                 {proposta.dataCriacao && (
                                   <div className="pt-4 border-t border-gray-200">
                                     <p className="text-sm text-gray-600">
-                                      Proposta válida até {format(addDays(new Date(proposta.dataCriacao), 21), "dd/MM/yyyy", { locale: ptBR })}
+                                      Proposta válida até {format(addMonths(new Date(proposta.dataCriacao), 1), "dd/MM/yyyy", { locale: ptBR })}
                                     </p>
                                   </div>
                                 )}
