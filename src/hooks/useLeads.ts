@@ -31,9 +31,10 @@ export function useLeads() {
 
       return lead;
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Erro ao criar lead';
+      const supaErr = err as any;
+      const message = supaErr?.message || (err instanceof Error ? err.message : 'Erro ao criar lead');
       setError(message);
-      console.error('Erro ao criar lead:', err);
+      console.error('Erro ao criar lead:', JSON.stringify(supaErr, null, 2), supaErr);
       return null;
     } finally {
       setLoading(false);

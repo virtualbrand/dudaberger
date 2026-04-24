@@ -2,18 +2,20 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { CasamentoProvider, useCasamento } from '@/contexts/CasamentoContext';
 import { CasamentoStepper } from './CasamentoStepper';
-import { CasamentoStep0_5 } from './CasamentoStep0_5';
-import { CasamentoStep1 } from './CasamentoStep1';
-import { CasamentoStep2 } from './CasamentoStep2';
-import { CasamentoStep2_3 } from './CasamentoStep2_3';
-import { CasamentoStep2_5 } from './CasamentoStep2_5';
-import { CasamentoStep2_7 } from './CasamentoStep2_7';
-import { CasamentoStep3 } from './CasamentoStep3';
-import { CasamentoStep4 } from './CasamentoStep4';
-import { CasamentoStep5 } from './CasamentoStep5';
-import { CasamentoStep6 } from './CasamentoStep6';
+
+const CasamentoStep0_5 = dynamic(() => import('./CasamentoStep0_5').then(m => ({ default: m.CasamentoStep0_5 })));
+const CasamentoStep1   = dynamic(() => import('./CasamentoStep1').then(m => ({ default: m.CasamentoStep1 })));
+const CasamentoStep2   = dynamic(() => import('./CasamentoStep2').then(m => ({ default: m.CasamentoStep2 })));
+const CasamentoStep2_3 = dynamic(() => import('./CasamentoStep2_3').then(m => ({ default: m.CasamentoStep2_3 })));
+const CasamentoStep2_5 = dynamic(() => import('./CasamentoStep2_5').then(m => ({ default: m.CasamentoStep2_5 })));
+const CasamentoStep2_7 = dynamic(() => import('./CasamentoStep2_7').then(m => ({ default: m.CasamentoStep2_7 })));
+const CasamentoStep3   = dynamic(() => import('./CasamentoStep3').then(m => ({ default: m.CasamentoStep3 })));
+const CasamentoStep4   = dynamic(() => import('./CasamentoStep4').then(m => ({ default: m.CasamentoStep4 })));
+const CasamentoStep5   = dynamic(() => import('./CasamentoStep5').then(m => ({ default: m.CasamentoStep5 })));
+const CasamentoStep6   = dynamic(() => import('./CasamentoStep6').then(m => ({ default: m.CasamentoStep6 })));
 
 const STEPS = ['Etapa 1', 'Etapa 2', 'Etapa 2.3', 'Etapa 2.5', 'Etapa 2.7', 'Etapa 3', 'Etapa 4', 'Etapa 5', 'Etapa 6'];
 
@@ -55,7 +57,6 @@ const CasamentoContent: React.FC = () => {
           alt=""
           fill
           className="object-cover"
-          priority={true}
         />
       </div>
 
@@ -86,7 +87,7 @@ const CasamentoContent: React.FC = () => {
           animation: fadeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
       `}</style>
-      <div className="mx-auto max-w-[900px] w-full relative z-10">
+      <div className="mx-auto max-w-[700px] w-full relative z-10">
         <div className={isTransitioning ? 'step-exit' : 'step-enter'}>
           {displayStep === 0.5 && <CasamentoStep0_5 />}
           {displayStep === 1 && <CasamentoStep1 />}

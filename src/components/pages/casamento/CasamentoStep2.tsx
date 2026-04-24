@@ -50,7 +50,7 @@ export const CasamentoStep2: React.FC = () => {
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-6">
         <div>
-          <label htmlFor="responsavelDecoracao" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="responsavelDecoracao" className="block text-sm font-medium text-gray-700 mb-1 text-pretty">
             Toda festa é encantadora pela mágica do ambiente. Quem será responsável pela decoração?
           </label>
           <input
@@ -64,7 +64,7 @@ export const CasamentoStep2: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="responsavelOrganizacao" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="responsavelOrganizacao" className="block text-sm font-medium text-gray-700 mb-1 text-pretty">
             Quem será responsável pela organização/cerimônia? *
           </label>
           <input
@@ -79,7 +79,7 @@ export const CasamentoStep2: React.FC = () => {
         </div>
 
         <div>
-          <label htmlFor="fotografo" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="fotografo" className="block text-sm font-medium text-gray-700 mb-1 text-pretty">
             Cada um neste mundo vem para servir aos outros de alguma maneira. Uma das mais emocionantes é quem tem o dom de registrar as emoções vividas em um grande momento. Quem será o fotógrafo?
           </label>
           <input
@@ -93,7 +93,7 @@ export const CasamentoStep2: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"
@@ -105,7 +105,7 @@ export const CasamentoStep2: React.FC = () => {
           disabled={!isFormValid || loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Salvando...' : 'Próximo'}
+          Próximo
         </button>
       </div>
     </div>

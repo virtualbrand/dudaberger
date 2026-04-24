@@ -108,7 +108,7 @@ export const CasamentoStep3: React.FC = () => {
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-6">
         <div>
-          <label htmlFor="numeroConvidados" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="numeroConvidados" className="block text-base font-bold font-unbounded text-[#703535] mb-1 text-pretty">
             Número de convidados *
           </label>
           <input
@@ -123,10 +123,10 @@ export const CasamentoStep3: React.FC = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-base font-bold font-unbounded text-[#703535] mb-3 text-pretty">
             Qual budget por convidado vocês tem preferência para investir no bolo da cerimônia? *
           </label>
-          <p className="text-xs text-gray-500 mb-3">Opções por convidado</p>
+          <p className="text-xs text-gray-500 mb-3 text-pretty">Opções por convidado</p>
           <div className="space-y-3">
             {budgetOptions.map((option) => (
               <label
@@ -159,7 +159,7 @@ export const CasamentoStep3: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"

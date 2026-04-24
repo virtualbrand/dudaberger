@@ -39,13 +39,13 @@ export const CasamentoStep2_3: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-6">
-        <h6 className="text-base font-bold font-unbounded text-[#703535] leading-relaxed">
-          A tradição de bolos altos começou na França no século XVII. A corte vivia com muita fartura e a oferecia para seus convidados. Desde então, ele está presente em importantes celebrações como símbolo de prosperidade e união. Hoje em dia, é visto por nossos casais como uma forma de compartilhar amor e criar memórias afetivas em forma de doce.
-        </h6>
+        <h2 className="text-xl md:text-2xl font-bold font-unbounded text-[#703535] leading-snug text-pretty">
+          Queremos conhecer vocês! O que os motiva a optarem pela escolha de ter o bolo no casamento?
+        </h2>
 
         <div>
-          <label htmlFor="motivacaoBolo" className="block text-sm font-medium text-gray-700 mb-2">
-            Além da história e tradição, queremos conhecer vocês! O que os motiva a optarem pela escolha de ter o bolo no casamento?
+          <label htmlFor="motivacaoBolo" className="block text-sm font-medium text-gray-500 mb-2 leading-relaxed text-pretty">
+            A tradição de bolos altos começou na França no século XVII. A corte vivia com muita fartura e a oferecia para seus convidados. Desde então, ele está presente em importantes celebrações como símbolo de prosperidade e união. Hoje em dia, é visto por nossos casais como uma forma de compartilhar amor e criar memórias afetivas em forma de doce.
           </label>
           <textarea
             id="motivacaoBolo"
@@ -58,7 +58,7 @@ export const CasamentoStep2_3: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"
@@ -70,7 +70,7 @@ export const CasamentoStep2_3: React.FC = () => {
           disabled={loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Salvando...' : 'Próximo'}
+          Próximo
         </button>
       </div>
     </div>

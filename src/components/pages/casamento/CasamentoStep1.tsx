@@ -89,7 +89,7 @@ export const CasamentoStep1: React.FC = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-      <h2 className="text-base md:text-lg lg:text-xl font-bold font-unbounded text-[#703535] mb-6 text-center leading-relaxed">
+      <h2 className="text-base md:text-lg lg:text-xl font-bold font-unbounded text-[#703535] mb-6 leading-relaxed text-pretty">
         Agora, abram seus corações.<br className="hidden xl:block" /> Por aqui nós adoramos ler novos contos!
       </h2>
       
@@ -272,7 +272,7 @@ export const CasamentoStep1: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={() => goToStep(0.5)}
           className="btn-secondary-sm-outline"
@@ -284,7 +284,7 @@ export const CasamentoStep1: React.FC = () => {
           disabled={!isFormValid || loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Salvando...' : 'Próximo'}
+          Próximo
         </button>
       </div>
     </div>

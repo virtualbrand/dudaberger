@@ -20,12 +20,12 @@ const HeroSection = () => {
       url: "https://contoatelierdebolos.menulegal.app",
       image: "/images/logo-menu-site.webp"
     },
-    {
-      title: "Menu de Páscoa",
-      description: "Confira nosso menu especial de Páscoa",
-      url: "https://sotasty.com.br/contoatelier/pascoa",
-      image: "/images/pascoa-cover-menu.webp"
-    },
+    // {
+    //   title: "Menu de Páscoa",
+    //   description: "Confira nosso menu especial de Páscoa",
+    //   url: "https://sotasty.com.br/contoatelier/pascoa",
+    //   image: "/images/pascoa-cover-menu.webp"
+    // },
     // {
     //   title: "Guirlanda de Natal",
     //   description: "Receita completa + técnica de montagem do produto que me faz faturar até 6 mil a mais todo Natal",
@@ -126,7 +126,7 @@ const HeroSection = () => {
 
         {/* Footer */}
         <div className="mt-8 text-center">
-          <p className="text-neutral-300 text-sm">
+          <p className="text-[#1C1C1D]/80 text-sm">
             © {new Date().getFullYear()} Duda Berger - Todos os direitos reservados
           </p>
         </div>

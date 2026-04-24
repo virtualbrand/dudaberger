@@ -36,7 +36,7 @@ export const CasamentoStep6: React.FC = () => {
     let message = `*Orçamento de Bolo de Casamento*\n\n`;
     
     // Step 1
-    message += `*Dados do Casal*\n`;
+    message += `*Dados do casal*\n`;
     message += `Nome: ${step1Data.nomeCasal || ''}\n`;
     message += `Data da Cerimônia: ${step1Data.dataCerimonia || ''}\n`;
     message += `Local da Festa: ${step1Data.localFesta || ''}\n\n`;
@@ -90,11 +90,8 @@ export const CasamentoStep6: React.FC = () => {
     message += `---\n`;
     message += `Aguardo referências de bolos que vocês adoram! 😊`;
     
-    // Pega o número de WhatsApp do Step 1 (remove formatação)
-    const whatsappNumber = (state.step1Data.whatsapp || '').replace(/[^\d]/g, '');
-    
     // Cria o link do WhatsApp
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/5548991797296?text=${encodeURIComponent(message)}`;
     
     // Abre o WhatsApp
     window.open(whatsappUrl, '_blank');
@@ -103,22 +100,22 @@ export const CasamentoStep6: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-4">
-        <h4 className="text-lg md:text-xl lg:text-2xl font-bold font-unbounded text-[#703535]">
+        <h4 className="text-lg md:text-xl lg:text-2xl font-bold font-unbounded text-[#703535] text-pretty">
           Obrigada por chegar até aqui! Agora só falta um passo importante
         </h4>
         
         <div className="space-y-2 text-left">
-          <p className="text-base text-gray-700 leading-relaxed">
+          <p className="text-base text-gray-700 leading-relaxed text-pretty">
             Para elaborar a Proposta, preciso que vocês me enviem algumas referências de bolos que adoram. Sem essas imagens, não consigo criar uma proposta alinhada ao estilo e ao casamento dos sonhos de vocês.</p>
           
-          <p className="text-base text-gray-700 leading-relaxed">
+          <p className="text-base text-gray-700 leading-relaxed text-pretty">
             Essas imagens ajudam a entender o estilo, a estética e o tipo de decoração que combinam com vocês. 
             O Pinterest é uma ótima opção para buscar inspirações.
           </p>
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"
@@ -131,10 +128,7 @@ export const CasamentoStep6: React.FC = () => {
           disabled={loading}
           className="btn-primary-sm flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? (
-            'Salvando...'
-          ) : (
-            <>
+          <>
               <Image 
                 src="/icons/whatsapp-icon.svg" 
                 alt="WhatsApp" 
@@ -144,7 +138,6 @@ export const CasamentoStep6: React.FC = () => {
               />
               Enviar no WhatsApp
             </>
-          )}
         </button>
       </div>
     </div>

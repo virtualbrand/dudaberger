@@ -39,10 +39,10 @@ export const CasamentoStep4: React.FC = () => {
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-6">
         <div>
-          <label htmlFor="consideracoes" className="block text-base font-unbounded font-bold leading-relaxed text-[#703535] mb-2">
+          <label htmlFor="consideracoes" className="block text-base font-unbounded font-bold leading-relaxed text-[#703535] mb-2 text-pretty">
             Há algum item, tamanho ou característica específica que vocês gostariam de considerar no orçamento?
           </label>
-          <p className="text-sm text-gray-600 mb-4 leading-relaxed">
+          <p className="text-sm text-gray-600 mb-4 leading-relaxed text-pretty">
             Exemplos: quantidade de andares, uso de composições individuais, itens de decoração, 
             quantidade mínima de bolo ou porção extra para o dia seguinte. Se ainda não tiverem clareza do que desejam, podem também nos contar o que não gostariam que estivesse presente.
           </p>
@@ -57,7 +57,7 @@ export const CasamentoStep4: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"
@@ -69,7 +69,7 @@ export const CasamentoStep4: React.FC = () => {
           disabled={loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Salvando...' : 'Continuar'}
+          Continuar
         </button>
       </div>
     </div>

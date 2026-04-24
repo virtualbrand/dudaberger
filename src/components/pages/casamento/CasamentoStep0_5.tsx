@@ -92,7 +92,7 @@ export const CasamentoStep0_5: React.FC = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-      <h2 className="text-base md:text-lg lg:text-xl font-bold font-unbounded text-[#703535] mb-6 text-center leading-relaxed">
+      <h2 className="text-base md:text-lg lg:text-xl font-bold font-unbounded text-[#703535] mb-6 leading-relaxed text-pretty">
         Antes de começarmos, qual o número do WhatsApp que podemos enviar a proposta?
       </h2>
       

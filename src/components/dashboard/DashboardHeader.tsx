@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button-1';
 import { useAuth } from '@/hooks/useAuth';
 
 type DashboardHeaderProps = {
-  currentPage: 'dashboard' | 'leads' | 'propostas' | 'contratos';
+  currentPage: 'dashboard' | 'leads' | 'propostas' | 'contratos' | 'galeria';
 };
 
 export default function DashboardHeader({ currentPage }: DashboardHeaderProps) {
@@ -67,6 +67,16 @@ export default function DashboardHeader({ currentPage }: DashboardHeaderProps) {
               }`}
             >
               Contratos
+            </a>
+            <a 
+              href="/dashboard/galeria"
+              className={`text-sm font-unbounded transition-colors pb-1 cursor-pointer ${
+                currentPage === 'galeria'
+                  ? 'text-[#D65B58] border-b-2 border-[#D65B58]'
+                  : 'text-[#703535] hover:text-[#D65B58]'
+              }`}
+            >
+              Galeria
             </a>
           </nav>
 

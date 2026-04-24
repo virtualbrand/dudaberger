@@ -59,15 +59,15 @@ export const CasamentoStep2_5: React.FC = () => {
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-6">
-        <h4 className="text-lg md:text-xl lg:text-2xl font-bold font-unbounded text-[#703535] mb-6">
+        <h4 className="text-lg md:text-xl lg:text-2xl font-bold font-unbounded text-[#703535] mb-6 text-pretty">
           Agora, vamos falar um pouco sobre a quantidade.
         </h4>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">
+          <label className="block text-sm font-medium text-gray-700 mb-3 text-pretty">
             Quais outros doces serão servidos? *
           </label>
-          <p className="text-xs text-gray-500 mb-3">Selecione uma ou mais opções</p>
+          <p className="text-xs text-gray-500 mb-3 text-pretty">Selecione uma ou mais opções</p>
           <div className="space-y-3">
             {docesOptions.map((option) => (
               <label
@@ -92,7 +92,7 @@ export const CasamentoStep2_5: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-8 flex justify-between">
+      <div className="mt-8 flex justify-end gap-3">
         <button 
           onClick={handleBack}
           className="btn-secondary-sm-outline"
@@ -104,7 +104,7 @@ export const CasamentoStep2_5: React.FC = () => {
           disabled={!isFormValid || loading}
           className="btn-primary-sm disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Salvando...' : 'Próximo'}
+          Próximo
         </button>
       </div>
     </div>
