@@ -38,7 +38,10 @@ export const CasamentoStep6: React.FC = () => {
     // Step 1
     message += `*Dados do casal*\n`;
     message += `Nome: ${step1Data.nomeCasal || ''}\n`;
-    message += `Data da Cerimônia: ${step1Data.dataCerimonia || ''}\n`;
+    const dataCerimoniaFormatada = step1Data.dataCerimonia
+      ? new Date(step1Data.dataCerimonia + 'T12:00:00').toLocaleDateString('pt-BR')
+      : '';
+    message += `Data da Cerimônia: ${dataCerimoniaFormatada}\n`;
     message += `Local da Festa: ${step1Data.localFesta || ''}\n\n`;
     
     // Step 2
@@ -83,7 +86,7 @@ export const CasamentoStep6: React.FC = () => {
     
     // Step 4
     if (step4Data.consideracoesEspecificas) {
-      message += `*Considerações Específicas*\n`;
+      message += `*Considerações específicas*\n`;
       message += `${step4Data.consideracoesEspecificas}\n\n`;
     }
     
