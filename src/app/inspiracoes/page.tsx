@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import InspiracoesList from '@/components/pages/inspiracoes/InspiracoesList';
+import { createClient } from '@/lib/supabase-server';
 
 export const metadata: Metadata = {
   title: 'Inspirações | Duda Berger',
@@ -14,10 +15,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function InsiracoesPage() {
+export default async function InsiracoesPage() {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from('galeria_fotos')
+    .select('id, titulo, tags, url')
+    .order('created_at', { ascending: true });
+
   return (
     <main className="w-full min-h-screen bg-[#FFFFF8]">
-      <InspiracoesList />
+      <InspiracoesList initialFotos={data ?? []} />
     </main>
   );
 }
