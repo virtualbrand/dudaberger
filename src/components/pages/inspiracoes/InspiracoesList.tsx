@@ -92,7 +92,7 @@ export default function InspiracoesList() {
       const matchTag = activeTag ? f.tags.includes(activeTag) : true;
       const q = search.toLowerCase().trim();
       const matchSearch = q
-        ? (f.titulo?.toLowerCase().includes(q) || f.tags.some(t => t.includes(q)))
+        ? f.tags.some(t => t.includes(q))
         : true;
       return matchTag && matchSearch;
     });
