@@ -75,8 +75,14 @@ export default function InspiracoesList() {
       });
   }, []);
   const [search, setSearch] = React.useState('');
-  const [activeTag, setActiveTag] = React.useState<string | null>(null);
+  const [activeTags, setActiveTags] = React.useState<string[]>([]);
   const [lightbox, setLightbox] = React.useState<GaleriaFoto | null>(null);
+
+  const toggleTag = (tag: string) => {
+    setActiveTags(prev =>
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    );
+  };
 
 
   // All unique tags
@@ -89,17 +95,15 @@ export default function InspiracoesList() {
   // Filtered photos
   const filtered = React.useMemo(() => {
     return fotos.filter(f => {
-      const matchTag = activeTag ? f.tags.includes(activeTag) : true;
+      const matchTag = activeTags.length > 0 ? activeTags.some(t => f.tags.includes(t)) : true;
       const q = search.toLowerCase().trim();
-      const matchSearch = q
-        ? f.tags.some(t => t.includes(q))
-        : true;
+      const matchSearch = q ? f.tags.some(t => t.includes(q)) : true;
       return matchTag && matchSearch;
     });
-  }, [fotos, activeTag, search]);
+  }, [fotos, activeTags, search]);
 
   return (
-    <div className="min-h-screen bg-[#FFFFF8]">
+    <div className="min-h-screen bg-transparent">
       {/* Hero */}
       <section className="px-4 pt-16 pb-10 text-center">
         <p className="text-xs font-unbounded tracking-widest text-[#D65B58] uppercase mb-3">Galeria</p>
@@ -112,7 +116,7 @@ export default function InspiracoesList() {
       </section>
 
       {/* Search + Filters */}
-      <section className="sticky top-0 z-30 bg-[#FFFFF8]/95 backdrop-blur-sm border-b border-[#F3ECE9] px-4 py-4">
+      <section className="sticky top-0 z-30 px-4 py-4">
         <div className="max-w-5xl mx-auto space-y-3">
           {/* Search input */}
           <div className="relative max-w-sm mx-auto">
@@ -139,28 +143,32 @@ export default function InspiracoesList() {
           {allTags.length > 0 && (
             <div className="flex flex-wrap justify-center gap-2">
               <button
-                onClick={() => setActiveTag(null)}
-                className={`text-xs px-3.5 py-1.5 rounded-full border transition-colors ${
-                  activeTag === null
+                onClick={() => setActiveTags([])}
+                className={`cursor-pointer text-xs px-3.5 py-1.5 rounded-full border transition-colors ${
+                  activeTags.length === 0
                     ? 'bg-[#703535] text-white border-[#703535]'
                     : 'bg-white text-[#703535] border-[#e0d5cf] hover:border-[#703535]'
                 }`}
               >
                 Todos
               </button>
-              {allTags.map(tag => (
-                <button
-                  key={tag}
-                  onClick={() => setActiveTag(activeTag === tag ? null : tag)}
-                  className={`text-xs px-3.5 py-1.5 rounded-full border transition-colors capitalize ${
-                    activeTag === tag
-                      ? 'bg-[#D65B58] text-white border-[#D65B58]'
-                      : 'bg-white text-[#703535] border-[#e0d5cf] hover:border-[#D65B58]'
-                  }`}
-                >
-                  {tag}
-                </button>
-              ))}
+              {allTags.map(tag => {
+                const isActive = activeTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`cursor-pointer flex items-center gap-1 text-xs px-3.5 py-1.5 rounded-full border transition-colors capitalize ${
+                      isActive
+                        ? 'bg-[#D65B58] text-white border-[#D65B58]'
+                        : 'bg-white text-[#703535] border-[#e0d5cf] hover:border-[#D65B58]'
+                    }`}
+                  >
+                    {tag}
+                    {isActive && <X className="size-3" />}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
@@ -180,9 +188,9 @@ export default function InspiracoesList() {
                 ? 'Em breve teremos fotos aqui. Volte logo!'
                 : 'Nenhuma foto encontrada para esta busca.'}
             </p>
-            {(search || activeTag) && (
+            {(search || activeTags.length > 0) && (
               <button
-                onClick={() => { setSearch(''); setActiveTag(null); }}
+                onClick={() => { setSearch(''); setActiveTags([]); }}
                 className="text-xs text-[#D65B58] underline underline-offset-2 hover:opacity-75"
               >
                 Limpar filtros
@@ -194,9 +202,9 @@ export default function InspiracoesList() {
             {/* Result count */}
             <p className="text-xs text-gray-400 mb-6 text-center">
               {filtered.length} {filtered.length === 1 ? 'foto encontrada' : 'fotos encontradas'}
-              {(activeTag || search) && (
+              {(activeTags.length > 0 || search) && (
                 <button
-                  onClick={() => { setSearch(''); setActiveTag(null); }}
+                  onClick={() => { setSearch(''); setActiveTags([]); }}
                   className="ml-2 text-[#D65B58] underline underline-offset-2 hover:opacity-75"
                 >
                   Limpar filtros

@@ -239,15 +239,13 @@ export const CasamentoStep1: React.FC = () => {
                     captionLayout="dropdown"
                     onSelect={handleDateSelect}
                     fromYear={2024}
-                    toYear={2030}
+                    toYear={2035}
                     className="font-sans"
                     style={{ fontFamily: 'KumbhSans, system-ui, sans-serif' } as React.CSSProperties}
                     disabled={(date) => {
                       const today = new Date();
                       today.setHours(0, 0, 0, 0);
-                      const maxDate = new Date(today);
-                      maxDate.setDate(maxDate.getDate() + 180);
-                      return date < today || date > maxDate;
+                      return date < today;
                     }}
                   />
                 </div>
