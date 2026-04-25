@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 const baseUrl = 'https://dudaberger.com.br';
-const imageUrl = `${baseUrl}/images/casamento/thumb-proposta.webp`;
+const imageUrl = `${baseUrl}/images/casamento/segunda-galeria-1.webp`;
 
 export const metadata: Metadata = {
   title: 'Briefing dos Noivos | Duda Berger - Conto Atelier de bolos',
