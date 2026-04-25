@@ -1,7 +1,6 @@
 'use client';
 
 import * as React from 'react';
-import Image from 'next/image';
 import { Search, X, ZoomIn } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -83,23 +82,22 @@ function Lightbox({
 export default function InspiracoesList() {
   const [fotos, setFotos] = React.useState<GaleriaFoto[]>([]);
   const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    if (!supabase) { setLoading(false); return; }
+    supabase
+      .from('galeria_fotos')
+      .select('id, titulo, tags, url')
+      .order('created_at', { ascending: true })
+      .then(({ data }) => {
+        setFotos((data as GaleriaFoto[] | null) ?? []);
+        setLoading(false);
+      });
+  }, []);
   const [search, setSearch] = React.useState('');
   const [activeTag, setActiveTag] = React.useState<string | null>(null);
   const [lightbox, setLightbox] = React.useState<GaleriaFoto | null>(null);
 
-  // Load photos
-  React.useEffect(() => {
-    const load = async () => {
-      if (!supabase) { setLoading(false); return; }
-      const { data, error } = await supabase
-        .from('galeria_fotos')
-        .select('id, titulo, tags, url')
-        .order('created_at', { ascending: false });
-      if (!error && data) setFotos(data as GaleriaFoto[]);
-      setLoading(false);
-    };
-    load();
-  }, []);
 
   // All unique tags
   const allTags = React.useMemo(() => {
