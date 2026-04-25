@@ -89,8 +89,8 @@ export default function InspiracoesList() {
       .from('galeria_fotos')
       .select('id, titulo, tags, url')
       .order('created_at', { ascending: true })
-      .then(({ data }) => {
-        setFotos((data as GaleriaFoto[] | null) ?? []);
+      .then(({ data }: { data: GaleriaFoto[] | null }) => {
+        setFotos(data ?? []);
         setLoading(false);
       });
   }, []);
