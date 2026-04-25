@@ -24,16 +24,6 @@ export const CasamentoStep3: React.FC = () => {
     return numbers.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   };
 
-  const handleNumeroConvidadosChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const formatted = formatNumber(e.target.value);
-    setNumeroConvidados(formatted);
-    // Atualiza o contexto em tempo real
-    updateStep3({
-      numeroConvidados: formatted,
-      budgetPorConvidado,
-    });
-  };
-
   const handleBudgetChange = (value: string) => {
     setBudgetPorConvidado(value);
     // Atualiza o contexto em tempo real
@@ -108,18 +98,71 @@ export const CasamentoStep3: React.FC = () => {
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
       <div className="space-y-6">
         <div>
-          <label htmlFor="numeroConvidados" className="block text-base font-bold font-unbounded text-[#703535] mb-1 text-pretty">
+          <label className="block text-base font-bold font-unbounded text-[#703535] mb-4 text-pretty">
             Número de convidados *
           </label>
-          <input
-            type="text"
-            id="numeroConvidados"
-            value={numeroConvidados}
-            onChange={handleNumeroConvidadosChange}
-            className="w-full px-4 py-3 border rounded-lg transition-all"
-            placeholder="Ex: 150"
-            required
-          />
+          <div className="relative pt-8 pb-2">
+            {/* Valor flutuante acima do thumb */}
+            <div
+              className="absolute top-0 font-bold font-unbounded text-sm text-[#b94946] pointer-events-none"
+              style={{
+                left: `calc(${(getNumeroConvidadosValue() / 1000) * 100}% + ${12 - 24 * (getNumeroConvidadosValue() / 1000)}px)`,
+                transform: 'translateX(-50%)',
+              }}
+            >
+              {getNumeroConvidadosValue() === 0
+                ? <span className="text-gray-400 font-bold font-unbounded text-xs">0</span>
+                : getNumeroConvidadosValue().toLocaleString('pt-BR')
+              }
+            </div>
+            <input
+              type="range"
+              min={0}
+              max={1000}
+              step={5}
+              value={getNumeroConvidadosValue()}
+              onChange={(e) => {
+                const val = Number(e.target.value);
+                const formatted = val === 0 ? '' : formatNumber(String(val));
+                setNumeroConvidados(formatted);
+                updateStep3({ numeroConvidados: formatted, budgetPorConvidado });
+              }}
+              className="w-full h-3 rounded-lg appearance-none cursor-pointer convidados-slider"
+              style={{
+                background: `linear-gradient(to right, #b94946 0%, #b94946 ${(getNumeroConvidadosValue() / 1000) * 100}%, #d4c4b2 ${(getNumeroConvidadosValue() / 1000) * 100}%, #d4c4b2 100%)`
+              }}
+            />
+            <style jsx>{`
+              .convidados-slider::-webkit-slider-thumb {
+                appearance: none;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: #b94946;
+                cursor: pointer;
+                box-shadow: 0 2px 8px rgba(185, 73, 70, 0.4);
+                transition: all 0.2s;
+              }
+              .convidados-slider::-webkit-slider-thumb:hover {
+                transform: scale(1.15);
+                box-shadow: 0 4px 12px rgba(185, 73, 70, 0.6);
+              }
+              .convidados-slider::-moz-range-thumb {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: #b94946;
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 2px 8px rgba(185, 73, 70, 0.4);
+                transition: all 0.2s;
+              }
+              .convidados-slider::-moz-range-thumb:hover {
+                transform: scale(1.15);
+                box-shadow: 0 4px 12px rgba(185, 73, 70, 0.6);
+              }
+            `}</style>
+          </div>
         </div>
 
         <div>

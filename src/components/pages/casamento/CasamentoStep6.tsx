@@ -33,65 +33,30 @@ export const CasamentoStep6: React.FC = () => {
     // Monta a mensagem com todos os dados do formulário
     const { step1Data, step2Data, step2_3Data, step2_5Data, step3Data, step4Data } = state;
     
-    let message = `*Orçamento de Bolo de Casamento*\n\n`;
+    let message = `*Proposta para nosso Bolo de Casamento*\n`;
     
-    // Step 1
-    message += `*Dados do casal*\n`;
-    message += `Nome: ${step1Data.nomeCasal || ''}\n`;
+    // Step 1 + convidados + orçamento (lista com bullets)
     const dataCerimoniaFormatada = step1Data.dataCerimonia
       ? new Date(step1Data.dataCerimonia + 'T12:00:00').toLocaleDateString('pt-BR')
       : '';
-    message += `Data da Cerimônia: ${dataCerimoniaFormatada}\n`;
-    message += `Local da Festa: ${step1Data.localFesta || ''}\n\n`;
-    
-    // Step 2
-    if (step2Data.responsavelDecoracao || step2Data.responsavelOrganizacao || step2Data.fotografo) {
-      message += `*Fornecedores*\n`;
-      if (step2Data.responsavelDecoracao) message += `Decoração: ${step2Data.responsavelDecoracao}\n`;
-      if (step2Data.responsavelOrganizacao) message += `Organização: ${step2Data.responsavelOrganizacao}\n`;
-      if (step2Data.fotografo) message += `Fotógrafo: ${step2Data.fotografo}\n`;
-      message += `\n`;
-    }
-    
+    message += `- Nome dos Noivos: ${step1Data.nomeCasal || ''}\n`;
+    message += `- Data da Cerimônia: ${dataCerimoniaFormatada}\n`;
+    message += `- Local da Festa: ${step1Data.localFesta || ''}\n`;
+    const numConvidados = parseInt(String(step3Data.numeroConvidados || '').replace(/\./g, '')) || 0;
+    message += `- ${step3Data.numeroConvidados || 0} ${numConvidados === 1 ? 'convidado' : 'convidados'}\n`;
+    message += `- Orçamento: ${step3Data.budgetPorConvidado || ''} /convidado\n\n`;
+
     // Step 2.3
     if (step2_3Data.motivacaoBolo) {
-      message += `*Motivação para o Bolo*\n`;
+      message += `*Nossa motivação*\n`;
       message += `${step2_3Data.motivacaoBolo}\n\n`;
     }
-    
-    // Step 2.5
-    if (step2_5Data.selectedDoces && step2_5Data.selectedDoces.length > 0) {
-      message += `*Doces*\n`;
-      const docesLabels: Record<string, string> = {
-        'mesa-doces': 'Mesa de doces',
-        'reposicao-mesa': 'Reposição da mesa',
-        'sobremesa-menu': 'Sobremesa no menu'
-      };
-      step2_5Data.selectedDoces.forEach((doce: string) => {
-        message += `• ${docesLabels[doce] || doce}\n`;
-      });
-      message += `\n`;
-    }
-    
-    // Step 3
-    message += `*Convidados e Orçamento*\n`;
-    message += `Número de Convidados: ${step3Data.numeroConvidados || ''}\n`;
-    const budgetLabels: Record<string, string> = {
-      '18-21': 'R$18 a R$21',
-      '25-30': 'R$25 a R$30',
-      '35-40': 'R$35 a R$40',
-      '45+': 'R$45 ou mais'
-    };
-    message += `Orçamento por Convidado: ${budgetLabels[step3Data.budgetPorConvidado] || step3Data.budgetPorConvidado || ''}\n\n`;
     
     // Step 4
     if (step4Data.consideracoesEspecificas) {
       message += `*Considerações específicas*\n`;
-      message += `${step4Data.consideracoesEspecificas}\n\n`;
+      message += `${step4Data.consideracoesEspecificas}`;
     }
-    
-    message += `---\n`;
-    message += `Aguardo referências de bolos que vocês adoram! 😊`;
     
     // Cria o link do WhatsApp
     const whatsappUrl = `https://wa.me/5548991797296?text=${encodeURIComponent(message)}`;

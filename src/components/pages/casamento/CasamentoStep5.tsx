@@ -25,15 +25,15 @@ export const CasamentoStep5: React.FC = () => {
         <div className="bg-[#f8f4f0] p-6 rounded-lg space-y-4 text-sm">
           <div>
             <h3 className="font-bold text-[#703535] mb-2 text-pretty">📋 Dados do Casamento</h3>
-            <p><strong>Casal:</strong> {state.step1Data.nomeCasal}</p>
-            <p><strong>Data:</strong> {state.step1Data.dataCerimonia && new Date(state.step1Data.dataCerimonia).toLocaleDateString('pt-BR')}</p>
+            <p><strong>Nome dos Noivos:</strong> {state.step1Data.nomeCasal}</p>
+            <p><strong>Data da cerimônia:</strong> {state.step1Data.dataCerimonia && new Date(state.step1Data.dataCerimonia).toLocaleDateString('pt-BR')}</p>
             <p><strong>Local:</strong> {state.step1Data.localFesta}</p>
           </div>
 
           <div>
             <h3 className="font-bold text-[#703535] mb-2 text-pretty">👥 Convidados e Orçamento</h3>
-            <p><strong>Número de Convidados:</strong> {state.step3Data.numeroConvidados}</p>
-            <p><strong>Orçamento por Convidado:</strong> {state.step3Data.budgetPorConvidado}</p>
+            <p>{state.step3Data.numeroConvidados} {parseInt(String(state.step3Data.numeroConvidados).replace(/\./g, '')) === 1 ? 'convidado' : 'convidados'}</p>
+            <p><strong>Orçamento:</strong> {state.step3Data.budgetPorConvidado} /convidado</p>
           </div>
 
           {state.step1Data.whatsapp && (

@@ -57,12 +57,18 @@ CREATE POLICY "galeria_storage_delete_auth"
 -- ------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS galeria_fotos (
   id           UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  titulo       TEXT        DEFAULT NULL,
+  descricao    TEXT        DEFAULT NULL,
   tags         TEXT[]      NOT NULL DEFAULT '{}',
   storage_path TEXT        NOT NULL,
   url          TEXT        NOT NULL,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Adiciona colunas caso a tabela já exista sem elas
+ALTER TABLE galeria_fotos ADD COLUMN IF NOT EXISTS titulo TEXT DEFAULT NULL;
+ALTER TABLE galeria_fotos ADD COLUMN IF NOT EXISTS descricao TEXT DEFAULT NULL;
 
 -- ------------------------------------------------------------
 -- 4. TRIGGER: atualiza updated_at automaticamente
