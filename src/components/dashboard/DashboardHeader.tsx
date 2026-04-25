@@ -69,7 +69,7 @@ export default function DashboardHeader({ currentPage }: DashboardHeaderProps) {
               Contratos
             </a>
             <a 
-              href="/dashboard/galeria"
+              href="/galeria"
               className={`text-sm font-unbounded transition-colors pb-1 cursor-pointer ${
                 currentPage === 'galeria'
                   ? 'text-[#D65B58] border-b-2 border-[#D65B58]'

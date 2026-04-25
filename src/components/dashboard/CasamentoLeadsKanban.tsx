@@ -68,11 +68,6 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
         {/* Header */}
         <div className="flex items-start justify-between gap-2">
           <div className="flex items-center gap-2 min-w-0 flex-1">
-            <Avatar className="size-8 flex-shrink-0">
-              <AvatarFallback className="bg-[#d4c4b2] text-[#703535] text-xs font-semibold">
-                {lead.nomeNoivo.charAt(0)}{lead.nomeNoiva.charAt(0)}
-              </AvatarFallback>
-            </Avatar>
             <div className="flex-1 min-w-0">
               <h3 className="font-semibold text-sm text-[#703535] break-words">
                 {lead.nomeNoiva ? `${lead.nomeNoivo} e ${lead.nomeNoiva}` : lead.nomeNoivo}
@@ -103,7 +98,7 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
         <div className="flex flex-col gap-1.5 pt-2 border-t">
           <div className="flex items-center gap-1.5 text-xs">
             <Phone className="size-3 text-gray-400 flex-shrink-0" />
-            <span className="text-gray-600 break-words">{lead.telefone}</span>
+            <span className="text-gray-600 break-words">{formatWhatsApp(lead.telefone)}</span>
           </div>
         </div>
 
