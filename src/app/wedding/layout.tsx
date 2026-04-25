@@ -4,11 +4,11 @@ const baseUrl = 'https://dudaberger.com.br';
 const imageUrl = `${baseUrl}/images/casamento/thumb-proposta.webp`;
 
 export const metadata: Metadata = {
-  title: 'Briefing de Casamento | Duda Berger Confeitaria',
+  title: 'Briefing dos Noivos | Duda Berger Confeitaria - Conto Atelier',
   description:
     'Preencha o briefing e receba uma proposta personalizada de bolo de casamento. Conte-nos sobre o seu grande dia e deixa a Duda criar algo único para vocês.',
   openGraph: {
-    title: 'Briefing de Casamento — Duda Berger',
+    title: 'Briefing dos Noivos | Duda Berger Confeitaria - Conto Atelier',
     description:
       'Preencha o briefing e receba uma proposta personalizada de bolo de casamento. Conte-nos sobre o seu grande dia e deixa a Duda criar algo único para vocês.',
     url: `${baseUrl}/wedding`,
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Briefing de Casamento — Duda Berger',
+    title: 'Briefing dos Noivos | Duda Berger Confeitaria - Conto Atelier',
     description:
       'Preencha o briefing e receba uma proposta personalizada de bolo de casamento.',
     images: [imageUrl],
