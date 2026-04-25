@@ -49,6 +49,15 @@ const nextConfig = {
       'three'
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/casamento',
+        destination: '/wedding',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       // Desabilitar cache em desenvolvimento

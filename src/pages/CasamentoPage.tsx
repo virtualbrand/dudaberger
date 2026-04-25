@@ -15,12 +15,12 @@ const CasamentoPage = () => {
       <Seo
         title="Formulário de Casamento | Duda Berger"
         description="Complete nosso formulário multistep para finalizar seu pedido de casamento."
-        canonical="https://dudaberger.com.br/casamento"
+        canonical="https://dudaberger.com.br/wedding"
         schemaMarkup={{
           '@context': 'https://schema.org',
           '@type': 'WebPage',
           name: 'Formulário de Casamento',
-          url: 'https://dudaberger.com.br/casamento',
+          url: 'https://dudaberger.com.br/wedding',
         }}
       />
       {!hasStarted ? (
