@@ -9,7 +9,6 @@ import { supabase } from '@/lib/supabase';
 // ---------------------------------------------------------------------------
 type GaleriaFoto = {
   id: string;
-  titulo: string | null;
   tags: string[];
   url: string;
 };
@@ -48,29 +47,10 @@ function Lightbox({
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={foto.url}
-            alt={foto.titulo ?? 'Inspiração'}
+            alt={'Inspiração de bolo'}
             className="w-full h-full object-contain max-h-[80vh]"
           />
         </div>
-        {(foto.titulo || foto.tags.length > 0) && (
-          <div className="flex flex-col items-center gap-2">
-            {foto.titulo && (
-              <p className="text-white font-medium text-base">{foto.titulo}</p>
-            )}
-            {foto.tags.length > 0 && (
-              <div className="flex flex-wrap justify-center gap-1.5">
-                {foto.tags.map(t => (
-                  <span
-                    key={t}
-                    className="bg-white/20 text-white text-xs px-2.5 py-1 rounded-full"
-                  >
-                    {t}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -87,7 +67,7 @@ export default function InspiracoesList() {
     if (!supabase) { setLoading(false); return; }
     supabase
       .from('galeria_fotos')
-      .select('id, titulo, tags, url')
+      .select('id, tags, url')
       .order('created_at', { ascending: true })
       .then(({ data }: { data: GaleriaFoto[] | null }) => {
         setFotos(data ?? []);
@@ -238,7 +218,7 @@ export default function InspiracoesList() {
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={foto.url}
-                    alt={foto.titulo ?? 'Inspiração de bolo'}
+                    alt={'Inspiração de bolo'}
                     className="w-full h-auto block"
                     loading="lazy"
                   />
@@ -247,11 +227,8 @@ export default function InspiracoesList() {
                     <ZoomIn className="size-6 text-white drop-shadow" />
                   </div>
                   {/* Bottom gradient with tags */}
-                  {(foto.titulo || foto.tags.length > 0) && (
+                  {foto.tags.length > 0 && (
                     <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-3 py-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                      {foto.titulo && (
-                        <p className="text-white text-xs font-medium truncate mb-1">{foto.titulo}</p>
-                      )}
                       <div className="flex flex-wrap gap-1">
                         {foto.tags.slice(0, 3).map(t => (
                           <span
