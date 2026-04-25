@@ -123,7 +123,7 @@ export type Database = {
         };
         Insert: {
           id?: string;
-          lead_id: string;
+          lead_id?: string | null;
           titulo: string;
           descricao?: string | null;
           slug?: string | null;
@@ -144,7 +144,7 @@ export type Database = {
           observacoes?: string | null;
         };
         Update: {
-          lead_id?: string;
+          lead_id?: string | null;
           titulo?: string;
           descricao?: string | null;
           slug?: string | null;
