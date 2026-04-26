@@ -9,9 +9,19 @@ import { supabase } from '@/lib/supabase';
 // ---------------------------------------------------------------------------
 type GaleriaFoto = {
   id: string;
+  numero?: number | null;
   tags: string[];
   url: string;
 };
+
+const WHATSAPP_NUMBER = '5548991797296';
+const BASE_URL = 'https://dudaberger.com.br';
+
+function getDisplayId(foto: GaleriaFoto): string {
+  if (foto.numero != null) return String(foto.numero).padStart(4, '0');
+  // fallback: use last 4 chars of uuid
+  return foto.id.slice(-4).toUpperCase();
+}
 
 // ---------------------------------------------------------------------------
 // Lightbox
@@ -23,33 +33,85 @@ function Lightbox({
   foto: GaleriaFoto;
   onClose: () => void;
 }) {
+  const [visible, setVisible] = React.useState(false);
+  const closeTimerRef = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Fade in on mount
   React.useEffect(() => {
-    const handler = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    const frame = requestAnimationFrame(() => setVisible(true));
+    return () => {
+      cancelAnimationFrame(frame);
+      if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
+  const handleClose = React.useCallback(() => {
+    setVisible(false);
+    closeTimerRef.current = setTimeout(onClose, 300);
+  }, [onClose]);
+
+  React.useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleClose();
+    };
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
+  }, [handleClose]);
+
+  const formattedId = getDisplayId(foto);
+  const shareUrl = `${BASE_URL}/inspiracoes?id=${formattedId}`;
+  const waMessage = encodeURIComponent(`Gostei dessa referência: ${shareUrl}`);
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMessage}`;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
-      onClick={e => e.target === e.currentTarget && onClose()}
+      className={`fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300 ${
+        visible ? 'opacity-100 bg-black/80' : 'opacity-0 bg-black/0 pointer-events-none'
+      }`}
+      onClick={e => e.target === e.currentTarget && handleClose()}
     >
       <button
-        onClick={onClose}
-        className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors"
+        onClick={handleClose}
+        className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full text-white transition-colors cursor-pointer"
         aria-label="Fechar"
       >
         <X className="size-5" />
       </button>
 
-      <div className="relative max-w-3xl w-full max-h-[90vh] flex flex-col items-center gap-3">
+      <div
+        className={`relative max-w-3xl w-full flex flex-col items-center gap-3 transition-all duration-300 ${
+          visible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'
+        }`}
+      >
         <div className="relative w-full max-h-[80vh] rounded-2xl overflow-hidden shadow-2xl">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={foto.url}
-            alt={'Inspiração de bolo'}
+            alt={`Referência #${formattedId}`}
             className="w-full h-full object-contain max-h-[80vh]"
           />
+        </div>
+
+        {/* Footer bar */}
+        <div className="w-full flex items-center justify-between px-1">
+          <span className="text-white/60 text-sm font-mono">#{formattedId}</span>
+          <a
+            href={waUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary-sm flex items-center gap-2"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              className="size-4 fill-current shrink-0"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.121 1.533 5.849L.057 23.716a.5.5 0 00.608.633l6.015-1.576A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.808 9.808 0 01-5.003-1.373l-.36-.213-3.724.977.994-3.629-.234-.374A9.77 9.77 0 012.182 12c0-5.418 4.4-9.818 9.818-9.818 5.418 0 9.818 4.4 9.818 9.818 0 5.418-4.4 9.818-9.818 9.818z" />
+            </svg>
+            Enviar referência pelo WhatsApp
+          </a>
         </div>
       </div>
     </div>
@@ -62,28 +124,62 @@ function Lightbox({
 export default function InspiracoesList() {
   const [fotos, setFotos] = React.useState<GaleriaFoto[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [lightbox, setLightbox] = React.useState<GaleriaFoto | null>(null);
+  const [search, setSearch] = React.useState('');
+  const [activeTags, setActiveTags] = React.useState<string[]>([]);
 
   React.useEffect(() => {
     if (!supabase) { setLoading(false); return; }
     supabase
       .from('galeria_fotos')
-      .select('id, tags, url')
+      .select('id, numero, tags, url')
       .order('created_at', { ascending: true })
-      .then(({ data }: { data: GaleriaFoto[] | null }) => {
+      .then(({ data, error }: { data: GaleriaFoto[] | null; error: unknown }) => {
+        if (error) {
+          // Fallback: retry without `numero` if column doesn't exist yet
+          supabase!.from('galeria_fotos')
+            .select('id, tags, url')
+            .order('created_at', { ascending: true })
+            .then(({ data: d2 }: { data: GaleriaFoto[] | null }) => {
+              setFotos(d2 ?? []);
+              setLoading(false);
+            });
+          return;
+        }
         setFotos(data ?? []);
         setLoading(false);
       });
   }, []);
-  const [search, setSearch] = React.useState('');
-  const [activeTags, setActiveTags] = React.useState<string[]>([]);
-  const [lightbox, setLightbox] = React.useState<GaleriaFoto | null>(null);
+
+  const openLightbox = React.useCallback((foto: GaleriaFoto) => {
+    setLightbox(foto);
+    if (foto.numero != null) {
+      window.history.replaceState(null, '', `/inspiracoes?id=${getDisplayId(foto)}`);
+    }
+  }, []);
+
+  const closeLightbox = React.useCallback(() => {
+    setLightbox(null);
+    window.history.replaceState(null, '', '/inspiracoes');
+  }, []);
+
+  // Auto-open from URL ?id= param once fotos are loaded
+  React.useEffect(() => {
+    if (fotos.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    if (id) {
+      const num = parseInt(id, 10);
+      const foto = fotos.find(f => f.numero != null && f.numero === num);
+      if (foto) openLightbox(foto);
+    }
+  }, [fotos, openLightbox]);
 
   const toggleTag = (tag: string) => {
     setActiveTags(prev =>
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
   };
-
 
   // All unique tags
   const allTags = React.useMemo(() => {
@@ -104,6 +200,9 @@ export default function InspiracoesList() {
 
   return (
     <div className="min-h-screen bg-transparent">
+      {/* Lightbox */}
+      {lightbox && <Lightbox foto={lightbox} onClose={closeLightbox} />}
+
       {/* Hero */}
       <section className="px-4 pt-16 pb-10 text-center">
         <p className="text-xs font-unbounded tracking-widest text-[#D65B58] uppercase mb-3">Galeria</p>
@@ -191,7 +290,7 @@ export default function InspiracoesList() {
             {(search || activeTags.length > 0) && (
               <button
                 onClick={() => { setSearch(''); setActiveTags([]); }}
-                className="text-xs text-[#D65B58] underline underline-offset-2 hover:opacity-75"
+                className="text-xs text-[#D65B58] underline underline-offset-2 hover:opacity-75 cursor-pointer"
               >
                 Limpar filtros
               </button>
@@ -205,7 +304,7 @@ export default function InspiracoesList() {
               {(activeTags.length > 0 || search) && (
                 <button
                   onClick={() => { setSearch(''); setActiveTags([]); }}
-                  className="ml-2 text-[#D65B58] underline underline-offset-2 hover:opacity-75"
+                  className="ml-2 text-[#D65B58] underline underline-offset-2 hover:opacity-75 cursor-pointer"
                 >
                   Limpar filtros
                 </button>
@@ -221,7 +320,7 @@ export default function InspiracoesList() {
                 <div
                   key={foto.id}
                   className="break-inside-avoid mb-4 group relative cursor-pointer rounded-2xl overflow-hidden bg-gray-100 shadow-sm hover:shadow-md transition-shadow"
-                  onClick={() => setLightbox(foto)}
+                  onClick={() => openLightbox(foto)}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
