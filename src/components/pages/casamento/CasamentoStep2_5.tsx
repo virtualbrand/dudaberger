@@ -54,7 +54,7 @@ export const CasamentoStep2_5: React.FC = () => {
     goToStep(2.3);
   };
 
-  const isFormValid = selectedDoces.length > 0;
+  const isFormValid = true;
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
@@ -65,7 +65,7 @@ export const CasamentoStep2_5: React.FC = () => {
         
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-3 text-pretty">
-            Quais outros doces serão servidos? *
+            Quais outros doces serão servidos?
           </label>
           <p className="text-xs text-gray-500 mb-3 text-pretty">Selecione uma ou mais opções</p>
           <div className="space-y-3">

@@ -80,7 +80,7 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
         <div className="flex flex-col gap-2 text-xs text-gray-600">
           <div className="flex items-center gap-1.5">
             <Calendar className="size-3.5 text-[#703535] flex-shrink-0" />
-            <span className="break-words">{format(new Date(lead.dataCasamento), "dd/MM/yy", { locale: ptBR })}</span>
+            <span className="break-words">{lead.dataCasamento ? format(new Date(lead.dataCasamento), "dd/MM/yy", { locale: ptBR }) : '-'}</span>
           </div>
           
           <div className="flex items-center gap-1.5">
@@ -105,7 +105,7 @@ function LeadCard({ lead, asHandle, onCardClick, ...props }: LeadCardProps) {
         {/* Footer */}
         <div className="flex items-center justify-between pt-2">
           <span className="text-[10px] text-gray-400">
-            {format(new Date(lead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+            {lead.createdAt ? format(new Date(lead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR }) : '-'}
           </span>
         </div>
       </div>
@@ -811,7 +811,7 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
                         Recebido em
                       </label>
                       <div className="px-3 py-3 border border-gray-300 rounded-md text-sm bg-gray-50 text-gray-600">
-                        {format(new Date(selectedLead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                        {selectedLead.createdAt ? format(new Date(selectedLead.createdAt), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR }) : '-'}
                       </div>
                     </div>
                   </div>

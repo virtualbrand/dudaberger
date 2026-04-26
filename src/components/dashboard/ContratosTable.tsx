@@ -3,11 +3,10 @@
 import * as React from 'react';
 import { Contrato } from '@/types/contrato';
 import { Proposta } from '@/types/proposta';
-import { Badge } from '@/components/ui/badge-2';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { DatePickerInput } from '@/components/ui/date-picker-input';
-import { Plus, Edit, Search, Check, Trash2, ChevronDown, ExternalLink, Copy, AlertCircle } from 'lucide-react';
+import { Plus, Edit, Search, Check, Trash2, ChevronDown, ExternalLink, Copy, AlertCircle, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -28,11 +27,38 @@ const STATUS_LABELS: Record<Contrato['status'], string> = {
   cancelado: 'Cancelado',
 };
 
-const STATUS_COLORS: Record<Contrato['status'], 'secondary' | 'warning' | 'success' | 'destructive'> = {
-  rascunho: 'secondary',
-  ativo: 'warning',
-  concluido: 'success',
-  cancelado: 'destructive',
+const STATUS_STYLES: Record<Contrato['status'], string> = {
+  rascunho: 'bg-[#ede8e3] text-[#8c7264]',
+  ativo:    'bg-[#fdf0d8] text-[#9b6e20]',
+  concluido: 'bg-[#e4f2e8] text-[#2e7042]',
+  cancelado: 'bg-[#e8e8e8] text-[#737373]',
+};
+
+function StatusBadge({ status }: { status: Contrato['status'] }) {
+  return (
+    <span className={`inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[status]}`}>
+      {STATUS_LABELS[status]}
+    </span>
+  );
+}
+
+type SortField = 'valorTotal' | 'dataEvento' | 'dataCriacao';
+type SortDir = 'asc' | 'desc' | 'original';
+
+type ColKey = 'noivos' | 'valor' | 'dataEvento' | 'status' | 'dataCriacao';
+const DEFAULT_COL_ORDER: ColKey[] = ['noivos', 'valor', 'dataEvento', 'status', 'dataCriacao'];
+const LS_COL_ORDER_KEY = 'contratos_col_order_v1';
+const COL_LABELS: Record<ColKey, string> = {
+  noivos: 'Noivos',
+  valor: 'Valor',
+  dataEvento: 'Data da cerimônia',
+  status: 'Status',
+  dataCriacao: 'Criada em',
+};
+const COL_SORT_FIELD: Partial<Record<ColKey, SortField>> = {
+  valor: 'valorTotal',
+  dataEvento: 'dataEvento',
+  dataCriacao: 'dataCriacao',
 };
 
 const isUuid = (value: string) =>
@@ -60,6 +86,11 @@ export default function ContratosTable() {
   const [isRemoveSignatureDialogOpen, setIsRemoveSignatureDialogOpen] = React.useState(false);
   const [signatureToRemove, setSignatureToRemove] = React.useState<'noiva' | 'noivo' | null>(null);
   const [isRemovingSignature, setIsRemovingSignature] = React.useState(false);
+  const [sortField, setSortField] = React.useState<SortField | null>(null);
+  const [sortDir, setSortDir] = React.useState<SortDir>('original');
+  const [colOrder, setColOrder] = React.useState<ColKey[]>(DEFAULT_COL_ORDER);
+  const dragColRef = React.useRef<number | null>(null);
+  const [dragOverCol, setDragOverCol] = React.useState<number | null>(null);
 
   // Carregar contratos do Supabase (fallback para mock se não configurado)
   React.useEffect(() => {
@@ -77,7 +108,7 @@ export default function ContratosTable() {
 
         const { data, error } = await (supabase as any)
           .from('contratos')
-          .select('id, titulo, slug, descricao, valor_total, status, data_assinatura, data_evento, data_contrato, local_festa, numero_convidados, nome_noiva, cpf_noiva, nome_noivo, cpf_noivo, endereco, assinatura_noiva, assinatura_noivo, created_at')
+          .select('id, titulo, slug, descricao, valor_total, status, data_assinatura, data_evento, data_contrato, local_festa, numero_convidados, nome_noiva, cpf_noiva, nome_noivo, cpf_noivo, endereco, assinatura_noiva, assinatura_noivo, created_at, propostas(descricao)')
           .order('created_at', { ascending: false });
 
         if (error) throw error;
@@ -123,7 +154,7 @@ export default function ContratosTable() {
           dataCriacao: String(row.created_at ?? new Date().toISOString()),
           dataEvento: row.data_evento ? `${row.data_evento}T00:00:00` : '',
           dataContrato: row.data_contrato ? `${row.data_contrato}T00:00:00` : undefined,
-          descricao: row.descricao ?? undefined,
+          descricao: row.descricao ?? (row.propostas as any)?.descricao ?? undefined,
           slug: row.slug ?? undefined,
           localFesta: row.local_festa ?? undefined,
           numeroConvidados: row.numero_convidados ?? undefined,
@@ -567,18 +598,72 @@ export default function ContratosTable() {
     setSignatureToRemove(null);
   };
 
+  // Carregar ordem das colunas do localStorage
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LS_COL_ORDER_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as ColKey[];
+        if (
+          Array.isArray(parsed) &&
+          parsed.length === DEFAULT_COL_ORDER.length &&
+          parsed.every(k => k in COL_LABELS)
+        ) {
+          setColOrder(parsed);
+        }
+      }
+    } catch {}
+  }, []);
+
+  const handleSort = (field: SortField) => {
+    if (sortField !== field) {
+      setSortField(field);
+      setSortDir('asc');
+    } else {
+      const nextDir: SortDir = sortDir === 'asc' ? 'desc' : sortDir === 'desc' ? 'original' : 'asc';
+      setSortDir(nextDir);
+      if (nextDir === 'original') setSortField(null);
+    }
+  };
+
+  function SortIcon({ field }: { field: SortField }) {
+    if (sortField !== field || sortDir === 'original') return <ArrowUpDown className="size-3 ml-1 opacity-40" />;
+    if (sortDir === 'asc') return <ArrowUp className="size-3 ml-1 text-[#D65B58]" />;
+    return <ArrowDown className="size-3 ml-1 text-[#D65B58]" />;
+  }
+
   // Filtrar contratos com base na busca
   const filteredContratos = React.useMemo(() => {
-    if (!searchQuery.trim()) return contratos;
-    
-    const query = searchQuery.toLowerCase();
-    return contratos.filter(contrato => 
-      contrato.clienteNome.toLowerCase().includes(query) ||
-      contrato.valorTotal.toString().includes(query) ||
-      (contrato.descricao?.toLowerCase().includes(query)) ||
-      STATUS_LABELS[contrato.status].toLowerCase().includes(query)
-    );
-  }, [contratos, searchQuery]);
+    let result = [...contratos];
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(contrato =>
+        contrato.clienteNome.toLowerCase().includes(query) ||
+        contrato.valorTotal.toString().includes(query) ||
+        (contrato.descricao?.toLowerCase().includes(query)) ||
+        STATUS_LABELS[contrato.status].toLowerCase().includes(query)
+      );
+    }
+
+    if (sortField && sortDir !== 'original') {
+      result.sort((a, b) => {
+        let cmp = 0;
+        if (sortField === 'valorTotal') {
+          cmp = a.valorTotal - b.valorTotal;
+        } else if (sortField === 'dataEvento') {
+          const da = a.dataEvento ? new Date(a.dataEvento).getTime() : 0;
+          const db = b.dataEvento ? new Date(b.dataEvento).getTime() : 0;
+          cmp = da - db;
+        } else if (sortField === 'dataCriacao') {
+          cmp = new Date(a.dataCriacao).getTime() - new Date(b.dataCriacao).getTime();
+        }
+        return sortDir === 'asc' ? cmp : -cmp;
+      });
+    }
+
+    return result;
+  }, [contratos, searchQuery, sortField, sortDir]);
 
   return (
     <div className="w-full">
@@ -621,36 +706,65 @@ export default function ContratosTable() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Noivos</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Valor</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Data da cerimônia</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Criado em</th>
+                    {colOrder.map((col, index) => {
+                      const sf = COL_SORT_FIELD[col];
+                      return (
+                        <th
+                          key={col}
+                          draggable
+                          onDragStart={() => { dragColRef.current = index; }}
+                          onDragOver={(e) => { e.preventDefault(); setDragOverCol(index); }}
+                          onDrop={() => {
+                            if (dragColRef.current === null || dragColRef.current === index) {
+                              setDragOverCol(null);
+                              return;
+                            }
+                            const newOrder = [...colOrder];
+                            const [moved] = newOrder.splice(dragColRef.current, 1);
+                            newOrder.splice(index, 0, moved);
+                            setColOrder(newOrder);
+                            localStorage.setItem(LS_COL_ORDER_KEY, JSON.stringify(newOrder));
+                            dragColRef.current = null;
+                            setDragOverCol(null);
+                          }}
+                          onDragEnd={() => { dragColRef.current = null; setDragOverCol(null); }}
+                          onClick={() => { if (sf) handleSort(sf); }}
+                          style={dragOverCol === index ? { borderLeft: '2px solid #D65B58' } : undefined}
+                          className={`px-4 py-3 text-left text-xs font-unbounded text-[#703535] select-none cursor-grab active:cursor-grabbing${sf ? ' hover:text-[#D65B58]' : ''}`}
+                        >
+                          <span className="flex items-center">
+                            {COL_LABELS[col]}
+                            {sf && <SortIcon field={sf} />}
+                          </span>
+                        </th>
+                      );
+                    })}
                     <th className="px-4 py-3 text-center text-xs font-unbounded text-[#703535]"></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
                   {filteredContratos.map((contrato) => (
-                    <tr 
-                      key={contrato.id} 
+                    <tr
+                      key={contrato.id}
                       onClick={() => handleEditContrato(contrato)}
-                      className="hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="hover:bg-gray-50 transition-[background-color] cursor-pointer"
                     >
-                      <td className="px-4 py-3 text-sm text-gray-700">{contrato.clienteNome}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        R$ {contrato.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        {contrato.dataEvento ? format(new Date(`${contrato.dataEvento.split('T')[0]}T00:00:00`), "dd/MM/yyyy", { locale: ptBR }) : '-'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <Badge variant={STATUS_COLORS[contrato.status]} size="sm">
-                          {STATUS_LABELS[contrato.status]}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        {format(new Date(contrato.dataCriacao), "dd/MM/yyyy", { locale: ptBR })}
-                      </td>
+                      {colOrder.map((col) => {
+                        switch (col) {
+                          case 'noivos':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">{contrato.clienteNome}</td>;
+                          case 'valor':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">R$ {contrato.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: contrato.valorTotal % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}</td>;
+                          case 'dataEvento':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">{contrato.dataEvento ? format(new Date(`${contrato.dataEvento.split('T')[0]}T00:00:00`), 'dd/MM/yyyy', { locale: ptBR }) : '-'}</td>;
+                          case 'status':
+                            return <td key={col} className="px-4 py-3"><StatusBadge status={contrato.status} /></td>;
+                          case 'dataCriacao':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">{contrato.dataCriacao ? format(new Date(contrato.dataCriacao), 'dd/MM/yyyy', { locale: ptBR }) : '-'}</td>;
+                          default:
+                            return null;
+                        }
+                      })}
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
                           <a

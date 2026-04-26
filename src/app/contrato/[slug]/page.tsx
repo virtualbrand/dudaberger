@@ -41,6 +41,20 @@ export default function ContratoPublicoPage() {
   const targetRef = React.useRef<HTMLElement>(null);
   const assinaturasRef = React.useRef<HTMLDivElement>(null);
 
+  // Patch IntersectionObserver para suprimir erro do @docuseal ao desmontar o componente
+  React.useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const originalUnobserve = IntersectionObserver.prototype.unobserve;
+    IntersectionObserver.prototype.unobserve = function (target: Element) {
+      if (target instanceof Element) {
+        originalUnobserve.call(this, target);
+      }
+    };
+    return () => {
+      IntersectionObserver.prototype.unobserve = originalUnobserve;
+    };
+  }, []);
+
   // Scroll para assinaturas após reload
   React.useEffect(() => {
     const shouldScrollToSignatures = sessionStorage.getItem('scrollToSignatures');
@@ -962,18 +976,7 @@ export default function ContratoPublicoPage() {
       {/* Botão Flutuante - Assinar ou Baixar Contrato */}
       {isValidated && contrato && (
         <>
-          {assinaturaNoiva || assinaturaNoivo ? (
-            // Temporariamente oculto - aguardando ajustes no PDF
-            null
-            // <button
-            //   onClick={handleDownloadPDF}
-            //   disabled={isGeneratingPDF}
-            //   className="fixed bottom-8 right-8 btn-primary-sm shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2 z-50 disabled:opacity-50 disabled:cursor-not-allowed"
-            // >
-            //   {isGeneratingPDF ? 'Gerando PDF...' : 'Baixar Contrato'}
-            //   <Download className="w-4 h-4" />
-            // </button>
-          ) : (
+          {(contrato.nomeNoiva && !assinaturaNoiva) || (contrato.nomeNoivo && !assinaturaNoivo) ? (
             <button
               onClick={() => setShowSignerDialog(true)}
               className="fixed bottom-8 right-8 btn-primary-sm shadow-lg hover:shadow-xl transition-shadow flex items-center gap-2 z-50"
@@ -981,7 +984,7 @@ export default function ContratoPublicoPage() {
               Assinar Contrato
               <PenTool className="w-4 h-4 -scale-x-100" />
             </button>
-          )}
+          ) : null}
         </>
       )}
 
@@ -1001,7 +1004,7 @@ export default function ContratoPublicoPage() {
               Quem vai assinar?
             </h3>
             <div className="space-y-3">
-              {contrato.nomeNoiva && (
+              {contrato.nomeNoiva && !assinaturaNoiva && (
                 <button
                   onClick={() => {
                     setSelectedSigner('noiva');
@@ -1014,7 +1017,7 @@ export default function ContratoPublicoPage() {
                   {contrato.nomeNoiva}
                 </button>
               )}
-              {contrato.nomeNoivo && (
+              {contrato.nomeNoivo && !assinaturaNoivo && (
                 <button
                   onClick={() => {
                     setSelectedSigner('noivo');
@@ -1176,41 +1179,47 @@ export default function ContratoPublicoPage() {
                   } else if (data && typeof data === 'object' && 'base64' in data) {
                     base64Signature = (data as any).base64;
                   }
-                  
-                  // Salvar assinatura baseado no signatário selecionado
-                  if (selectedSigner === 'noiva') {
-                    setAssinaturaNoiva(base64Signature);
-                  } else if (selectedSigner === 'noivo') {
-                    setAssinaturaNoivo(base64Signature);
-                  }
-                  
-                  // Fechar o painel de assinatura
+
+                  // Garantir o prefixo data: para exibição no <img>
+                  const displaySignature = base64Signature.startsWith('data:')
+                    ? base64Signature
+                    : `data:image/png;base64,${base64Signature}`;
+
+                  // Capturar o signatário antes de qualquer mudança de estado
+                  const signer = selectedSigner;
+
+                  // Fechar o painel primeiro (com pequeno delay para evitar erro do IntersectionObserver)
                   setShowSignaturePanel(false);
+                  await new Promise(resolve => setTimeout(resolve, 100));
                   setSelectedSigner(null);
-                  
-                  // Salvar no Supabase
-                  let saveSuccess = false;
-                  if (supabase && contrato) {
-                    try {
-                      const updateData = selectedSigner === 'noiva' 
-                        ? { assinatura_noiva: base64Signature }
-                        : { assinatura_noivo: base64Signature };
-                      
-                      const { error } = await (supabase as any)
-                        .from('contratos')
-                        .update(updateData)
-                        .eq('slug', slug);
-                      
-                      if (error) {
-                        console.error('❌ Erro ao salvar assinatura:', error);
-                      } else {
-                        saveSuccess = true;
-                        // Mostrar modal de sucesso
-                        setShowSuccessModal(true);
-                      }
-                    } catch (err) {
-                      console.error('💥 Erro ao salvar assinatura no Supabase:', err);
+
+                  // Atualizar estado local de exibição
+                  if (signer === 'noiva') {
+                    setAssinaturaNoiva(displaySignature);
+                  } else if (signer === 'noivo') {
+                    setAssinaturaNoivo(displaySignature);
+                  }
+
+                  // Salvar via API server-side (usa service role para contornar RLS)
+                  try {
+                    const response = await fetch('/api/contratos/sign', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        slug,
+                        signer,
+                        signature: base64Signature,
+                      }),
+                    });
+
+                    const result = await response.json();
+                    if (!response.ok) {
+                      console.error('❌ Erro ao salvar assinatura:', result.error);
+                    } else {
+                      setShowSuccessModal(true);
                     }
+                  } catch (err) {
+                    console.error('💥 Erro ao salvar assinatura:', err);
                   }
                 }}
               />
@@ -1223,7 +1232,7 @@ export default function ContratoPublicoPage() {
       {showSuccessModal && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl text-center animate-fade-in">
-            <div className="mx-auto w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-4">
+            <div className="mx-auto w-16 h-16 bg-[#7db09a] rounded-full flex items-center justify-center mb-4">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>

@@ -55,6 +55,17 @@ export default function PropostaPublicaPage() {
   const [paymentStep, setPaymentStep] = React.useState<'choose' | 'pix'>('choose');
   const [copiedCNPJ, setCopiedCNPJ] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<'seguir' | 'decidir'>('seguir');
+  const [showContactModal, setShowContactModal] = React.useState(false);
+  const [contactSuccess, setContactSuccess] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [propostaLeadId, setPropostaLeadId] = React.useState<string | null>(null);
+  const [contactForm, setContactForm] = React.useState({
+    nomeNoivo: '',
+    cpfNoivo: '',
+    nomeNoiva: '',
+    cpfNoiva: '',
+    endereco: '',
+  });
   
   useScrollAnimation();
 
@@ -129,6 +140,44 @@ export default function PropostaPublicaPage() {
     setCopiedCNPJ(false);
   };
 
+  const handleContactSubmit = async () => {
+    if (!proposta) return;
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('/api/contratos/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          propostaId: proposta.id,
+          leadId: propostaLeadId,
+          titulo: proposta.clienteNome,
+          valorTotal: proposta.valorTotal,
+          dataEvento: proposta.dataEvento ? proposta.dataEvento.split('T')[0] : null,
+          localFesta: proposta.localFesta ?? null,
+          numeroConvidados: proposta.numeroConvidados ?? null,
+          descricao: proposta.descricao ?? null,
+          dataContrato: new Date().toISOString().split('T')[0],
+          nomeNoivo: contactForm.nomeNoivo,
+          cpfNoivo: contactForm.cpfNoivo,
+          nomeNoiva: contactForm.nomeNoiva,
+          cpfNoiva: contactForm.cpfNoiva,
+          endereco: contactForm.endereco,
+        }),
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Erro desconhecido');
+
+      setContactSuccess(true);
+      setContactForm({ nomeNoivo: '', cpfNoivo: '', nomeNoiva: '', cpfNoiva: '', endereco: '' });
+    } catch (err) {
+      console.error('Erro ao criar contrato:', err);
+      alert('Ocorreu um erro ao enviar os dados. Por favor, tente novamente.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   // Fechar modal com ESC
   React.useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
@@ -175,7 +224,7 @@ export default function PropostaPublicaPage() {
       try {
         const { data, error } = await (supabase as any)
           .from('propostas')
-          .select('id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, numero_convidados, link_pagamento_7_dias, link_pagamento_21_dias')
+          .select('id, lead_id, titulo, descricao, valor_total, status, data_proposta, validade_ate, created_at, itens, slug, local_festa, numero_convidados, link_pagamento_7_dias, link_pagamento_21_dias')
           .eq('slug', slug)
           .single();
 
@@ -230,6 +279,7 @@ export default function PropostaPublicaPage() {
         };
 
         setProposta(propostaData);
+        setPropostaLeadId(data.lead_id ?? null);
       } catch (err) {
         console.error('Erro ao carregar proposta:', err);
         setError('Erro ao carregar proposta');
@@ -777,14 +827,13 @@ export default function PropostaPublicaPage() {
                     <div>
                       {proposta.descricao && (
                         <div className="space-y-0">
+                          <h3 className="font-bold font-unbounded text-md text-white mb-2 mt-4">
+                            O Bolo
+                          </h3>
                           {proposta.descricao.split('\n').map((line, index) => {
-                            // Detectar título (# texto)
+                            // Ignorar linhas de título (# texto) — substituídas pelo título fixo
                             if (line.startsWith('# ')) {
-                              return (
-                                <h3 key={index} className="font-bold font-unbounded text-md text-white mb-2 mt-4">
-                                  {line.substring(2)}
-                                </h3>
-                              );
+                              return null;
                             }
                             // Detectar subtítulo (## texto)
                             if (line.startsWith('## ')) {
@@ -898,10 +947,10 @@ export default function PropostaPublicaPage() {
                                   }`}
                                 >
                                   {status.diasRestantes7 === 0 
-                                    ? 'Último dia (-20%)'
+                                    ? 'Último dia (-17%)'
                                     : status.diasRestantes7 === 1
-                                    ? 'Em até 1 dia (-20%)'
-                                    : `Em até ${status.diasRestantes7} dias (-20%)`
+                                    ? 'Em até 1 dia (-17%)'
+                                    : `Em até ${status.diasRestantes7} dias (-17%)`
                                   }
                                 </button>
                               )}
@@ -933,14 +982,12 @@ export default function PropostaPublicaPage() {
 
                           {/* Botão Quero reservar */}
                           <div className="mb-6">
-                            <a
-                              href="https://wa.me/5548991797296?text=Olá Duda! Gostei da proposta e tenho interesse em reservar minha data. Qual é o próximo passo?"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto"
+                            <button
+                              onClick={() => setShowContactModal(true)}
+                              className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto cursor-pointer"
                             >
                               Quero reservar minha data
-                            </a>
+                            </button>
                           </div>
 
                           {/* Informações adicionais */}
@@ -1204,10 +1251,10 @@ export default function PropostaPublicaPage() {
                                       }`}
                                     >
                                       {status.diasRestantes7 === 0 
-                                        ? 'Último dia (-20%)'
+                                        ? 'Último dia (-17%)'
                                         : status.diasRestantes7 === 1
-                                        ? 'Em até 1 dia (-20%)'
-                                        : `Em até ${status.diasRestantes7} dias (-20%)`
+                                        ? 'Em até 1 dia (-17%)'
+                                        : `Em até ${status.diasRestantes7} dias (-17%)`
                                       }
                                     </button>
                                   )}
@@ -1239,14 +1286,12 @@ export default function PropostaPublicaPage() {
 
                               {/* Botão Quero reservar */}
                               <div className="mb-6">
-                                <a
-                                  href="https://wa.me/5548991797296?text=Olá Duda! Gostei da proposta e tenho interesse em reservar minha data. Qual é o próximo passo?"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto"
+                                <button
+                                  onClick={() => setShowContactModal(true)}
+                                  className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto cursor-pointer"
                                 >
                                   Seguir com a reserva da data
-                                </a>
+                                </button>
                               </div>
 
                               {/* Informações adicionais */}
@@ -1423,6 +1468,154 @@ export default function PropostaPublicaPage() {
             </div>
           </section>
         </>
+      )}
+
+      {/* Modal de Dados para Contrato */}
+      {showContactModal && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => { setShowContactModal(false); setContactSuccess(false); }}>
+          <div className="bg-[#f9f3e7] rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Botão fechar X */}
+            <button
+              onClick={() => { setShowContactModal(false); setContactSuccess(false); }}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors cursor-pointer"
+              aria-label="Fechar"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 className="text-xl font-bold font-unbounded text-[#703535] mb-2 text-center">
+              {!contactSuccess && 'Dados para o contrato'}
+            </h3>
+            <p className="text-gray-600 text-sm mb-6 text-center">
+              {!contactSuccess && 'Preencha os dados abaixo para enviarmos o contrato'}
+            </p>
+
+            {contactSuccess ? (
+              <div className="text-center py-6 space-y-4">
+                <div className="w-16 h-16 bg-[#7db09a] rounded-full flex items-center justify-center mx-auto">
+                  <svg className="w-8 h-8 text-[#183D32]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h4 className="text-lg font-bold font-unbounded text-[#703535]">Dados recebidos!</h4>
+                <p className="text-sm text-gray-600">
+                  Suas informações foram enviadas com sucesso.<br />
+                  Enviaremos o link do seu contrato em breve.
+                </p>
+                <button
+                  onClick={() => { setShowContactModal(false); setContactSuccess(false); }}
+                  className="btn-primary-sm inline-flex items-center justify-center w-full max-w-xs mx-auto cursor-pointer"
+                >
+                  Fechar
+                </button>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Noivo */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome completo do noivo
+                  </label>
+                  <input
+                    type="text"
+                    value={contactForm.nomeNoivo}
+                    onChange={(e) => setContactForm((f) => ({ ...f, nomeNoivo: e.target.value }))}
+                    placeholder="Nome completo"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    CPF do noivo
+                  </label>
+                  <input
+                    type="text"
+                    value={contactForm.cpfNoivo}
+                    onChange={(e) => {
+                      const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+                      const formatted = digits
+                        .replace(/(\d{3})(\d)/, '$1.$2')
+                        .replace(/(\d{3})(\d)/, '$1.$2')
+                        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                      setContactForm((f) => ({ ...f, cpfNoivo: formatted }));
+                    }}
+                    placeholder="000.000.000-00"
+                    maxLength={14}
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                  />
+                </div>
+
+                <hr className="border-gray-200" />
+
+                {/* Noiva */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome completo da noiva
+                  </label>
+                  <input
+                    type="text"
+                    value={contactForm.nomeNoiva}
+                    onChange={(e) => setContactForm((f) => ({ ...f, nomeNoiva: e.target.value }))}
+                    placeholder="Nome completo"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    CPF da noiva
+                  </label>
+                  <input
+                    type="text"
+                    value={contactForm.cpfNoiva}
+                    onChange={(e) => {
+                      const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+                      const formatted = digits
+                        .replace(/(\d{3})(\d)/, '$1.$2')
+                        .replace(/(\d{3})(\d)/, '$1.$2')
+                        .replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                      setContactForm((f) => ({ ...f, cpfNoiva: formatted }));
+                    }}
+                    placeholder="000.000.000-00"
+                    maxLength={14}
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                  />
+                </div>
+
+                <hr className="border-gray-200" />
+
+                {/* Endereço */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Endereço residencial
+                  </label>
+                  <input
+                    type="text"
+                    value={contactForm.endereco}
+                    onChange={(e) => setContactForm((f) => ({ ...f, endereco: e.target.value }))}
+                    placeholder="Rua, número, bairro, cidade - UF"
+                    className="w-full px-3 py-3 border border-gray-300 rounded-md text-sm bg-white"
+                  />
+                </div>
+
+                <button
+                  onClick={handleContactSubmit}
+                  disabled={isSubmitting || !contactForm.nomeNoivo || !contactForm.cpfNoivo || !contactForm.nomeNoiva || !contactForm.cpfNoiva || !contactForm.endereco}
+                  className="btn-primary-sm inline-flex items-center justify-center w-full gap-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                >
+                  {isSubmitting ? (
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                    </svg>
+                  ) : null}
+                  {isSubmitting ? 'Enviando...' : 'Confirmar dados'}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
       )}
 
       {/* Modal de Pagamento */}
