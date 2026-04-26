@@ -1,5 +1,18 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { BookOpen, ChevronRight } from 'lucide-react';
+
+export const metadata: Metadata = {
+  title: 'Processos Internos | Conto Atelier',
+  description: 'Documentação interna dos processos operacionais e comerciais da confeitaria Conto Atelier.',
+  openGraph: {
+    title: 'Processos Internos | Conto Atelier',
+    description: 'Documentação interna dos processos operacionais e comerciais da confeitaria Conto Atelier.',
+    siteName: 'Conto Atelier',
+    locale: 'pt_BR',
+    type: 'website',
+  },
+};
 
 const processos = [
   {
