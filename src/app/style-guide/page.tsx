@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Badge } from '@/components/ui/badge-2';
 
 export default function StyleGuidePage() {
   const [copiedColor, setCopiedColor] = useState<string | null>(null);
@@ -807,6 +808,32 @@ export default function StyleGuidePage() {
               </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Status de Proposta */}
+      <section className="space-y-6">
+        <div>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: '#1C1C1D' }}>
+            Status de Proposta
+          </h2>
+          <p className="text-sm" style={{ color: '#703535' }}>
+            Badges usados para indicar o status de propostas no dashboard.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-4 items-start">
+          {([
+            { label: 'Rascunho', cls: 'bg-[#ede8e3] text-[#8c7264]' },
+            { label: 'Enviada',  cls: 'bg-[#fdf0d8] text-[#9b6e20]' },
+            { label: 'Aceita',   cls: 'bg-[#e4f2e8] text-[#2e7042]' },
+            { label: 'Recusada', cls: 'bg-[#ede8f5] text-[#6b4d8a]' },
+            { label: 'Expirada', cls: 'bg-[#e8e8e8] text-[#737373]' },
+          ] as const).map(({ label, cls }) => (
+            <div key={label} className="flex flex-col items-center gap-2">
+              <span className={`inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium ${cls}`}>{label}</span>
+              <span className="text-xs text-gray-500">{label.toLowerCase()}</span>
+            </div>
+          ))}
         </div>
       </section>
 

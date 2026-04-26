@@ -682,16 +682,26 @@ export default function CasamentoLeadsKanban({ searchQuery = '' }: CasamentoLead
         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-[#F6EEE1]">
           {selectedLead && editedLead && (
             <>
-              <DialogHeader className="border-b border-gray-300 pb-4">
+              <DialogHeader>
                 <DialogTitle className="text-2xl font-unbounded text-[#703535] text-left">
                   Editar Lead
                 </DialogTitle>
               </DialogHeader>
 
-              <Tabs defaultValue="lead" className="w-full mt-6">
-                <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="lead">Lead</TabsTrigger>
-                  <TabsTrigger value="outras">Outras Informações</TabsTrigger>
+              <Tabs defaultValue="lead" className="w-full mt-0">
+                <TabsList className="flex justify-start border-b border-gray-300 bg-transparent rounded-none p-0 h-auto mb-6 w-full mt-4">
+                  <TabsTrigger
+                    value="lead"
+                    className="px-6 py-3 font-unbounded font-medium text-sm transition-colors cursor-pointer rounded-none border-b-2 data-[state=active]:text-[#D65B58] data-[state=active]:border-[#D65B58] data-[state=inactive]:text-[#703535] data-[state=inactive]:border-transparent data-[state=inactive]:hover:text-[#D65B58] data-[state=active]:bg-transparent data-[state=inactive]:bg-transparent data-[state=active]:shadow-none"
+                  >
+                    Lead
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="outras"
+                    className="px-6 py-3 font-unbounded font-medium text-sm transition-colors cursor-pointer rounded-none border-b-2 data-[state=active]:text-[#D65B58] data-[state=active]:border-[#D65B58] data-[state=inactive]:text-[#703535] data-[state=inactive]:border-transparent data-[state=inactive]:hover:text-[#D65B58] data-[state=active]:bg-transparent data-[state=inactive]:bg-transparent data-[state=active]:shadow-none"
+                  >
+                    Outras Informações
+                  </TabsTrigger>
                 </TabsList>
 
                 {/* Aba 1: Lead */}

@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge-2';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { DatePickerInput } from '@/components/ui/date-picker-input';
-import { Plus, Edit, Search, Check, Trash2, X, ExternalLink, Copy, ChevronDown } from 'lucide-react';
+import { Plus, Edit, Search, Check, Trash2, X, ExternalLink, Copy, ChevronDown, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -27,13 +27,50 @@ const STATUS_LABELS: Record<Proposta['status'], string> = {
   expirada: 'Expirada',
 };
 
-const STATUS_COLORS: Record<Proposta['status'], 'secondary' | 'warning' | 'success' | 'destructive'> = {
-  rascunho: 'secondary',
-  enviada: 'warning',
-  aceita: 'success',
-  recusada: 'destructive',
-  expirada: 'destructive',
+const STATUS_STYLES: Record<Proposta['status'], string> = {
+  rascunho: 'bg-[#ede8e3] text-[#8c7264]',
+  enviada:  'bg-[#fdf0d8] text-[#9b6e20]',
+  aceita:   'bg-[#e4f2e8] text-[#2e7042]',
+  recusada: 'bg-[#ede8f5] text-[#6b4d8a]',
+  expirada: 'bg-[#e8e8e8] text-[#737373]',
 };
+
+function StatusBadge({ status }: { status: Proposta['status'] }) {
+  return (
+    <span className={`inline-flex items-center px-3 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[status]}`}>
+      {STATUS_LABELS[status]}
+    </span>
+  );
+}
+
+type SortField = 'valorTotal' | 'dataEvento' | 'status' | 'dataCriacao';
+type SortDir = 'asc' | 'desc' | 'original';
+
+const STATUS_ORDER: Record<Proposta['status'], number> = {
+  rascunho: 0,
+  enviada: 1,
+  aceita: 2,
+  recusada: 3,
+  expirada: 4,
+};
+
+type ColKey = 'noivos' | 'valor' | 'dataEvento' | 'status' | 'dataCriacao';
+const DEFAULT_COL_ORDER: ColKey[] = ['noivos', 'valor', 'dataEvento', 'status', 'dataCriacao'];
+const LS_COL_ORDER_KEY = 'propostas_col_order_v2';
+const COL_LABELS: Record<ColKey, string> = {
+  noivos: 'Noivos',
+  valor: 'Valor',
+  dataEvento: 'Data da cerimônia',
+  status: 'Status',
+  dataCriacao: 'Criada em',
+};
+const COL_SORT_FIELD: Partial<Record<ColKey, SortField>> = {
+  valor: 'valorTotal',
+  dataEvento: 'dataEvento',
+  status: 'status',
+  dataCriacao: 'dataCriacao',
+};
+
 
 const isUuid = (value: string) =>
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
@@ -83,6 +120,14 @@ export default function PropostasTable() {
   const [selectedProposta, setSelectedProposta] = React.useState<Proposta | null>(null);
   const [isEditing, setIsEditing] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState('');
+  const [statusFilter, setStatusFilter] = React.useState<Proposta['status'] | 'todos'>('todos');
+  const [sortField, setSortField] = React.useState<SortField | null>(null);
+  const [sortDir, setSortDir] = React.useState<SortDir>('original');
+  const [statusDropdownOpen, setStatusDropdownOpen] = React.useState(false);
+  const statusDropdownRef = React.useRef<HTMLDivElement>(null);
+  const [colOrder, setColOrder] = React.useState<ColKey[]>(DEFAULT_COL_ORDER);
+  const dragColRef = React.useRef<number | null>(null);
+  const [dragOverCol, setDragOverCol] = React.useState<number | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const [isSaving, setIsSaving] = React.useState(false);
   const [isDeleting, setIsDeleting] = React.useState(false);
@@ -443,18 +488,89 @@ export default function PropostasTable() {
     setPropostaToDelete(null);
   };
 
-  // Filtrar propostas com base na busca
+  // Fechar status dropdown ao clicar fora
+  React.useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (statusDropdownRef.current && !statusDropdownRef.current.contains(e.target as Node)) {
+        setStatusDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Carregar ordem das colunas do localStorage
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(LS_COL_ORDER_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved) as ColKey[];
+        if (
+          Array.isArray(parsed) &&
+          parsed.length === DEFAULT_COL_ORDER.length &&
+          parsed.every(k => k in COL_LABELS)
+        ) {
+          setColOrder(parsed);
+        }
+      }
+    } catch {}
+  }, []);
+
+  const handleSort = (field: SortField) => {
+    if (sortField !== field) {
+      setSortField(field);
+      setSortDir('asc');
+    } else {
+      const nextDir: SortDir = sortDir === 'asc' ? 'desc' : sortDir === 'desc' ? 'original' : 'asc';
+      setSortDir(nextDir);
+      if (nextDir === 'original') setSortField(null);
+    }
+  };
+
+  function SortIcon({ field }: { field: SortField }) {
+    if (sortField !== field || sortDir === 'original') return <ArrowUpDown className="size-3 ml-1 opacity-40" />;
+    if (sortDir === 'asc') return <ArrowUp className="size-3 ml-1 text-[#D65B58]" />;
+    return <ArrowDown className="size-3 ml-1 text-[#D65B58]" />;
+  }
+
+
   const filteredPropostas = React.useMemo(() => {
-    if (!searchQuery.trim()) return propostas;
-    
-    const query = searchQuery.toLowerCase();
-    return propostas.filter(proposta => 
-      proposta.clienteNome.toLowerCase().includes(query) ||
-      proposta.valorTotal.toString().includes(query) ||
-      (proposta.descricao?.toLowerCase().includes(query)) ||
-      STATUS_LABELS[proposta.status].toLowerCase().includes(query)
-    );
-  }, [propostas, searchQuery]);
+    let result = [...propostas];
+
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(p =>
+        p.clienteNome.toLowerCase().includes(query) ||
+        p.valorTotal.toString().includes(query) ||
+        (p.descricao?.toLowerCase().includes(query)) ||
+        STATUS_LABELS[p.status].toLowerCase().includes(query)
+      );
+    }
+
+    if (statusFilter !== 'todos') {
+      result = result.filter(p => p.status === statusFilter);
+    }
+
+    if (sortField && sortDir !== 'original') {
+      result.sort((a, b) => {
+        let cmp = 0;
+        if (sortField === 'valorTotal') {
+          cmp = a.valorTotal - b.valorTotal;
+        } else if (sortField === 'dataEvento') {
+          const da = a.dataEvento ? new Date(a.dataEvento).getTime() : 0;
+          const db = b.dataEvento ? new Date(b.dataEvento).getTime() : 0;
+          cmp = da - db;
+        } else if (sortField === 'status') {
+          cmp = STATUS_ORDER[a.status] - STATUS_ORDER[b.status];
+        } else if (sortField === 'dataCriacao') {
+          cmp = new Date(a.dataCriacao).getTime() - new Date(b.dataCriacao).getTime();
+        }
+        return sortDir === 'asc' ? cmp : -cmp;
+      });
+    }
+
+    return result;
+  }, [propostas, searchQuery, statusFilter, sortField, sortDir]);
 
   return (
     <div className="w-full">
@@ -472,16 +588,49 @@ export default function PropostasTable() {
             Nova Proposta
           </button>
         </div>
-        {/* Barra de busca */}
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-4 text-gray-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Buscar propostas..."
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm bg-white"
-          />
+        {/* Barra de busca + filtro de status */}
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="relative max-w-md flex-1">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 size-4 text-gray-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Buscar propostas..."
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm bg-white"
+            />
+          </div>
+          {/* Dropdown filtro de status */}
+          <div className="relative" ref={statusDropdownRef}>
+            <button
+              onClick={() => setStatusDropdownOpen(o => !o)}
+              className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white hover:border-[#D65B58] transition-colors min-w-[140px] justify-between cursor-pointer h-[38px]"
+            >
+              <span className={`font-unbounded font-medium text-xs ${statusFilter === 'todos' ? 'text-gray-400' : 'text-gray-700'}`}>
+                {statusFilter === 'todos' ? 'Todos os status' : STATUS_LABELS[statusFilter]}
+              </span>
+              <ChevronDown className="size-4 text-gray-400 shrink-0" />
+            </button>
+            {statusDropdownOpen && (
+              <div className="absolute left-0 top-full mt-1 z-20 bg-white border border-gray-200 rounded-lg shadow-md py-1 min-w-[160px]">
+                <button
+                  onClick={() => { setStatusFilter('todos'); setStatusDropdownOpen(false); }}
+                  className={`w-full text-left px-4 py-2 text-xs font-unbounded font-medium hover:bg-gray-50 cursor-pointer ${statusFilter === 'todos' ? 'text-[#D65B58]' : 'text-gray-700'}`}
+                >
+                  Todos
+                </button>
+                {(Object.keys(STATUS_LABELS) as Proposta['status'][]).map(s => (
+                  <button
+                    key={s}
+                    onClick={() => { setStatusFilter(s); setStatusDropdownOpen(false); }}
+                    className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center gap-2 cursor-pointer ${statusFilter === s ? 'text-[#D65B58] font-medium' : 'text-gray-700'}`}
+                  >
+                    <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[s]}`}>{STATUS_LABELS[s]}</span>
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -497,11 +646,39 @@ export default function PropostasTable() {
               <table className="w-full">
                 <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Noivos</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Valor</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Data da cerimônia</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-unbounded text-[#703535]">Criada em</th>
+                    {colOrder.map((col, index) => {
+                      const sortField = COL_SORT_FIELD[col];
+                      return (
+                        <th
+                          key={col}
+                          draggable
+                          onDragStart={() => { dragColRef.current = index; }}
+                          onDragOver={(e) => { e.preventDefault(); setDragOverCol(index); }}
+                          onDrop={() => {
+                            if (dragColRef.current === null || dragColRef.current === index) {
+                              setDragOverCol(null);
+                              return;
+                            }
+                            const newOrder = [...colOrder];
+                            const [moved] = newOrder.splice(dragColRef.current, 1);
+                            newOrder.splice(index, 0, moved);
+                            setColOrder(newOrder);
+                            localStorage.setItem(LS_COL_ORDER_KEY, JSON.stringify(newOrder));
+                            dragColRef.current = null;
+                            setDragOverCol(null);
+                          }}
+                          onDragEnd={() => { dragColRef.current = null; setDragOverCol(null); }}
+                          onClick={() => { if (sortField) handleSort(sortField); }}
+                          style={dragOverCol === index ? { borderLeft: '2px solid #D65B58' } : undefined}
+                          className={`px-4 py-3 text-left text-xs font-unbounded text-[#703535] select-none cursor-grab active:cursor-grabbing${sortField ? ' hover:text-[#D65B58]' : ''}`}
+                        >
+                          <span className="flex items-center">
+                            {COL_LABELS[col]}
+                            {sortField && <SortIcon field={sortField} />}
+                          </span>
+                        </th>
+                      );
+                    })}
                     <th className="px-4 py-3 text-center text-xs font-unbounded text-[#703535]"></th>
                   </tr>
                 </thead>
@@ -510,23 +687,24 @@ export default function PropostasTable() {
                     <tr 
                       key={proposta.id} 
                       onClick={() => handleEditProposta(proposta)}
-                      className="hover:bg-gray-50 transition-colors cursor-pointer"
+                      className="hover:bg-gray-50 transition-[background-color] cursor-pointer"
                     >
-                      <td className="px-4 py-3 text-sm text-gray-700">{proposta.clienteNome}</td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: proposta.valorTotal % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        {proposta.dataEvento ? format(new Date(`${proposta.dataEvento.split('T')[0]}T00:00:00`), "dd/MM/yyyy", { locale: ptBR }) : '-'}
-                      </td>
-                      <td className="px-4 py-3">
-                        <Badge variant={STATUS_COLORS[proposta.status]} size="sm">
-                          {STATUS_LABELS[proposta.status]}
-                        </Badge>
-                      </td>
-                      <td className="px-4 py-3 text-sm text-gray-700">
-                        {format(new Date(proposta.dataCriacao), "dd/MM/yyyy", { locale: ptBR })}
-                      </td>
+                      {colOrder.map((col) => {
+                        switch (col) {
+                          case 'noivos':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">{proposta.clienteNome}</td>;
+                          case 'valor':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: proposta.valorTotal % 1 === 0 ? 0 : 2, maximumFractionDigits: 2 })}</td>;
+                          case 'dataEvento':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">{proposta.dataEvento ? format(new Date(`${proposta.dataEvento.split('T')[0]}T00:00:00`), 'dd/MM/yyyy', { locale: ptBR }) : '-'}</td>;
+                          case 'status':
+                            return <td key={col} className="px-4 py-3"><StatusBadge status={proposta.status} /></td>;
+                          case 'dataCriacao':
+                            return <td key={col} className="px-4 py-3 text-sm text-gray-700">{format(new Date(proposta.dataCriacao), 'dd/MM/yyyy', { locale: ptBR })}</td>;
+                          default:
+                            return null;
+                        }
+                      })}
                       <td className="px-4 py-3">
                         <div className="flex items-center justify-center gap-2">
                           <a
@@ -550,7 +728,7 @@ export default function PropostasTable() {
             {filteredPropostas.length === 0 && (
               <div className="py-12 text-center">
                 <p className="text-gray-500 text-sm">
-                  {searchQuery ? 'Nenhuma proposta encontrada' : 'Nenhuma proposta cadastrada'}
+                  {searchQuery || statusFilter !== 'todos' ? 'Nenhuma proposta encontrada' : 'Nenhuma proposta cadastrada'}
                 </p>
               </div>
             )}
