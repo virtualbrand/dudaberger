@@ -9,32 +9,30 @@ export function useLeads() {
   const [error, setError] = useState<string | null>(null);
 
   /**
-   * Cria um novo lead
+   * Cria um novo lead via API route (funciona para usuários anônimos e autenticados)
    */
   const createLead = async (data: LeadInsert): Promise<Lead | null> => {
-    if (!supabase) {
-      setError('Sistema temporariamente indisponível');
-      return null;
-    }
-    
     setLoading(true);
     setError(null);
 
     try {
-      const { data: lead, error: err } = await (supabase as any)
-        .from('leads')
-        .insert(data)
-        .select()
-        .single();
+      const response = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-      if (err) throw err;
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Erro ao criar lead');
+      }
 
+      const lead = await response.json();
       return lead;
     } catch (err) {
-      const supaErr = err as any;
-      const message = supaErr?.message || (err instanceof Error ? err.message : 'Erro ao criar lead');
+      const message = err instanceof Error ? err.message : 'Erro ao criar lead';
       setError(message);
-      console.error('Erro ao criar lead:', JSON.stringify(supaErr, null, 2), supaErr);
+      console.error('Erro ao criar lead:', err);
       return null;
     } finally {
       setLoading(false);
@@ -42,32 +40,28 @@ export function useLeads() {
   };
 
   /**
-   * Atualiza um lead existente
+   * Atualiza um lead via API route (funciona para usuários anônimos e autenticados)
    */
   const updateLead = async (id: string, data: LeadUpdate): Promise<Lead | null> => {
-    if (!supabase) {
-      setError('Sistema temporariamente indisponível');
-      return null;
-    }
-    
     setLoading(true);
     setError(null);
 
     console.log('🔧 useLeads.updateLead chamado:', { id, data });
 
     try {
-      const { data: lead, error: err } = await (supabase as any)
-        .from('leads')
-        .update(data)
-        .eq('id', id)
-        .select()
-        .single();
+      const response = await fetch(`/api/leads/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-      if (err) {
-        console.error('❌ Erro no Supabase ao atualizar lead:', err);
-        throw err;
+      if (!response.ok) {
+        const err = await response.json();
+        console.error('❌ Erro na API ao atualizar lead:', err);
+        throw new Error(err.error || 'Erro ao atualizar lead');
       }
 
+      const lead = await response.json();
       console.log('✅ Lead atualizado com sucesso no banco:', lead);
       return lead;
     } catch (err) {
