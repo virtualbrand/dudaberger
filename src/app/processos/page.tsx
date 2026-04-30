@@ -47,7 +47,7 @@ export default function ProcessosPage() {
           <h1 className="text-3xl md:text-4xl font-unbounded font-bold text-[#703535] mb-3">
             Processos
           </h1>
-          <p className="text-gray-600 text-base max-w-xl">
+          <p className="text-gray-600 text-base">
             Documentação interna dos processos operacionais e comerciais da confeitaria.
           </p>
         </div>

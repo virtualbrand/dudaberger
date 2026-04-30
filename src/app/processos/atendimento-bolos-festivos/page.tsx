@@ -320,16 +320,15 @@ Assim confirmo o valor pra você.`}</Mensagem>
 }
 
 /* ─── Accordion Card ─────────────────────────────────────── */
-function EtapaCard({ etapa }: { etapa: Etapa }) {
-  const [open, setOpen] = React.useState(false);
-
+function EtapaCard({ etapa, open, onToggle }: { etapa: Etapa; open: boolean; onToggle: () => void }) {
   return (
     <div
+      id={`etapa-${etapa.numero}`}
       className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden transition-all"
       style={{ borderLeftWidth: 4, borderLeftColor: etapa.cor }}
     >
       <button
-        onClick={() => setOpen(o => !o)}
+        onClick={onToggle}
         className="cursor-pointer w-full flex items-center gap-4 p-5 text-left hover:bg-gray-50 transition-colors"
       >
         <div
@@ -366,6 +365,14 @@ function EtapaCard({ etapa }: { etapa: Etapa }) {
 /* ─── Page ───────────────────────────────────────────────── */
 export default function AtendimentoBolosFestivosPage() {
   const etapas = buildEtapas();
+  const [openStates, setOpenStates] = React.useState<Record<number, boolean>>({});
+
+  function handleFlowClick(num: number) {
+    setOpenStates(prev => ({ ...prev, [num]: true }));
+    setTimeout(() => {
+      document.getElementById(`etapa-${num}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
 
   return (
     <div className="min-h-screen bg-[#F6EEE1]">
@@ -405,14 +412,17 @@ export default function AtendimentoBolosFestivosPage() {
             <div className="flex items-start gap-0 min-w-max">
               {flowSteps.map((step, i) => (
                 <React.Fragment key={step.num}>
-                  <div className="flex flex-col items-center gap-2 w-20">
-                    <div className="w-10 h-10 rounded-full bg-[#703535] flex items-center justify-center text-white shrink-0">
+                  <button
+                    onClick={() => handleFlowClick(step.num)}
+                    className="flex flex-col items-center gap-2 w-20 group cursor-pointer focus:outline-none"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-[#703535] flex items-center justify-center text-white shrink-0 group-hover:bg-[#D65B58] transition-colors">
                       {step.icon}
                     </div>
-                    <p className="text-xs text-center text-gray-600 leading-tight">{step.label}</p>
-                  </div>
+                    <p className="text-xs text-center text-gray-600 leading-tight group-hover:text-[#D65B58] transition-colors">{step.label}</p>
+                  </button>
                   {i < flowSteps.length - 1 && (
-                    <div className="flex items-center pb-5 mx-1 shrink-0">
+                    <div className="flex items-start pt-[12px] mx-1 shrink-0">
                       <ArrowRight className="w-4 h-4 text-gray-300" />
                     </div>
                   )}
@@ -463,7 +473,12 @@ export default function AtendimentoBolosFestivosPage() {
           </h2>
           <div className="space-y-3">
             {etapas.map(e => (
-              <EtapaCard key={e.numero} etapa={e} />
+              <EtapaCard
+                key={e.numero}
+                etapa={e}
+                open={!!openStates[e.numero]}
+                onToggle={() => setOpenStates(prev => ({ ...prev, [e.numero]: !prev[e.numero] }))}
+              />
             ))}
           </div>
         </div>
