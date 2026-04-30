@@ -23,6 +23,14 @@ const processos = [
     categoria: 'Comercial',
     cor: '#D65B58',
   },
+  {
+    slug: 'atendimento-bolos-festivos',
+    titulo: 'Atendimento — Bolos Festivos',
+    descricao: 'Fluxo de atendimento para pedidos de bolos, do primeiro contato ao pagamento e retirada.',
+    etapas: 7,
+    categoria: 'Comercial',
+    cor: '#9b6e20',
+  },
 ];
 
 export default function ProcessosPage() {
