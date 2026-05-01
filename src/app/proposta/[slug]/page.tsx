@@ -961,20 +961,20 @@ export default function PropostaPublicaPage() {
                           <div className="mb-6 mt-6">
                             {prazoSelecionado === '7dias' && !status.prazo7Vencido ? (
                               <div className="space-y-1">
-                                <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                  R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                <div className="text-xl font-bold font-unbounded text-[#D65B58] text-center">
+                                  R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} (até 12x R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                                 </div>
-                                <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
-                                  ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                <div className="text-base font-bold font-unbounded text-[#D65B58] text-center">
+                                  ou R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                 </div>
                               </div>
                             ) : (
                               <div className="space-y-1">
-                                <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                  R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                <div className="text-xl font-bold font-unbounded text-[#D65B58] text-center">
+                                  R$ {(proposta.valorTotal * 1.4).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} (até 12x R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                                 </div>
-                                <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
-                                  ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                <div className="text-base font-bold font-unbounded text-[#D65B58] text-center">
+                                  ou R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                 </div>
                               </div>
                             )}
@@ -1265,20 +1265,20 @@ export default function PropostaPublicaPage() {
                               <div className="mb-6 mt-6">
                                 {prazoSelecionado === '7dias' && !status.prazo7Vencido ? (
                                   <div className="space-y-1">
-                                    <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                      R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                    <div className="text-xl font-bold font-unbounded text-[#D65B58] text-center">
+                                      R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} (até 12x R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                                     </div>
-                                    <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
-                                      ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.2) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                    <div className="text-base font-bold font-unbounded text-[#D65B58] text-center">
+                                      ou R$ {proposta.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                     </div>
                                   </div>
                                 ) : (
                                   <div className="space-y-1">
-                                    <div className="text-4xl font-bold font-unbounded text-[#D65B58] text-center">
-                                      R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
+                                    <div className="text-xl font-bold font-unbounded text-[#D65B58] text-center">
+                                      R$ {(proposta.valorTotal * 1.4).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} (até 12x R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })})
                                     </div>
-                                    <div className="text-lg font-bold font-unbounded text-[#D65B58] text-center">
-                                      ou 12x de R$ {Math.ceil((proposta.valorTotal * 1.4) / 12).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                                    <div className="text-base font-bold font-unbounded text-[#D65B58] text-center">
+                                      ou R$ {(proposta.valorTotal * 1.2).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} à vista
                                     </div>
                                   </div>
                                 )}
